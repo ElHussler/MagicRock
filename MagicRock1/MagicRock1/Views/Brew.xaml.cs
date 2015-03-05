@@ -15,6 +15,32 @@ namespace MagicRock1.Views
         public Brew()
         {
             InitializeComponent();
+            PopulateGrainArrays();
+
+            double targetOG = 0;
+            double startBoil = 0;
+            double totalLiquorBack = 0;
+            double endOfBoilGravity = 0;
+        }
+
+        public void PopulateGrainArrays()
+        {
+            string[] grainNames = new string[26];
+            double[] grainLabExtract = new double[26];
+            grainNames[0] = "Low Colour Maris Otter";
+            grainLabExtract[0] = 291.0;
+
+            SugarLP.ItemsSource = grainNames;
+        }
+
+        public void AddLabExtract()
+        {
+
+        }
+
+        public void CalculateGrist()
+        {
+
         }
 
         private void AppBarHelpBtn_Click(object sender, EventArgs e)
