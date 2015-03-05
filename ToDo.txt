@@ -1,3 +1,7 @@
+- Clear up MALT page design/function questions
+
+- Finish MALT page
+
 - Set up Beta Publication for client-testing:
 	1) https://msdn.microsoft.com/en-us/library/windows/apps/jj215598%28v=vs.105%29.aspx
 	2) Add Stuart and other testers' MS account addresses to Beta Tester list

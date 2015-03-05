@@ -46,36 +46,42 @@
             <phone:PivotItem x:Name="PivotMalts" Header="Malts">
                 <Grid>
                     <!--Target OG & Start boil labels -->
-                    <TextBlock x:Name="TargetOgLbl" Text="Target OG" Margin="10,-2,0,0" Width="93" HorizontalAlignment="Left" VerticalAlignment="Top" />
-                    <TextBox x:Name="TargetOgTb" Margin="103,-25,228,551" Width="130" />
-                    <TextBlock x:Name="StartBoilLbl" Text="Start Boil" Margin="235,-2,0,0" Width="87" HorizontalAlignment="Left" VerticalAlignment="Top" />
-                    <TextBox x:Name="StartBoilTb" Margin="320,-25,0,551" Width="130" />
-                    <!--Malt Type Listpicker, Weight & Grist textboxes (with hard-coded defaults)-->
-                    <TextBlock x:Name="MaltsLbl" Text="Malts" Margin="10,49,0,0" Width="233" HorizontalAlignment="Left" VerticalAlignment="Top" />
-                    <TextBlock x:Name="WeightLbl" Text="Weight" Margin="265,49,0,0" Width="78" HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Center" />
-                    <TextBlock x:Name="GristLbl" Text="Grist" Margin="364,49,0,0" Width="80" HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Center" />
-                    <toolkit:ListPicker x:Name="MaltOneLP" Width="233" Foreground="Black" Background="#BFFFFFFF" HorizontalAlignment="Left" ExpansionMode="ExpansionAllowed" Margin="10,76,0,0" Height="500" VerticalAlignment="Top"/>
-                    <TextBox x:Name="MaltOneWeightTb" Margin="254,72,101,454" />
-                    <TextBox x:Name="MaltOneGristTb" Margin="354,72,1,454" />
-                    <toolkit:ListPicker x:Name="MaltTwoLP" Width="233" Foreground="Black" Background="#BFFFFFFF" HorizontalAlignment="Left" ExpansionMode="ExpansionAllowed" Margin="10,139,0,-36" Height="500" VerticalAlignment="Top"/>
-                    <TextBox x:Name="MaltTwoWeightTb" Margin="254,135,101,391" />
-                    <TextBox x:Name="MaltTwoGristTb" Margin="354,135,1,391" />
-                    <toolkit:ListPicker x:Name="MaltThreeLP" Width="233" Foreground="Black" Background="#BFFFFFFF" HorizontalAlignment="Left" ExpansionMode="ExpansionAllowed" Margin="10,202,0,-99" Height="500" VerticalAlignment="Top"/>
-                    <TextBox x:Name="MaltThreeWeightTb" Margin="254,198,101,328" />
-                    <TextBox x:Name="MaltThreeGristTb" Margin="354,198,0,328" />
-                    <toolkit:ListPicker x:Name="MaltFourLP" Width="233" Foreground="Black" Background="#BFFFFFFF" HorizontalAlignment="Left" ExpansionMode="ExpansionAllowed" Margin="10,265,0,-162" Height="500" VerticalAlignment="Top"/>
-                    <TextBox x:Name="MaltFourWeightTb" Margin="254,261,101,265" />
-                    <TextBox x:Name="MaltFourGristTb" Margin="354,261,1,265" />
-                    <toolkit:ListPicker x:Name="MaltFiveLP" Width="233" Foreground="Black" Background="#BFFFFFFF" HorizontalAlignment="Left" ExpansionMode="ExpansionAllowed" Margin="10,328,0,-225" Height="500" VerticalAlignment="Top"/>
-                    <TextBox x:Name="MaltFiveWeightTb" Margin="254,324,101,202" />
-                    <TextBox x:Name="MaltFiveGristTb" Margin="354,324,0,202" />
-                    <toolkit:ListPicker x:Name="MaltSixLP" Width="233" Foreground="Black" Background="#BFFFFFFF" HorizontalAlignment="Left" ExpansionMode="ExpansionAllowed" Margin="10,390,0,-287" Height="500" VerticalAlignment="Top"/>
-                    <TextBox x:Name="MaltSixWeightTb" Margin="254,386,101,140" />
-                    <TextBox x:Name="MaltSixGristTb" Margin="354,386,1,140" />
-                    <TextBlock x:Name="PotentialGravityLbl" Text="Potential Gravity" Margin="0,465,0,0" Width="84" HorizontalAlignment="Left" VerticalAlignment="Top" Height="52" TextWrapping="Wrap" TextAlignment="Center"/>
-                    <TextBlock x:Name="PotentialGravityTb" Text="0000.00" Margin="87,469,242,87" Foreground="White" TextAlignment="Center" VerticalAlignment="Center" FontSize="35" />
-                    <TextBlock x:Name="GravityEfficiencyLbl" Text="Gravity Efficiency" Margin="233,465,0,0" Width="87" HorizontalAlignment="Left" VerticalAlignment="Top" Height="52" TextWrapping="Wrap" TextAlignment="Center" />
-                    <TextBlock x:Name="GravityEfficiencyTb" Text="0000.00" Margin="327,469,4,87" Foreground="White" TextAlignment="Center" VerticalAlignment="Center" FontSize="35" />
+                    <TextBlock x:Name="TargetOgLbl" Text="Target OG" Margin="10,-10,0,0" Width="93" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                    <TextBox x:Name="TargetOgTb" Margin="97,-28,229,0" Width="130" Height="65" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="25" />
+                    <TextBlock x:Name="StartBoilLbl" Text="Start Boil vol" Margin="229,-10,0,0" Width="116" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                    <TextBox x:Name="StartBoilTb" Margin="337,-29,0,0" Width="120" Height="65" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="25" />
+
+                    <!--Malt Type Listpicker, LabExtract & Grist textboxes (with hard-coded defaults)-->
+                    <TextBlock x:Name="MaltLbl" Text="Malt name" Margin="10,35,0,0" Width="233" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                    <TextBlock x:Name="LabExLbl" Text="Lab extract" Margin="254,35,0,0" Width="101" HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Center" />
+                    <TextBlock x:Name="GristLbl" Text="Grist %" Margin="364,35,0,0" Width="80" HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Center" Tap="GristLbl_Tap" />
+
+                    <toolkit:ListPicker x:Name="MaltOneLP" Margin="10,63,0,0" Width="233" Foreground="Black" Background="#BFFFFFFF" HorizontalAlignment="Left" ExpansionMode="FullScreenOnly" Height="63" VerticalAlignment="Top" Padding="0" BorderThickness="0"/>
+                    <TextBox x:Name="MaltOneLabExTb" Margin="253,59,102,474" Height="70" />
+                    <TextBox x:Name="MaltOneGristTb" Margin="355,59,0,474" Height="70" />
+                    <toolkit:ListPicker x:Name="MaltTwoLP" Margin="10,119,0,0" Width="233" Foreground="Black" Background="#BFFFFFFF" HorizontalAlignment="Left" ExpansionMode="FullScreenOnly" Height="63" VerticalAlignment="Top" Padding="0" BorderThickness="0"/>
+                    <TextBox x:Name="MaltTwoLabExTb" Margin="253,115,102,418" Height="70" />
+                    <TextBox x:Name="MaltTwoGristTb" Margin="355,115,0,418" Height="70" />
+                    <toolkit:ListPicker x:Name="MaltThreeLP" Margin="10,175,0,0" Width="233" Foreground="Black" Background="#BFFFFFFF" HorizontalAlignment="Left" ExpansionMode="FullScreenOnly" Height="63" VerticalAlignment="Top" Padding="0" BorderThickness="0"/>
+                    <TextBox x:Name="MaltThreeLabExTb" Margin="253,171,102,362" Height="70" />
+                    <TextBox x:Name="MaltThreeGristTb" Margin="355,171,0,362" Height="70" />
+                    <toolkit:ListPicker x:Name="MaltFourLP" Margin="10,231,0,0" Width="233" Foreground="Black" Background="#BFFFFFFF" HorizontalAlignment="Left" ExpansionMode="FullScreenOnly" Height="63" VerticalAlignment="Top" Padding="0" BorderThickness="0"/>
+                    <TextBox x:Name="MaltFourLabExTb" Margin="253,227,102,306" Height="70" />
+                    <TextBox x:Name="MaltFourGristTb" Margin="355,227,0,306" Height="70" />
+                    <toolkit:ListPicker x:Name="MaltFiveLP" Margin="10,287,0,0" Width="233" Foreground="Black" Background="#BFFFFFFF" HorizontalAlignment="Left" ExpansionMode="FullScreenOnly" Height="63" VerticalAlignment="Top" Padding="0" BorderThickness="0"/>
+                    <TextBox x:Name="MaltFiveLabExTb" Margin="253,283,102,250" Height="70" />
+                    <TextBox x:Name="MaltFiveGristTb" Margin="355,283,0,250" Height="70" />
+                    <toolkit:ListPicker x:Name="MaltSixLP" Margin="10,343,0,0" Width="233" Foreground="Black" Background="#BFFFFFFF" HorizontalAlignment="Left" ExpansionMode="FullScreenOnly" Height="63" VerticalAlignment="Top" Padding="0" BorderThickness="0"/>
+                    <TextBox x:Name="MaltSixLabExTb" Margin="253,339,102,194" Height="70" />
+                    <TextBox x:Name="MaltSixGristTb" Margin="355,339,0,194" Height="70" />
+                    <toolkit:ListPicker x:Name="SugarLP" Margin="10,399,0,0" Width="233" Foreground="Black" Background="#BFFFFFFF" HorizontalAlignment="Left" ExpansionMode="FullScreenOnly" Height="63" VerticalAlignment="Top" Padding="0" BorderThickness="0"/>
+                    <TextBox x:Name="SugarLabExTb" Margin="253,395,102,138" Height="70" />
+                    <TextBox x:Name="SugarGristTb" Margin="355,395,0,138" Height="70" />
+
+                    <TextBlock x:Name="PotentialGravityLbl" Text="Potential Gravity" Margin="-2,465,0,0" Width="84" HorizontalAlignment="Left" VerticalAlignment="Top" Height="52" TextWrapping="Wrap" TextAlignment="Center" Tap="PotentialGravityLbl_Tap"/>
+                    <TextBlock x:Name="PotentialGravityTb" Text="0000.00" Margin="81,467,248,89" Foreground="White" TextAlignment="Center" VerticalAlignment="Center" FontSize="35" />
+                    <TextBlock x:Name="GravityEfficiencyLbl" Text="Gravity with Efficiency" Margin="219,465,0,0" Width="110" HorizontalAlignment="Left" VerticalAlignment="Top" Height="52" TextWrapping="Wrap" TextAlignment="Center" Tap="GravityEfficiencyLbl_Tap" />
+                    <TextBlock x:Name="GravityEfficiencyTb" Text="0000.00" Margin="331,467,0,89" Foreground="White" TextAlignment="Center" VerticalAlignment="Center" FontSize="35" />
                 </Grid>
                 <!--Potential Gravity & Gravity Efficiency labels (Dynamic, based on code-behind formulae)-->
             </phone:PivotItem>

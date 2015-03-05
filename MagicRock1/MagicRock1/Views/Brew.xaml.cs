@@ -21,5 +21,23 @@ namespace MagicRock1.Views
         {
             MessageBox.Show("> TBC");
         }
+
+        private void PotentialGravityLbl_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            MessageBox.Show("Potential Gravity = \n(Litre Degrees TOTAL / Start Boil vol (L)) + 1000");
+        }
+
+        private void GravityEfficiencyLbl_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            MessageBox.Show("Gravity with Efficiency = " + 
+                            "\n(Potential Gravity - 1000) * ((Efficiency of Mash = 80?) / 100)" + 
+                            "\n + 1000 + (Litre Degrees of SUGAR / Start Boil vol (L))");
+        }
+
+        private void GristLbl_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            MessageBox.Show("Grist % makeup = " +
+                            "\n(Malt Bill of GRAIN / Malt Bill TOTAL) * 100");
+        }
     }
 }
