@@ -7,15 +7,22 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using MagicRock1.ViewModels;
+using MagicRock1.Models;
+using MagicRock1.Views;
 
 namespace MagicRock1.Views
 {
     public partial class Brew : PhoneApplicationPage
     {
+        private GrainsViewModel gvm;
+
+        // Global variable declarations
+        //
         string[] grainNames = new string[25];
         double[] grainLabExtract = new double[25];
 
-        string sugarName;
+        string[] sugarName = new string[1];
         double sugarLabExtract;
         double sugarLitreDegrees;
 
@@ -35,19 +42,35 @@ namespace MagicRock1.Views
         double gravityWithEfficiency;
         double[] gravities = new double[2];
 
-        // Custom calculation methods
+        // Setup
+        //
         public Brew()
         {
             InitializeComponent();
 
-            InstatiateMaltData();
-            PopulateListPickers();
+            gvm = new GrainsViewModel();
+            gvm.GetGrains();
+
+            // There are two different views, but only one view model.
+            // So, use LINQ queries to populate the views.
+
+            // Set the data context for the Item view.
+            GrainViewOne.DataContext = gvm.Grains;
+            GrainViewSugar.DataContext = gvm.Grains;
+            GrainViewTwo.DataContext = gvm.Grains;
+            GrainViewThree.DataContext = gvm.Grains;
+            GrainViewFour.DataContext = gvm.Grains;
+            GrainViewFive.DataContext = gvm.Grains;
+            GrainViewSix.DataContext = gvm.Grains;
+
+            //InstatiateMaltData();
+            //SetUpListPickers();
         }
 
         // Populate arrays with Grain 'Name' and 'Lab Extract' values (including Sugar)
         public void InstatiateMaltData()
         {
-            sugarName = "Sugar";
+            sugarName[0] = "Sugar";
             sugarLabExtract = 340.0;
 
             grainNames[0] = "Low Colour Maris Otter";
@@ -102,58 +125,32 @@ namespace MagicRock1.Views
             grainLabExtract[24] = 250.0;
         }
 
-        public void PopulateListPickers()
+        public void SetUpListPickers()
         {
-            SugarLP.ItemsSource = sugarName;
-            SugarLabExTb.Text = sugarLabExtract.ToString();
+            //SugarLP.ItemsSource = sugarName;
+            //SugarLabExtTb.Text = sugarLabExtract.ToString();
 
-            MaltOneLP.ItemsSource = grainNames;
-            MaltTwoLP.ItemsSource = grainNames;
-            MaltThreeLP.ItemsSource = grainNames;
-            MaltFourLP.ItemsSource = grainNames;
-            MaltFiveLP.ItemsSource = grainNames;
-            MaltSixLP.ItemsSource = grainNames;
-        }
+            //MaltOneLP.ItemsSource = grainNames;
+            //MaltTwoLP.ItemsSource = grainNames;
+            //MaltThreeLP.ItemsSource = grainNames;
+            //MaltFourLP.ItemsSource = grainNames;
+            //MaltFiveLP.ItemsSource = grainNames;
+            //MaltSixLP.ItemsSource = grainNames;
 
-        public void UserUpdateLabExtract()
-        {
 
-        }
-
-        public double CalculateGrist(double tempMaltGrist, double tempMaltBill)
-        {
-            tempMaltGrist = (tempMaltBill / maltBillTotal) * 100;
-            return tempMaltGrist;
-        }
-
-        public void CalculateLitreDegrees()
-        {
-        }
-
-        public double[] CalculateGravities()
-        {
-            litreDegreesTotal = 0;
-
-            potentialGravity = (litreDegreesTotal / startBoil) + 1000;
-
-            gravityWithEfficiency = (potentialGravity - 1000) * (effOfMash / 100) + 1000 + (sugarLitreDegrees / startBoil);
-
-            gravities[0] = potentialGravity;
-            gravities[1] = gravityWithEfficiency;
-
-            return gravities;
         }
 
         // Events for gathering required input data
-        private void EffOfMashTb_TextChanged(object sender, TextChangedEventArgs e)
+        //
+        private void TargetOgTb_TextChanged(object sender, TextChangedEventArgs e)
         {
             try
             {
-                effOfMash = Convert.ToDouble(EffOfMashTb.Text);
+                targetOG = Convert.ToDouble(TargetOgTb.Text);
             }
             catch (FormatException)
             {
-                MessageBox.Show("Efficiency of Mash must be a numeric value");
+                MessageBox.Show("Target OG must be a numeric value");
             }
         }
 
@@ -169,22 +166,22 @@ namespace MagicRock1.Views
             }
         }
 
-        private void TargetOgTb_TextChanged(object sender, TextChangedEventArgs e)
+        private void EffOfMashTb_TextChanged(object sender, TextChangedEventArgs e)
         {
             try
             {
-                targetOG = Convert.ToDouble(TargetOgTb.Text);
+                effOfMash = Convert.ToDouble(EffOfMashTb.Text);
             }
             catch (FormatException)
             {
-                MessageBox.Show("Target OG must be a numeric value");
+                MessageBox.Show("Efficiency of Mash must be a numeric value");
             }
         }
 
         private void SugarLP_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SugarLP.ItemsSource = sugarName;
-            SugarLabExTb.Text = sugarLabExtract.ToString();
+            //SugarLP.ItemsSource = sugarName;
+            //SugarLabExtTb.Text = sugarLabExtract.ToString();
         }
 
         private void MaltOneLP_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -217,7 +214,39 @@ namespace MagicRock1.Views
 
         }
 
+        // Custom calculation methods
+        //
+        public void UserUpdateLabExtract()
+        {
+
+        }
+
+        public double CalculateGrist(double tempMaltGrist, double tempMaltBill)
+        {
+            tempMaltGrist = (tempMaltBill / maltBillTotal) * 100;
+            return tempMaltGrist;
+        }
+
+        public void CalculateLitreDegrees()
+        {
+        }
+
+        public double[] CalculateGravities()
+        {
+            litreDegreesTotal = 0;
+
+            potentialGravity = (litreDegreesTotal / startBoil) + 1000;
+
+            gravityWithEfficiency = (potentialGravity - 1000) * (effOfMash / 100) + 1000 + (sugarLitreDegrees / startBoil);
+
+            gravities[0] = potentialGravity;
+            gravities[1] = gravityWithEfficiency;
+
+            return gravities;
+        }
+
         // Help messages
+        //
         private void AppBarHelpBtn_Click(object sender, EventArgs e)
         {
             MessageBox.Show("> TBC");
