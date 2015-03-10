@@ -7,14 +7,12 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
-using System.Windows.Data;
-using MagicRock1.Models;
 
 namespace MagicRock1.Views
 {
-    public partial class GrainView : UserControl
+    public partial class MaltView : UserControl
     {
-        public GrainView()
+        public MaltView()
         {
             InitializeComponent();
         }

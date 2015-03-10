@@ -9,7 +9,22 @@ namespace MagicRock1.Models
 {
     public class Grain : INotifyPropertyChanged
     {
-        public string Name { get; set; }
+        private string _grainName;
+        public string GrainName
+        {
+            get
+            {
+                return _grainName;
+            }
+            set
+            {
+                if (value != _grainName)
+                {
+                    _grainName = value;
+                    NotifyPropertyChanged("GrainName");
+                }
+            }
+        }
 
         private double _labExtract;
         public double LabExtract
@@ -27,7 +42,6 @@ namespace MagicRock1.Models
                 }
             }
         }
-
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged(String propertyName)

@@ -8,9 +8,9 @@
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    d:DesignHeight="55" Width="355">
+    d:DesignHeight="55" Width="456">
 
-    <Grid x:Name="LayoutRoot">
+    <Grid x:Name="LayoutRoot" Background="Black">
         <!--<ListBox ItemsSource="{Binding}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
@@ -28,19 +28,38 @@
             </ListBox.ItemTemplate>
         </ListBox>-->
 
-        <toolkit:ListPicker ItemsSource="{Binding}" Width="176" Height="63" Foreground="Black" Background="#BFFFFFFF" HorizontalAlignment="Left" ExpansionMode="FullScreenOnly" VerticalAlignment="Top" Padding="0" BorderThickness="0" Margin="4,-4,0,0" >
+        <toolkit:ListPicker x:Name="GrainList" ItemsSource="{Binding}" SelectedIndex="-1" Width="176" Height="63" Foreground="Black" Background="#BFFFFFFF" HorizontalAlignment="Left" ExpansionMode="FullScreenOnly" VerticalAlignment="Top" Padding="0" BorderThickness="0" Margin="12,-4,0,-4" >
             <toolkit:ListPicker.FullModeItemTemplate>
                 <DataTemplate>
-                    <TextBlock x:Name="Name"
-                               Text="{Binding Name}" 
+                    <TextBlock x:Name="FullScreenName"
+                               Text="{Binding Path=GrainName, Mode=OneWay}" 
                                Margin="0 24 24 24"
                                TextWrapping="Wrap" 
                                Style="{StaticResource PhoneTextTitle2Style}" />
                 </DataTemplate>
             </toolkit:ListPicker.FullModeItemTemplate>
+            <toolkit:ListPicker.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock x:Name="SelectedName"
+                               Text="{Binding Path=GrainName, Mode=OneWay}"/>
+                </DataTemplate>
+            </toolkit:ListPicker.ItemTemplate>
         </toolkit:ListPicker>
 
-        <TextBox x:Name="LabExtract" Text="{Binding LabExtract}" Width="101" Height="70" InputScope="Number" Margin="258,-8,-4,-7" VerticalAlignment="Top" HorizontalAlignment="Left" />
+        <TextBlock x:Name="Grist"
+                   Text="00.00" FontSize="30" TextAlignment="Center"
+                   LineHeight="6" Width="80" Height="45"
+                   VerticalAlignment="Top"
+                   HorizontalAlignment="Left" Margin="194,6,0,0"/>
+
+        <TextBox x:Name="LabExtract"
+                 Width="101" Height="70" InputScope="Number"
+                 Margin="268,-8,0,-7"
+                 VerticalAlignment="Top"
+                 HorizontalAlignment="Left" />
+
+        <TextBox x:Name="Bill" Margin="355,-8,0,-7" Height="70"
+                 InputScope="Number" VerticalAlignment="Top"/>
 
     </Grid>
 </UserControl>

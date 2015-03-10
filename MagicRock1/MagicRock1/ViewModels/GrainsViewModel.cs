@@ -5,14 +5,20 @@ using System.IO.IsolatedStorage;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MagicRock1.Models;
 using System.Windows;
+using System.ComponentModel;
+using MagicRock1.Models;
 
 namespace MagicRock1.ViewModels
 {
-    public class GrainsViewModel
+    public class GrainsViewModel : INotifyPropertyChanged
     {
         public ObservableCollection<Grain> Grains { get; set; }
+
+        public GrainsViewModel()
+        {
+            this.Grains = new ObservableCollection<Grain>();
+        }
 
         public void GetGrains()
         {
@@ -24,6 +30,19 @@ namespace MagicRock1.ViewModels
             {
                 GetDefaultGrains();
             }
+        }
+
+        public void GetDefaultGrains()
+        {
+            ObservableCollection<Grain> a = new ObservableCollection<Grain>();
+
+            a.Add(new Grain() { GrainName = "-", LabExtract = 0 });
+            a.Add(new Grain() { GrainName = "Sugar", LabExtract = 340.0 });
+            a.Add(new Grain() { GrainName = "Golden Promise", LabExtract = 295.0 });
+
+            Grains = a;
+
+            MessageBox.Show("Got grains from default");
         }
 
         public void GetSavedGrains()
@@ -40,18 +59,14 @@ namespace MagicRock1.ViewModels
             MessageBox.Show("Got grains from storage");
         }
 
-        public void GetDefaultGrains()
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void NotifyPropertyChanged(String propertyName)
         {
-            ObservableCollection<Grain> a = new ObservableCollection<Grain>();
-
-            // Items to collect
-            a.Add(new Grain() { Name = "", LabExtract = 0 });
-            a.Add(new Grain() { Name = "Sugar", LabExtract = 340.0 });
-            a.Add(new Grain() { Name = "Golden Promise", LabExtract = 295.0 });
-
-            Grains = a;
-
-            MessageBox.Show("Got grains from default");
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (null != handler)
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
     }
 }
