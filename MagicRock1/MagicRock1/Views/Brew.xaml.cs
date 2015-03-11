@@ -17,9 +17,9 @@ namespace MagicRock1.Views
 {
     public partial class Brew : PhoneApplicationPage
     {
-     ///// Page-scope variable declarations
+        ///// Page-scope variable declarations
         //
-        
+
         //string[] grainNames = new string[25];         NOT
         //double[] grainLabExtract = new double[25];    IN
         //private GrainsViewModel gvm;                  USE
@@ -65,7 +65,7 @@ namespace MagicRock1.Views
 
         private bool IgnoreSelectionChanged = true;
 
-     ///// Setup
+        ///// Setup
         //
         public Brew()
         {
@@ -82,7 +82,7 @@ namespace MagicRock1.Views
             //GrainViewFour.DataContext = gvm.Grains;
             //GrainViewFive.DataContext = gvm.Grains;
             //GrainViewSix.DataContext = gvm.Grains;
-            
+
             //InstatiateMaltData();
             //SetUpListPickers();
         }
@@ -195,9 +195,9 @@ namespace MagicRock1.Views
             //MaltSixLP.ItemsSource = grainNames;
         }
 
-     ///// Events for gathering required input data
+        ///// Events for gathering required input data
         //
-        private void MaltOneLP_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        private void MaltOneLP_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             IgnoreSelectionChanged = false;
         }
@@ -215,10 +215,17 @@ namespace MagicRock1.Views
             IgnoreSelectionChanged = true;
         }
 
-        private void MaltOneBillTb_TextChanged(object sender, TextChangedEventArgs e)
+        private void MaltOneBillTb_LostFocus(object sender, RoutedEventArgs e)
         {
+            if (MaltOneBillTb.Text == "")
+            {
+                MaltOneBillTb.Text = "0";
+            }
+
             double tempLabExt = Convert.ToDouble(MaltOneLabExtTb.Text);
             double tempBill = Convert.ToDouble(MaltOneBillTb.Text);
+
+            maltOneBill = tempBill;
 
             maltOneLitreDegrees = CalculateLitreDegrees(tempLabExt, tempBill);
 
@@ -230,10 +237,16 @@ namespace MagicRock1.Views
 
             //RecalculateGrainSpecificValues(1);
             //RecalculateTotals();
+
         }
 
-        private void MaltOneLabExtTb_TextChanged(object sender, TextChangedEventArgs e)
+        private void MaltOneLabExtTb_LostFocus(object sender, RoutedEventArgs e)
         {
+            if (MaltOneLabExtTb.Text == "")
+            {
+                MaltOneLabExtTb.Text = GetMaltLabExtract(MaltOneLP.SelectedIndex);
+            }
+
             double tempLabExt = Convert.ToDouble(MaltOneLabExtTb.Text);
             double tempBill = Convert.ToDouble(MaltOneBillTb.Text);
 
@@ -248,9 +261,10 @@ namespace MagicRock1.Views
             //RecalculateTotals();
 
             //RecalculateGrainSpecificValues(1);
-        }
 
-        private void TargetOgTb_TextChanged(object sender, TextChangedEventArgs e)
+        }
+        
+        private void TargetOgTb_LostFocus(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -262,7 +276,7 @@ namespace MagicRock1.Views
             }
         }
 
-        private void StartBoilTb_TextChanged(object sender, TextChangedEventArgs e)
+        private void StartBoilTb_LostFocus(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -274,7 +288,7 @@ namespace MagicRock1.Views
             }
         }
 
-        private void MashEfficiencyTb_TextChanged(object sender, TextChangedEventArgs e)
+        private void MashEfficiencyTb_LostFocus(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -286,7 +300,7 @@ namespace MagicRock1.Views
             }
         }
 
-     ///// Custom calculation methods
+        ///// Custom calculation methods
         //
         //public void RecalculateTotals()
         //{
@@ -363,7 +377,7 @@ namespace MagicRock1.Views
             GravityWithEfficiencyTb.Text = gravityWithEfficiency.ToString();
         }
 
-     ///// Help messages
+        ///// Help messages
         //
         private void AppBarHelpBtn_Click(object sender, EventArgs e)
         {

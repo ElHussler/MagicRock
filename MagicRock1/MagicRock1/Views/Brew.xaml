@@ -47,11 +47,11 @@
             <phone:PivotItem x:Name="PivotMalts" Header="Malts">
                 <Grid>
                     <TextBlock x:Name="TargetOgLbl" Text="Target OG:" Margin="32,-36,0,0" Width="93" HorizontalAlignment="Left" VerticalAlignment="Top" />
-                    <TextBox x:Name="TargetOgTb" Margin="0,-18,296,0" Width="160" Height="65" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="24.5" TextAlignment="Center" InputScope="Number" TextChanged="TargetOgTb_TextChanged" />
+                    <TextBox x:Name="TargetOgTb" Margin="0,-18,296,0" Width="160" Height="65" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="24.5" TextAlignment="Center" InputScope="Number" LostFocus="TargetOgTb_LostFocus" />
                     <TextBlock x:Name="StartBoilLbl" Text="Start Boil:" Margin="184,-36,0,0" Width="86" HorizontalAlignment="Left" VerticalAlignment="Top" />
-                    <TextBox x:Name="StartBoilTb" Margin="148,-18,148,0" Width="160" Height="65" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="24.5" TextAlignment="Center" InputScope="Number" TextChanged="StartBoilTb_TextChanged" />
+                    <TextBox x:Name="StartBoilTb" Margin="148,-18,148,0" Width="160" Height="65" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="24.5" TextAlignment="Center" InputScope="Number" LostFocus="StartBoilTb_LostFocus" />
                     <TextBlock x:Name="MashEfficiencyLbl" Text="Mash Efficiency:" Margin="306,-36,0,0" Width="140" HorizontalAlignment="Left" VerticalAlignment="Top" />
-                    <TextBox x:Name="MashEfficiencyTb" Margin="296,-18,0,0" Width="160" Height="65" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="24.5" TextAlignment="Center" InputScope="Number" TextChanged="MashEfficiencyTb_TextChanged" />
+                    <TextBox x:Name="MashEfficiencyTb" Margin="296,-18,0,0" Width="160" Height="65" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="24.5" TextAlignment="Center" InputScope="Number" LostFocus="MashEfficiencyTb_LostFocus" />
 
                     <TextBlock x:Name="MaltLbl" Text="Grain" Margin="12,43,0,0" Width="50" HorizontalAlignment="Left" VerticalAlignment="Top" />
                     <TextBlock x:Name="LabExtLbl" Text="Lab ext." Margin="284,43,0,0" Width="67" HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Center" />
@@ -79,7 +79,7 @@
                     <!--<views:GrainView x:Name="GrainViewOne" Margin="8,126,93,0" Height="55" VerticalAlignment="Top"/>-->
 
 <!--Individual controls-->                    
-                    <toolkit:ListPicker x:Name="MaltOneLP" Margin="12,122,0,0" Width="176" Foreground="Black" Background="#BFFFFFFF" HorizontalAlignment="Left" ExpansionMode="FullScreenOnly" Height="63" VerticalAlignment="Top" Padding="0" BorderThickness="0" SelectionChanged="MaltOneLP_SelectionChanged" Tap="MaltOneLP_Tap">
+                    <toolkit:ListPicker x:Name="MaltOneLP" Margin="12,122,0,0" Width="176" Foreground="Black" Background="#BFFFFFFF" HorizontalAlignment="Left" ExpansionMode="FullScreenOnly" Height="63" VerticalAlignment="Top" Padding="0" BorderThickness="0" SelectionChanged="MaltOneLP_SelectionChanged" MouseLeftButtonDown="MaltOneLP_MouseLeftButtonDown">
                         <toolkit:ListPicker.FullModeItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding}" 
@@ -91,8 +91,8 @@
                     </toolkit:ListPicker>
                     
                     <TextBlock x:Name="MaltOneGristLbl" Margin="192,131,0,0" Text="00.00" FontSize="30" TextAlignment="Center" LineHeight="6" Width="80" Height="45" VerticalAlignment="Top" HorizontalAlignment="Left" />
-                    <TextBox x:Name="MaltOneLabExtTb" Margin="266,118,87,415" Height="70" Width="102" InputScope="Number" TextChanged="MaltOneLabExtTb_TextChanged" />
-                    <TextBox x:Name="MaltOneBillTb" Margin="355,118,0,0" Height="70" InputScope="Number" VerticalAlignment="Top" TextChanged="MaltOneBillTb_TextChanged" />
+                    <TextBox x:Name="MaltOneLabExtTb" Margin="266,118,87,415" Height="70" Width="102" InputScope="Number" LostFocus="MaltOneLabExtTb_LostFocus" />
+                    <TextBox x:Name="MaltOneBillTb" Margin="355,118,0,0" Height="70" InputScope="Number" VerticalAlignment="Top" LostFocus="MaltOneBillTb_LostFocus" />
 
                     <!--<toolkit:ListPicker x:Name="MaltTwoLP" Margin="10,177,0,0" Width="176" Foreground="Black" Background="#BFFFFFFF" HorizontalAlignment="Left" ExpansionMode="FullScreenOnly" Height="63" VerticalAlignment="Top" Padding="0" BorderThickness="0" SelectionChanged="MaltTwoLP_SelectionChanged">
                         <toolkit:ListPicker.FullModeItemTemplate>
