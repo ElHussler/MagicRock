@@ -58,23 +58,14 @@
                     <TextBlock x:Name="BillLbl" Text="Bill (kg)" Margin="367,43,0,0" Width="71" HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Center" />
                     <TextBlock x:Name="GristLbl" Text="Grist %" Margin="201,43,0,0" Width="63" HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Center" Tap="GristLbl_Tap" />
 
-                    <!--<toolkit:ListPicker x:Name="SugarLP" Margin="10,67,0,0" Width="176" Foreground="Black" Background="#BFFFFFFF" HorizontalAlignment="Left" ExpansionMode="FullScreenOnly" Height="63" VerticalAlignment="Top" Padding="0" BorderThickness="0" SelectionChanged="SugarLP_SelectionChanged" SelectedIndex="0">
-                        <toolkit:ListPicker.FullModeItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding}" 
-                                           Margin="0 24 24 24"
-                                           TextWrapping="Wrap" 
-                                           Style="{StaticResource PhoneTextTitle2Style}" />
-                            </DataTemplate>
-                        </toolkit:ListPicker.FullModeItemTemplate>
-                    </toolkit:ListPicker>-->
+                    <TextBlock x:Name="SugarNameLbl" Margin="12,76,0,0" Text="Sugar" FontSize="30" LineHeight="6" Width="175" Height="45" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="White" Padding="2,0,0,0" />
 
-<!--MVVM controls-->
+                    <!--MVVM controls-->
                     <!--<views:GrainView x:Name="GrainViewSugar" Margin="0,71,0,0" Height="55" VerticalAlignment="Top" HorizontalAlignment="Left" />-->
 
-                    <TextBlock x:Name="SugarGristLbl" Margin="192,76,0,0" Text="00.00" FontSize="30" TextAlignment="Center" LineHeight="6" Width="80" Height="45" VerticalAlignment="Top" HorizontalAlignment="Left" d:IsHidden="True" />
-                    <!--<TextBox x:Name="SugarLabExtTb" Margin="269,63,86,470" Height="70" InputScope="Number" />-->
-                    <TextBox x:Name="SugarBillTb" Margin="355,63,0,0" Height="70" InputScope="Number" VerticalAlignment="Top" d:IsHidden="True" />
+                    <TextBlock x:Name="SugarGristLbl" Margin="192,76,0,0" Text="00.00" Height="45" Width="80" FontSize="30" TextAlignment="Center" LineHeight="6" VerticalAlignment="Top" HorizontalAlignment="Left" />
+                    <TextBlock x:Name="SugarLabExtLbl" Margin="277,76,0,0" Text="340.0" Height="45" Width="80" FontSize="30" TextAlignment="Center" LineHeight="6" VerticalAlignment="Top" HorizontalAlignment="Left"   />
+                    <TextBox x:Name="SugarBillTb" Margin="355,63,0,0" Text="0" Height="70" InputScope="Number" VerticalAlignment="Top" />
 
                     <!--<views:GrainView x:Name="GrainViewOne" Margin="8,126,93,0" Height="55" VerticalAlignment="Top"/>-->
 
