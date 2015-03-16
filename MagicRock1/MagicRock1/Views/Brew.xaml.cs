@@ -19,14 +19,13 @@ namespace MagicRock1.Views
     {
         ///// Page-scope variable declarations
         //
-
         //string[] grainNames = new string[25];         NOT
         //double[] grainLabExtract = new double[25];    IN
         //private GrainsViewModel gvm;                  USE
 
         // Grain & sugar data
-        string[] grainNames = new string[25];
-        double[] grainLabExtracts = new double[25];
+        string[] grainNames = new string[26];
+        double[] grainLabExtracts = new double[26];
         double sugarLabExtract = 340.0;
 
         // User-input (Malts top)
@@ -35,6 +34,13 @@ namespace MagicRock1.Views
         double mashEfficiency = 0;
 
         // User-input (Malts rows)
+        double grainOneLabExt = 0;
+        double grainTwoLabExt = 0;
+        double grainThreeLabExt = 0;
+        double grainFourLabExt = 0;
+        double grainFiveLabExt = 0;
+        double grainSixLabExt = 0;
+
         double grainOneBill = 0;
         double grainTwoBill = 0;
         double grainThreeBill = 0;
@@ -56,14 +62,17 @@ namespace MagicRock1.Views
         double totalMaltBill = 0;
         double totalLitreDegrees = 0;
 
+        // Needed to calculate below values
+        double volumeInFV = 0;
+        double endVolumeInCopper = 0;
+
         // Calculated on 'Malts', passed for use on 'Mash'
-        double totalLiquorBackVol = 0;
         double endOfBoilGravity = 0;
+        double totalLiquorBackVol = 0;
 
         // Dynamic variables (Malts bottom)
-        double potentialGravity;
-        double gravityWithEfficiency;
-        double[] gravities = new double[2];
+        double potentialGravity = 0;
+        double gravityWithEfficiency = 0;
 
         // Used to select appropriate Listpicker actions
         private bool IgnoreSelectionChanged = true;
@@ -74,7 +83,6 @@ namespace MagicRock1.Views
         {
             InitializeComponent();
             SetUpMaltData();
-
             //gvm = new GrainsViewModel();
             //gvm.GetGrains();
 
@@ -109,7 +117,10 @@ namespace MagicRock1.Views
             }
 
             string nameLabExtractSplitter = "~";
-            int nameLabExIndex = 0;
+            int nameLabExIndex = 1;
+
+            grainNames[nameLabExIndex] = "None";
+            grainLabExtracts[nameLabExIndex] = 0;
 
             foreach (string malt in fileMaltData)
             {
@@ -123,149 +134,88 @@ namespace MagicRock1.Views
             }
 
             Grain1LP.ItemsSource = grainNames;
+            Grain2LP.ItemsSource = grainNames;
+            Grain3LP.ItemsSource = grainNames;
+            Grain4LP.ItemsSource = grainNames;
+            Grain5LP.ItemsSource = grainNames;
+            Grain6LP.ItemsSource = grainNames;
 
             MessageBox.Show("Malts loaded from storage");
         }
 
-        // Populate arrays with Grain 'Name' and 'Lab Extract' values (including Sugar)
-        public void InstatiateMaltData()
+        // NOT IN USE - Populate arrays with Grain 'Name' and 'Lab Extract' values (including Sugar)
+        /*public void InstatiateMaltData()
         {
-            //sugarName[0] = "Sugar";
-            //sugarLabExtract = 340.0;
+            sugarName[0] = "Sugar";
+            sugarLabExtract = 340.0;
 
-            //grainNames[0] = "Low Colour Maris Otter";
-            //grainLabExtract[0] = 291.0;
-            //grainNames[1] = "Golden Promise";
-            //grainLabExtract[1] = 295.0;
-            //grainNames[2] = "Wheat malt";
-            //grainLabExtract[2] = 291.0;
-            //grainNames[3] = "Vienna";
-            //grainLabExtract[3] = 289.0;
-            //grainNames[4] = "Munich";
-            //grainLabExtract[4] = 285.0;
-            //grainNames[5] = "Pilsner";
-            //grainLabExtract[5] = 298.0;
-            //grainNames[6] = "Acidulated malt";
-            //grainLabExtract[6] = 0.0;
-            //grainNames[7] = "Rye malt";
-            //grainLabExtract[7] = 260.0;
-            //grainNames[8] = "Smoked malt";
-            //grainLabExtract[8] = 295.0;
-            //grainNames[9] = "Oat Malt";
-            //grainLabExtract[9] = 219.0;
-            //grainNames[10] = "Carapils";
-            //grainLabExtract[10] = 267.4;
-            //grainNames[11] = "Carared";
-            //grainLabExtract[11] = 268.0;
-            //grainNames[12] = "Caramalt";
-            //grainLabExtract[12] = 268.4;
-            //grainNames[13] = "Melanoiden malt";
-            //grainLabExtract[13] = 287.0;
-            //grainNames[14] = "Crystal";
-            //grainLabExtract[14] = 260.8;
-            //grainNames[15] = "Caramunich II";
-            //grainLabExtract[15] = 265.0;
-            //grainNames[16] = "Dark Crystal";
-            //grainLabExtract[16] = 270.8;
-            //grainNames[17] = "Cara Aroma";
-            //grainLabExtract[17] = 266.0;
-            //grainNames[18] = "Amber";
-            //grainLabExtract[18] = 266.1;
-            //grainNames[19] = "Special B";
-            //grainLabExtract[19] = 266.0;
-            //grainNames[20] = "Brown";
-            //grainLabExtract[20] = 270.0;
-            //grainNames[21] = "Chocolate";
-            //grainLabExtract[21] = 267.2;
-            //grainNames[22] = "Roast Barley";
-            //grainLabExtract[22] = 264.0;
-            //grainNames[23] = "Black";
-            //grainLabExtract[23] = 265.7;
-            //grainNames[24] = "Carafa Special III";
-            //grainLabExtract[24] = 250.0;
+            grainNames[0] = "Low Colour Maris Otter";
+            grainLabExtract[0] = 291.0;
+            grainNames[1] = "Golden Promise";
+            grainLabExtract[1] = 295.0;
+            grainNames[2] = "Wheat malt";
+            grainLabExtract[2] = 291.0;
+            grainNames[3] = "Vienna";
+            grainLabExtract[3] = 289.0;
+            grainNames[4] = "Munich";
+            grainLabExtract[4] = 285.0;
+            grainNames[5] = "Pilsner";
+            grainLabExtract[5] = 298.0;
+            grainNames[6] = "Acidulated malt";
+            grainLabExtract[6] = 0.0;
+            grainNames[7] = "Rye malt";
+            grainLabExtract[7] = 260.0;
+            grainNames[8] = "Smoked malt";
+            grainLabExtract[8] = 295.0;
+            grainNames[9] = "Oat Malt";
+            grainLabExtract[9] = 219.0;
+            grainNames[10] = "Carapils";
+            grainLabExtract[10] = 267.4;
+            grainNames[11] = "Carared";
+            grainLabExtract[11] = 268.0;
+            grainNames[12] = "Caramalt";
+            grainLabExtract[12] = 268.4;
+            grainNames[13] = "Melanoiden malt";
+            grainLabExtract[13] = 287.0;
+            grainNames[14] = "Crystal";
+            grainLabExtract[14] = 260.8;
+            grainNames[15] = "Caramunich II";
+            grainLabExtract[15] = 265.0;
+            grainNames[16] = "Dark Crystal";
+            grainLabExtract[16] = 270.8;
+            grainNames[17] = "Cara Aroma";
+            grainLabExtract[17] = 266.0;
+            grainNames[18] = "Amber";
+            grainLabExtract[18] = 266.1;
+            grainNames[19] = "Special B";
+            grainLabExtract[19] = 266.0;
+            grainNames[20] = "Brown";
+            grainLabExtract[20] = 270.0;
+            grainNames[21] = "Chocolate";
+            grainLabExtract[21] = 267.2;
+            grainNames[22] = "Roast Barley";
+            grainLabExtract[22] = 264.0;
+            grainNames[23] = "Black";
+            grainLabExtract[23] = 265.7;
+            grainNames[24] = "Carafa Special III";
+            grainLabExtract[24] = 250.0;
         }
 
         public void SetUpListPickers()
         {
-            //SugarLP.ItemsSource = sugarName;
-            //SugarLabExtTb.Text = sugarLabExtract.ToString();
+            SugarLP.ItemsSource = sugarName;
+            SugarLabExtTb.Text = sugarLabExtract.ToString();
 
-            //MaltOneLP.ItemsSource = grainNames;
-            //MaltTwoLP.ItemsSource = grainNames;
-            //MaltThreeLP.ItemsSource = grainNames;
-            //MaltFourLP.ItemsSource = grainNames;
-            //MaltFiveLP.ItemsSource = grainNames;
-            //MaltSixLP.ItemsSource = grainNames;
-        }
+            MaltOneLP.ItemsSource = grainNames;
+            MaltTwoLP.ItemsSource = grainNames;
+            MaltThreeLP.ItemsSource = grainNames;
+            MaltFourLP.ItemsSource = grainNames;
+            MaltFiveLP.ItemsSource = grainNames;
+            MaltSixLP.ItemsSource = grainNames;
+        }*/
 
-        ///// Events for gathering required input data
+        ///// UI Control Events for gathering required input data
         //
-        private void Grain1LP_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            IgnoreSelectionChanged = false;
-        }
-
-        private void Grain1LP_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (!IgnoreSelectionChanged)
-            {
-                Grain1LabExtTb.Text = GetDefaultMaltLabExtract(Grain1LP.SelectedIndex);
-
-                //RecalculateGrainSpecificValues(1);
-                //RecalculateTotals();
-            }
-
-            IgnoreSelectionChanged = true;
-        }
-
-        private void Grain1BillTb_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (Grain1BillTb.Text == "")
-            {
-                Grain1BillTb.Text = "0";
-            }
-
-            double tempLabExt = Convert.ToDouble(Grain1LabExtTb.Text);
-            double tempBill = Convert.ToDouble(Grain1BillTb.Text);
-
-            grainOneBill = tempBill;
-
-            grainOneLitreDegrees = CalculateLitreDegrees(tempLabExt, tempBill);
-
-            totalLitreDegrees = CalculateTotalLitreDegrees();
-
-            totalMaltBill = CalculateTotalMaltBill();
-
-            Grain1GristLbl.Text = CalculateGrist(tempBill).ToString();
-
-            //RecalculateGrainSpecificValues(1);
-            //RecalculateTotals();
-
-        }
-
-        private void Grain1LabExtTb_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (Grain1LabExtTb.Text == "")
-            {
-                Grain1LabExtTb.Text = GetDefaultMaltLabExtract(Grain1LP.SelectedIndex);
-            }
-
-            double tempLabExt = Convert.ToDouble(Grain1LabExtTb.Text);
-            double tempBill = Convert.ToDouble(Grain1BillTb.Text);
-
-            grainOneLitreDegrees = CalculateLitreDegrees(tempLabExt, tempBill);
-
-            totalLitreDegrees = CalculateTotalLitreDegrees();
-
-            totalMaltBill = CalculateTotalMaltBill();
-
-            Grain1GristLbl.Text = CalculateGrist(tempBill).ToString();
-
-            //RecalculateTotals();
-            //RecalculateGrainSpecificValues(1);
-
-        }
-        
         private void TargetOgTb_LostFocus(object sender, RoutedEventArgs e)
         {
             try
@@ -277,7 +227,6 @@ namespace MagicRock1.Views
                 MessageBox.Show("Target OG must be a numeric value");
             }
         }
-
         private void StartBoilTb_LostFocus(object sender, RoutedEventArgs e)
         {
             try
@@ -289,7 +238,6 @@ namespace MagicRock1.Views
                 MessageBox.Show("Start boil must be a numeric value");
             }
         }
-
         private void MashEfficiencyTb_LostFocus(object sender, RoutedEventArgs e)
         {
             try
@@ -301,43 +249,196 @@ namespace MagicRock1.Views
                 MessageBox.Show("Efficiency of Mash must be a numeric value");
             }
         }
+        
+        private void SugarBillTb_LostFocus(object sender, RoutedEventArgs e)
+        {
+            sugarBill = Convert.ToDouble(SugarBillTb.Text);
+            UpdateGrainAndTotals(0);
+        }
+
+        private void Grain1LP_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            IgnoreSelectionChanged = false;
+        }
+        private void Grain2LP_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            IgnoreSelectionChanged = false;
+        }
+        private void Grain3LP_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            IgnoreSelectionChanged = false;
+        }
+        private void Grain4LP_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            IgnoreSelectionChanged = false;
+        }
+        private void Grain5LP_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            IgnoreSelectionChanged = false;
+        }
+        private void Grain6LP_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            IgnoreSelectionChanged = false;
+        }
+
+        private void Grain1LP_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (!IgnoreSelectionChanged)
+            {
+                if (Grain1LP.SelectedIndex == 0)
+                {
+                    Grain1LabExtTb.Text = "";
+                    Grain1BillTb.Text = "";
+                }
+                else
+                {
+                    Grain1LabExtTb.Text = GetDefaultMaltLabExtract(Grain1LP.SelectedIndex);
+                    Grain1BillTb.Text = "0";
+                }
+            }
+
+            IgnoreSelectionChanged = true;
+        }
+        private void Grain1LabExtTb_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (Grain1LabExtTb.Text == "")
+            {
+                Grain1LabExtTb.Text = GetDefaultMaltLabExtract(Grain1LP.SelectedIndex);
+            }
+
+            grainOneLabExt = Convert.ToDouble(Grain1LabExtTb.Text);
+            grainOneBill = Convert.ToDouble(Grain1BillTb.Text);
+
+            UpdateGrainAndTotals(1);
+        }
+        private void Grain1BillTb_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (Grain1BillTb.Text == "")
+            {
+                Grain1BillTb.Text = "0";
+            }
+
+            grainOneLabExt = Convert.ToDouble(Grain1LabExtTb.Text);
+            grainOneBill = Convert.ToDouble(Grain1BillTb.Text);
+
+            UpdateGrainAndTotals(1);
+        }
+
+        private void Grain2LP_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+        private void Grain2LabExtTb_LostFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void Grain2BillTb_LostFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Grain3LP_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+        private void Grain3LabExtTb_LostFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void Grain3BillTb_LostFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Grain4LP_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+        private void Grain4LabExtTb_LostFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void Grain4BillTb_LostFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Grain5LP_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+        private void Grain5LabExtTb_LostFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void Grain5BillTb_LostFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Grain6LP_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+        private void Grain6LabExtTb_LostFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void Grain6BillTb_LostFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
 
         ///// Custom calculation methods
         //
-
-        //public void RecalculateTotals()
-        //{
-        //    totalMaltBill = CalculateTotalMaltBill();
-        //
-        //    totalLitreDegrees = CalculateTotalLitreDegrees();
-        //
-        //    UpdateGravities();
-        //}
-
-        public void RecalculateGrainSpecificValues(int grain)
+        public void UpdateGrainAndTotals(int grain)
         {
             switch (grain)
             {
                 case 0:
                     // Sugar
+                    SugarGristLbl.Text = GetGrist(sugarBill).ToString();
+                    sugarLitreDegrees = GetLitreDegrees(sugarLabExtract, sugarBill);
                     break;
                 case 1:
-                    // Malt One
+                    // Grain 1
+                    Grain1GristLbl.Text = GetGrist(grainOneBill).ToString();
+                    grainOneLitreDegrees = GetLitreDegrees(grainOneLabExt, grainOneBill);
                     break;
                 case 2:
-                    // Malt Two etc.
+                    // Grain 2
+                    Grain2GristLbl.Text = GetGrist(grainTwoBill).ToString();
+                    grainTwoLitreDegrees = GetLitreDegrees(grainTwoLabExt, grainTwoBill);
                     break;
                 case 3:
+                    // Grain 3
+                    Grain3GristLbl.Text = GetGrist(grainThreeBill).ToString();
+                    grainThreeLitreDegrees = GetLitreDegrees(grainThreeLabExt, grainThreeBill);
                     break;
                 case 4:
+                    // Grain 4
+                    Grain4GristLbl.Text = GetGrist(grainFourBill).ToString();
+                    grainFourLitreDegrees = GetLitreDegrees(grainFourLabExt, grainFourBill);
                     break;
                 case 5:
+                    // Grain 5
+                    Grain5GristLbl.Text = GetGrist(grainFiveBill).ToString();
+                    grainFiveLitreDegrees = GetLitreDegrees(grainFiveLabExt, grainFiveBill);
                     break;
                 case 6:
+                    // Grain 6
+                    Grain6GristLbl.Text = GetGrist(grainSixBill).ToString();
+                    grainSixLitreDegrees = GetLitreDegrees(grainSixLabExt, grainSixBill);
                     break;
                 default:
+                    // Default
+                    MessageBox.Show("Error: Could not update Grain & Totals");
                     break;
             }
+
+            CalculateTotalLiquorBackVol();
+
+            UpdateGravityTextblocks();
         }
 
         public string GetDefaultMaltLabExtract(int maltIndex)
@@ -345,42 +446,81 @@ namespace MagicRock1.Views
             return grainLabExtracts[maltIndex].ToString();
         }
 
-        public double CalculateGrist(double tempMaltBill)
+        public double GetLitreDegrees(double inputLabExtract, double inputBill)
         {
-            return ((tempMaltBill / totalMaltBill) * 100);
+            return (inputLabExtract * inputBill);
         }
 
-        public double CalculateLitreDegrees(double tempMaltLabExtract, double tempMaltBill)
+        public double GetGrist(double inputBill)
         {
-            return (tempMaltLabExtract * tempMaltBill);
+            double grist;
+
+            CalculateTotalMaltBill();
+
+            if (totalMaltBill == 0)
+            {
+                grist = 0;
+                MessageBox.Show("Add grain(s) will Bill values to display Grist percentages");
+            }
+            else
+            {
+                grist = (inputBill / totalMaltBill) * 100;
+            }
+
+            return grist;
         }
 
-        public double CalculateTotalMaltBill()
+            public void CalculateTotalMaltBill()
+            {
+                totalMaltBill = grainOneBill + grainTwoBill + grainThreeBill + grainFourBill + grainFiveBill + grainSixBill;
+            }
+
+        public void CalculateTotalLiquorBackVol()
         {
-            return grainOneBill + grainTwoBill + grainThreeBill + grainFourBill + grainFiveBill + grainSixBill;
+            CalculateEndOfBoilGravity();
+
+            totalLiquorBackVol = (volumeInFV * (endOfBoilGravity - 1000)) / ((targetOG - 1000) - volumeInFV);
         }
 
-        public double CalculateTotalLitreDegrees()
-        {
-            return grainOneLitreDegrees + grainTwoLitreDegrees + grainThreeLitreDegrees +
-                   grainFourLitreDegrees + grainFiveLitreDegrees + grainSixLitreDegrees;
-        }
+            public void CalculateEndOfBoilGravity()
+            {
+                CalculateGravityWithEfficiency();
+                CalculateVolumeInFV();
 
-        public void CalculatePotentialGravity()
-        {
-            totalLitreDegrees = CalculateTotalLitreDegrees();
+                endOfBoilGravity = (((startBoil * (gravityWithEfficiency - 1000)) / (endVolumeInCopper)) + 1000);
+            }
 
-            potentialGravity = (totalLitreDegrees / startBoil) + 1000;
-        }
+                public void CalculateGravityWithEfficiency()
+                {
+                    CalculatePotentialGravity();
 
-        public void CalculateGravityWithEfficiency()
-        {
-            sugarLitreDegrees = CalculateLitreDegrees(sugarLabExtract, Convert.ToDouble(SugarBillTb.Text));
+                    gravityWithEfficiency = (potentialGravity - 1000) * (mashEfficiency / 100) + 1000 + (sugarLitreDegrees / startBoil);
+                }
 
-            gravityWithEfficiency = (potentialGravity - 1000) * (mashEfficiency / 100) + 1000 + (sugarLitreDegrees / startBoil);
-        }
+                    public void CalculatePotentialGravity()
+                    {
+                        CalculateTotalLitreDegrees();
+                        potentialGravity = (totalLitreDegrees / startBoil) + 1000;
+                    }
 
-        public void UpdateGravities()
+                        public void CalculateTotalLitreDegrees()
+                        {
+                            totalLitreDegrees = grainOneLitreDegrees + grainTwoLitreDegrees + grainThreeLitreDegrees +
+                                                grainFourLitreDegrees + grainFiveLitreDegrees + grainSixLitreDegrees;
+                        }
+
+                public void CalculateVolumeInFV()
+                {
+                    CalculateEndVolumeInCopper();
+                    volumeInFV = ((endVolumeInCopper - (0.04 * endVolumeInCopper)) - 1.5);
+                }
+
+                    public void CalculateEndVolumeInCopper()
+                    {
+                        endVolumeInCopper = startBoil - (startBoil * 0.045);
+                    }
+
+        public void UpdateGravityTextblocks()
         {
             PotentialGravityTb.Text = potentialGravity.ToString();
             GravityWithEfficiencyTb.Text = gravityWithEfficiency.ToString();
@@ -393,22 +533,9 @@ namespace MagicRock1.Views
             MessageBox.Show("> TBC");
         }
 
-        private void PotentialGravityLbl_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        private void AppBarNextBtn_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Potential Gravity = \n(Litre Degrees TOTAL / Start Boil vol (L)) + 1000");
-        }
-
-        private void GravityWithEfficiencyLbl_Tap(object sender, System.Windows.Input.GestureEventArgs e)
-        {
-            MessageBox.Show("Gravity with Efficiency = " +
-                            "\n(Potential Gravity - 1000) * ((Efficiency of Mash = 80?) / 100)" +
-                            "\n + 1000 + (Litre Degrees of SUGAR / Start Boil vol (L))");
-        }
-
-        private void GristLbl_Tap(object sender, System.Windows.Input.GestureEventArgs e)
-        {
-            MessageBox.Show("Grist % makeup = " +
-                            "\n(Malt Bill of GRAIN / Malt Bill TOTAL) * 100");
+            MessageBox.Show("> TBC");
         }
 
         private void SugarNameCoverup_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
