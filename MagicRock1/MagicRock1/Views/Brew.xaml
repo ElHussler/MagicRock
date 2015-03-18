@@ -49,11 +49,11 @@
             <phone:PivotItem x:Name="PivotMalts" Header="Malts">
                 <Grid>
                     <TextBlock x:Name="TargetOgLbl" Text="Target OG:" Margin="32,-36,0,0" Width="93" HorizontalAlignment="Left" VerticalAlignment="Top" />
-                    <TextBox x:Name="TargetOgTb" Margin="0,-18,296,0" Width="160" Height="70" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="24" TextAlignment="Center" InputScope="Number" LostFocus="TargetOgTb_LostFocus" Text="0" />
+                    <TextBox x:Name="TargetOgTb" Margin="0,-18,296,0" Width="160" Height="70" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="24" TextAlignment="Center" InputScope="Number" LostFocus="TargetOgTb_LostFocus" Text="0" GotFocus="TargetOgTb_GotFocus" />
                     <TextBlock x:Name="StartBoilLbl" Text="Start Boil:" Margin="184,-36,0,0" Width="86" HorizontalAlignment="Left" VerticalAlignment="Top" />
-                    <TextBox x:Name="StartBoilTb" Margin="148,-18,148,0" Width="160" Height="70" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="24" TextAlignment="Center" InputScope="Number" LostFocus="StartBoilTb_LostFocus" Text="0" />
+                    <TextBox x:Name="StartBoilTb" Margin="148,-18,148,0" Width="160" Height="70" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="24" TextAlignment="Center" InputScope="Number" LostFocus="StartBoilTb_LostFocus" Text="0" GotFocus="StartBoilTb_GotFocus" />
                     <TextBlock x:Name="MashEfficiencyLbl" Text="Mash Efficiency:" Margin="306,-36,0,0" Width="140" HorizontalAlignment="Left" VerticalAlignment="Top" />
-                    <TextBox x:Name="MashEfficiencyTb" Margin="296,-18,0,0" Width="160" Height="70" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="24" TextAlignment="Center" InputScope="Number" LostFocus="MashEfficiencyTb_LostFocus" Text="0" />
+                    <TextBox x:Name="MashEfficiencyTb" Margin="296,-18,0,0" Width="160" Height="70" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="24" TextAlignment="Center" InputScope="Number" LostFocus="MashEfficiencyTb_LostFocus" Text="0" GotFocus="MashEfficiencyTb_GotFocus" />
 
                     <TextBlock x:Name="MaltLbl" Text="Grain" Margin="12,45,0,0" Width="50" HorizontalAlignment="Left" VerticalAlignment="Top" />
                     <TextBlock x:Name="LabExtLbl" Text="Lab ext." Margin="276,45,0,0" Width="67" HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Center" />
@@ -64,7 +64,7 @@
                     <TextBox x:Name="SugarNameLbl" IsReadOnly="True" Style="{StaticResource ReadOnlyBlackTb}" Margin="0,63,0,0" Padding="2,2,0,0" Text="Sugar" FontSize="22" LineHeight="6" Width="200" Height="70" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="Black" />
                     <TextBlock x:Name="SugarGristLbl" Margin="192,75,0,0" Padding="0,1,0,0" Text="0" Height="46" Width="80" FontSize="30" TextAlignment="Center" LineHeight="6" VerticalAlignment="Top" HorizontalAlignment="Left" />
                     <TextBox x:Name="SugarLabExtLbl" IsReadOnly="True" Style="{StaticResource ReadOnlyBlackTb}" Margin="264,63,0,0" Padding="0,1,0,0" Text="340.0" Height="70" Width="102" FontSize="24" TextAlignment="Center" LineHeight="6" VerticalAlignment="Top" HorizontalAlignment="Left"   />
-                    <TextBox x:Name="SugarBillTb" Margin="353,63,0,0" Text="0" Height="70" Width="102" TextAlignment="Center" InputScope="Number" VerticalAlignment="Top" FontSize="24" LostFocus="SugarBillTb_LostFocus" />
+                    <TextBox x:Name="SugarBillTb" Margin="353,63,0,0" Text="0" Height="70" Width="102" TextAlignment="Center" InputScope="Number" VerticalAlignment="Top" FontSize="24" LostFocus="SugarBillTb_LostFocus" GotFocus="SugarBillTb_GotFocus" />
 
                     <!--Grain 1-->
                     <toolkit:ListPicker x:Name="Grain1LP" Margin="12,123,0,0" Height="63" Width="176" FontSize="22" Foreground="Black" Background="#BFFFFFFF" HorizontalAlignment="Left" ExpansionMode="FullScreenOnly" VerticalAlignment="Top" Padding="0" BorderThickness="0" SelectionChanged="Grain1LP_SelectionChanged" MouseLeftButtonDown="Grain1LP_MouseLeftButtonDown">
@@ -87,7 +87,7 @@
                     </toolkit:ListPicker>
                     <TextBlock x:Name="Grain1GristLbl" Margin="192,131,0,0" Padding="0,1,0,0"  Height="46" Width="80" FontSize="30" TextAlignment="Center" LineHeight="6" VerticalAlignment="Top" HorizontalAlignment="Left" />
                     <TextBox x:Name="Grain1LabExtTb" Margin="264,119,0,0" Padding="0,1,0,0" Height="70" Width="102" InputScope="Number" LostFocus="Grain1LabExtTb_LostFocus" FontSize="24" TextAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" />
-                    <TextBox x:Name="Grain1BillTb" Margin="354,119,0,0" Height="70" Width="102" InputScope="Number" VerticalAlignment="Top" LostFocus="Grain1BillTb_LostFocus" FontSize="24" TextAlignment="Center" />
+                    <TextBox x:Name="Grain1BillTb" Margin="354,119,0,0" Height="70" Width="102" InputScope="Number" VerticalAlignment="Top" LostFocus="Grain1BillTb_LostFocus" FontSize="24" TextAlignment="Center" GotFocus="Grain1BillTb_GotFocus" />
 
                     <!--Grain 2-->
                     <toolkit:ListPicker x:Name="Grain2LP" Margin="12,179,0,0" Height="63" Width="176" FontSize="22" Foreground="Black" Background="#BFFFFFFF" HorizontalAlignment="Left" ExpansionMode="FullScreenOnly" VerticalAlignment="Top" Padding="0" BorderThickness="0" SelectionChanged="Grain2LP_SelectionChanged" MouseLeftButtonDown="Grain2LP_MouseLeftButtonDown">
@@ -110,7 +110,7 @@
                     </toolkit:ListPicker>
                     <TextBlock x:Name="Grain2GristLbl" Margin="192,187,0,0" Padding="0,1,0,0"  Height="46" Width="80" FontSize="30" TextAlignment="Center" LineHeight="6" VerticalAlignment="Top" HorizontalAlignment="Left" />
                     <TextBox x:Name="Grain2LabExtTb" Margin="264,175,0,0" Padding="0,1,0,0" Height="70" Width="102" InputScope="Number" LostFocus="Grain2LabExtTb_LostFocus" FontSize="24" TextAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" />
-                    <TextBox x:Name="Grain2BillTb" Margin="353,175,0,0" Height="70" Width="102" InputScope="Number" VerticalAlignment="Top" LostFocus="Grain2BillTb_LostFocus" FontSize="24" TextAlignment="Center" />
+                    <TextBox x:Name="Grain2BillTb" Margin="353,175,0,0" Height="70" Width="102" InputScope="Number" VerticalAlignment="Top" LostFocus="Grain2BillTb_LostFocus" FontSize="24" TextAlignment="Center" GotFocus="Grain2BillTb_GotFocus" />
 
                     <!--Grain 3-->
                     <toolkit:ListPicker x:Name="Grain3LP" Margin="12,235,0,0" Height="63" Width="176" FontSize="22" Foreground="Black" Background="#BFFFFFFF" HorizontalAlignment="Left" ExpansionMode="FullScreenOnly" VerticalAlignment="Top" Padding="0" BorderThickness="0" SelectionChanged="Grain3LP_SelectionChanged" MouseLeftButtonDown="Grain3LP_MouseLeftButtonDown">
@@ -133,7 +133,7 @@
                     </toolkit:ListPicker>
                     <TextBlock x:Name="Grain3GristLbl" Margin="192,243,0,0" Padding="0,1,0,0"  Height="46" Width="80" FontSize="30" TextAlignment="Center" LineHeight="6" VerticalAlignment="Top" HorizontalAlignment="Left" />
                     <TextBox x:Name="Grain3LabExtTb" Margin="264,231,0,0" Padding="0,1,0,0" Height="70" Width="102" InputScope="Number" LostFocus="Grain3LabExtTb_LostFocus" FontSize="24" TextAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" />
-                    <TextBox x:Name="Grain3BillTb" Margin="353,231,0,0" Height="70" Width="102" InputScope="Number" VerticalAlignment="Top" LostFocus="Grain3BillTb_LostFocus" FontSize="24" TextAlignment="Center" />
+                    <TextBox x:Name="Grain3BillTb" Margin="353,231,0,0" Height="70" Width="102" InputScope="Number" VerticalAlignment="Top" LostFocus="Grain3BillTb_LostFocus" FontSize="24" TextAlignment="Center" GotFocus="Grain3BillTb_GotFocus" />
 
                     <!--Grain 4-->
                     <toolkit:ListPicker x:Name="Grain4LP" Margin="12,291,0,0" Height="63" Width="176" FontSize="22" Foreground="Black" Background="#BFFFFFFF" HorizontalAlignment="Left" ExpansionMode="FullScreenOnly" VerticalAlignment="Top" Padding="0" BorderThickness="0" SelectionChanged="Grain4LP_SelectionChanged" MouseLeftButtonDown="Grain4LP_MouseLeftButtonDown">
@@ -156,7 +156,7 @@
                     </toolkit:ListPicker>
                     <TextBlock x:Name="Grain4GristLbl" Margin="192,299,0,0" Padding="0,1,0,0"  Height="46" Width="80" FontSize="30" TextAlignment="Center" LineHeight="6" VerticalAlignment="Top" HorizontalAlignment="Left" />
                     <TextBox x:Name="Grain4LabExtTb" Margin="264,287,0,0" Padding="0,1,0,0" Height="70" Width="102" InputScope="Number" LostFocus="Grain4LabExtTb_LostFocus" FontSize="24" TextAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" />
-                    <TextBox x:Name="Grain4BillTb" Margin="353,287,0,0" Height="70" Width="102" InputScope="Number" VerticalAlignment="Top" LostFocus="Grain4BillTb_LostFocus" FontSize="24" TextAlignment="Center" />
+                    <TextBox x:Name="Grain4BillTb" Margin="353,287,0,0" Height="70" Width="102" InputScope="Number" VerticalAlignment="Top" LostFocus="Grain4BillTb_LostFocus" FontSize="24" TextAlignment="Center" GotFocus="Grain4BillTb_GotFocus" />
 
                     <!--Grain 5-->
                     <toolkit:ListPicker x:Name="Grain5LP" Margin="12,347,0,0" Height="63" Width="176" FontSize="22" Foreground="Black" Background="#BFFFFFFF" HorizontalAlignment="Left" ExpansionMode="FullScreenOnly" VerticalAlignment="Top" Padding="0" BorderThickness="0" SelectionChanged="Grain5LP_SelectionChanged" MouseLeftButtonDown="Grain5LP_MouseLeftButtonDown">
@@ -179,7 +179,7 @@
                     </toolkit:ListPicker>
                     <TextBlock x:Name="Grain5GristLbl" Margin="192,355,0,0" Padding="0,1,0,0"  Height="46" Width="80" FontSize="30" TextAlignment="Center" LineHeight="6" VerticalAlignment="Top" HorizontalAlignment="Left" />
                     <TextBox x:Name="Grain5LabExtTb" Margin="264,343,0,0" Padding="0,1,0,0" Height="70" Width="102" InputScope="Number" LostFocus="Grain5LabExtTb_LostFocus" FontSize="24" TextAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" />
-                    <TextBox x:Name="Grain5BillTb" Margin="353,343,0,0" Height="70" Width="102" InputScope="Number" VerticalAlignment="Top" LostFocus="Grain5BillTb_LostFocus" FontSize="24" TextAlignment="Center" />
+                    <TextBox x:Name="Grain5BillTb" Margin="353,343,0,0" Height="70" Width="102" InputScope="Number" VerticalAlignment="Top" LostFocus="Grain5BillTb_LostFocus" FontSize="24" TextAlignment="Center" GotFocus="Grain5BillTb_GotFocus" />
 
                     <!--Grain 6-->
                     <toolkit:ListPicker x:Name="Grain6LP" Margin="12,403,0,0" Height="63" Width="176" FontSize="22" Foreground="Black" Background="#BFFFFFFF" HorizontalAlignment="Left" ExpansionMode="FullScreenOnly" VerticalAlignment="Top" Padding="0" BorderThickness="0" SelectionChanged="Grain6LP_SelectionChanged" MouseLeftButtonDown="Grain6LP_MouseLeftButtonDown">
@@ -202,7 +202,7 @@
                     </toolkit:ListPicker>
                     <TextBlock x:Name="Grain6GristLbl" Margin="192,411,0,0" Padding="0,1,0,0"  Height="46" Width="80" FontSize="30" TextAlignment="Center" LineHeight="6" VerticalAlignment="Top" HorizontalAlignment="Left" />
                     <TextBox x:Name="Grain6LabExtTb" Margin="264,399,0,0" Padding="0,1,0,0" Height="70" Width="102" InputScope="Number" LostFocus="Grain6LabExtTb_LostFocus" FontSize="24" TextAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" />
-                    <TextBox x:Name="Grain6BillTb" Margin="353,399,0,0" Height="70" Width="102" InputScope="Number" VerticalAlignment="Top" LostFocus="Grain6BillTb_LostFocus" FontSize="24" TextAlignment="Center" />
+                    <TextBox x:Name="Grain6BillTb" Margin="353,399,0,0" Height="70" Width="102" InputScope="Number" VerticalAlignment="Top" LostFocus="Grain6BillTb_LostFocus" FontSize="24" TextAlignment="Center" GotFocus="Grain6BillTb_GotFocus" />
 
                     <TextBlock x:Name="PotentialGravityLbl" Text="Potential Gravity:" Margin="28,463,0,0" Width="154" HorizontalAlignment="Left" VerticalAlignment="Top" Height="29" TextWrapping="Wrap" TextAlignment="Center"/>
                     <TextBlock x:Name="PotentialGravityTb" Text="" Margin="45,483,291,75" Foreground="White" TextAlignment="Center" VerticalAlignment="Center" FontSize="35" Width="120" Height="45" />
