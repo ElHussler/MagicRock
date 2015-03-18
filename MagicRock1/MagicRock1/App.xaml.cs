@@ -8,12 +8,14 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using MagicRock1.Resources;
 using MagicRock1.ViewModels;
+using System.IO.IsolatedStorage;
+using System.IO;
 
 namespace MagicRock1
 {
     public partial class App : Application
     {
-        private static MainViewModel viewModel = null;
+        /*private static MainViewModel viewModel = null;
 
         /// <summary>
         /// A static ViewModel used by the views to bind against.
@@ -30,6 +32,16 @@ namespace MagicRock1
                 return viewModel;
             }
         }
+
+        private static ProgIndViewModel viewModel;
+
+        public static ProgIndViewModel ViewModel
+        {
+            get
+            {
+                return viewModel ?? (viewModel = new ProgIndViewModel());
+            }
+        }*/
 
         /// <summary>
         /// Provides easy access to the root frame of the Phone Application.
@@ -85,17 +97,98 @@ namespace MagicRock1
         // This code will not execute when the application is reactivated
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
+            // Set up Grain data for 'Malts' pivot view
+            try
+            {
+                IsolatedStorageFile appIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication();
+
+                // No Malt data directory/file (app is fresh install), so create them
+                if (!appIsolatedStorage.DirectoryExists("MaltData"))
+                {
+                    //startProgressIndicator("Manipulating Modal Memory…");
+
+                    appIsolatedStorage.CreateDirectory("MaltData");
+
+                    IsolatedStorageFileStream maltWriteStream = appIsolatedStorage.CreateFile("MaltData\\malts.txt");
+
+                    // Create and populate 'malts.txt' file inside 'MaltData', separate Name & LE with tilde, malts with '\r\n'???
+                    using (StreamWriter maltDataWriter = new StreamWriter(maltWriteStream))
+                    {
+                        //maltDataWriter.WriteLine("Sugar~340.0");
+                        maltDataWriter.WriteLine("Low Colour Maris Otter~291.0");
+                        maltDataWriter.WriteLine("Golden Promise~295.0");
+                        maltDataWriter.WriteLine("Wheat malt~291.0");
+                        maltDataWriter.WriteLine("Vienna~289.0");
+                        maltDataWriter.WriteLine("Munich~285.0");
+                        maltDataWriter.WriteLine("Pilsner~298.0");
+                        maltDataWriter.WriteLine("Acidulated malt~0.0");
+                        maltDataWriter.WriteLine("Rye malt~260.0");
+                        maltDataWriter.WriteLine("Smoked malt~295.0");
+                        maltDataWriter.WriteLine("Oat malt~219.0");
+                        maltDataWriter.WriteLine("Carapils~267.4");
+                        maltDataWriter.WriteLine("Carared~268.0");
+                        maltDataWriter.WriteLine("Caramalt~268.4");
+                        maltDataWriter.WriteLine("Melanoiden malt~287.0");
+                        maltDataWriter.WriteLine("Crystal~260.8");
+                        maltDataWriter.WriteLine("Caramunich II~265.0");
+                        maltDataWriter.WriteLine("Dark Crystal~270.8");
+                        maltDataWriter.WriteLine("Cara Aroma~266.0");
+                        maltDataWriter.WriteLine("Amber~266.1");
+                        maltDataWriter.WriteLine("Special B~266.0");
+                        maltDataWriter.WriteLine("Brown~270.0");
+                        maltDataWriter.WriteLine("Chocolate~267.2");
+                        maltDataWriter.WriteLine("Roast Barley~264.0");
+                        maltDataWriter.WriteLine("Black~265.7");
+                        maltDataWriter.WriteLine("Carafa Special III~250.0");
+
+                        maltDataWriter.Close();
+                    }
+
+                    //MessageBox.Show("Malts created and saved to storage");
+                }
+                // Malt data directory exists (app has been opened before), so read data from file
+                else
+                {
+                    //MessageBox.Show("Malts already in storage, go to Brew page to load them for lists");
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Couldn't set up Malt data", "Error", MessageBoxButton.OK);
+            }
+            
+            //stopProgressIndicator();
         }
+
+        //private void startProgressIndicator(string progressText)
+        //{
+        //    ProgressIndicator currentProgressIndicator = new ProgressIndicator()
+        //    {
+        //        IsVisible = true,
+        //        IsIndeterminate = true,
+        //        Text = progressText
+        //    };
+        //    SystemTray.SetProgressIndicator(this, currentProgressIndicator);
+        //}
+
+        //private void stopProgressIndicator()
+        //{
+        //    ProgressIndicator currentProgressIndicator = SystemTray.GetProgressIndicator(this);
+        //    if (currentProgressIndicator != null)
+        //    {
+        //        currentProgressIndicator.IsVisible = false;
+        //    }
+        //}
 
         // Code to execute when the application is activated (brought to foreground)
         // This code will not execute when the application is first launched
         private void Application_Activated(object sender, ActivatedEventArgs e)
         {
             // Ensure that application state is restored appropriately
-            if (!App.ViewModel.IsDataLoaded)
+            /*if (!App.ViewModel.IsDataLoaded)
             {
                 App.ViewModel.LoadData();
-            }
+            }*/
         }
 
         // Code to execute when the application is deactivated (sent to background)

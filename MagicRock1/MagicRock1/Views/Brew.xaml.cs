@@ -13,7 +13,7 @@ using MagicRock1.Views;
 using System.IO.IsolatedStorage;
 using System.IO;
 
-namespace MagicRock1.Views
+namespace MagicRock1.Views                          // UPDATE TOTAL MALT BILL
 {
     public partial class Brew : PhoneApplicationPage
     {
@@ -76,13 +76,21 @@ namespace MagicRock1.Views
 
         // Used to select appropriate Listpicker actions
         private bool IgnoreSelectionChanged = true;
+        private bool IgnoreValueUpdates = false;
 
         ///// Setup
         //
         public Brew()
         {
             InitializeComponent();
+            //DataContext = App.ViewModel;
             SetUpMaltData();
+
+            //ProgressIndicator indicator = App.ViewModel.ProgressIndicator;
+            //indicator.IsVisible = false;
+
+            //stopProgressIndicator();
+
             //gvm = new GrainsViewModel();
             //gvm.GetGrains();
 
@@ -117,10 +125,12 @@ namespace MagicRock1.Views
             }
 
             string nameLabExtractSplitter = "~";
-            int nameLabExIndex = 1;
+            int nameLabExIndex = 0;
 
             grainNames[nameLabExIndex] = "None";
             grainLabExtracts[nameLabExIndex] = 0;
+
+            nameLabExIndex++;
 
             foreach (string malt in fileMaltData)
             {
@@ -128,7 +138,7 @@ namespace MagicRock1.Views
                 string[] tempMalt = malt.Split(new string[] { nameLabExtractSplitter }, StringSplitOptions.None);
 
                 grainNames[nameLabExIndex] = tempMalt[0];
-                grainLabExtracts[nameLabExIndex] = Convert.ToDouble(tempMalt[1]);
+                grainLabExtracts[nameLabExIndex] = RoundUpTo2SigFigs( Convert.ToDouble(tempMalt[1]) );
 
                 nameLabExIndex++;
             }
@@ -140,7 +150,7 @@ namespace MagicRock1.Views
             Grain5LP.ItemsSource = grainNames;
             Grain6LP.ItemsSource = grainNames;
 
-            MessageBox.Show("Malts loaded from storage");
+            //MessageBox.Show("Malts loaded from storage");
         }
 
         // NOT IN USE - Populate arrays with Grain 'Name' and 'Lab Extract' values (including Sugar)
@@ -213,47 +223,87 @@ namespace MagicRock1.Views
             MaltFiveLP.ItemsSource = grainNames;
             MaltSixLP.ItemsSource = grainNames;
         }*/
+        // NOT IN USE
 
-        ///// UI Control Events for gathering required input data
+        ///// --- MALT --- UI Control Events for gathering required input data
         //
         private void TargetOgTb_LostFocus(object sender, RoutedEventArgs e)
         {
+            if (TargetOgTb.Text == "")
+            {
+                TargetOgTb.Text = "0";
+            }
             try
             {
-                targetOG = Convert.ToDouble(TargetOgTb.Text);
+                targetOG = RoundUpTo2SigFigs( Convert.ToDouble(TargetOgTb.Text) );
+                if (targetOG != 0 && startBoil != 0 && mashEfficiency != 0)
+                {
+                    UpdateFinalVariablesAndDisplayGravities();
+                }
             }
             catch (FormatException)
             {
                 MessageBox.Show("Target OG must be a numeric value");
+                TargetOgTb.Text = "0";
             }
         }
         private void StartBoilTb_LostFocus(object sender, RoutedEventArgs e)
         {
+            if (StartBoilTb.Text == "")
+            {
+                StartBoilTb.Text = "0";
+            }
             try
             {
-                startBoil = Convert.ToDouble(StartBoilTb.Text);
+                startBoil = RoundUpTo2SigFigs( Convert.ToDouble(StartBoilTb.Text) );
+                if (targetOG != 0 && startBoil != 0 && mashEfficiency != 0)
+                {
+                    UpdateFinalVariablesAndDisplayGravities();
+                }
             }
             catch (FormatException)
             {
                 MessageBox.Show("Start boil must be a numeric value");
+                StartBoilTb.Text = "0";
             }
         }
         private void MashEfficiencyTb_LostFocus(object sender, RoutedEventArgs e)
         {
+            if (MashEfficiencyTb.Text == "")
+            {
+                MashEfficiencyTb.Text = "0";
+            }
             try
             {
-                mashEfficiency = Convert.ToDouble(MashEfficiencyTb.Text);
+                mashEfficiency = RoundUpTo2SigFigs( Convert.ToDouble(MashEfficiencyTb.Text) );
+                if (targetOG != 0 && startBoil != 0 && mashEfficiency != 0)
+                {
+                    UpdateFinalVariablesAndDisplayGravities();
+                }
             }
             catch (FormatException)
             {
                 MessageBox.Show("Efficiency of Mash must be a numeric value");
+                MashEfficiencyTb.Text = "0";
             }
         }
         
         private void SugarBillTb_LostFocus(object sender, RoutedEventArgs e)
         {
-            sugarBill = Convert.ToDouble(SugarBillTb.Text);
-            UpdateGrainAndTotals(0);
+            if (SugarBillTb.Text == "")
+            {
+                SugarBillTb.Text = "0";
+            }
+            try
+            {
+                sugarBill = RoundUpTo2SigFigs( Convert.ToDouble(SugarBillTb.Text) );
+                UpdateGrainAndFinalVariables();
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("'Bill' must be a numeric value");
+                SugarBillTb.Text = "0";
+            }
         }
 
         private void Grain1LP_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -289,11 +339,13 @@ namespace MagicRock1.Views
                 {
                     Grain1LabExtTb.Text = "";
                     Grain1BillTb.Text = "";
+                    Grain1GristLbl.Text = "";
                 }
                 else
                 {
                     Grain1LabExtTb.Text = GetDefaultMaltLabExtract(Grain1LP.SelectedIndex);
                     Grain1BillTb.Text = "0";
+                    Grain1GristLbl.Text = "0";
                 }
             }
 
@@ -305,11 +357,17 @@ namespace MagicRock1.Views
             {
                 Grain1LabExtTb.Text = GetDefaultMaltLabExtract(Grain1LP.SelectedIndex);
             }
-
-            grainOneLabExt = Convert.ToDouble(Grain1LabExtTb.Text);
-            grainOneBill = Convert.ToDouble(Grain1BillTb.Text);
-
-            UpdateGrainAndTotals(1);
+            try
+            {
+                grainOneLabExt = RoundUpTo2SigFigs( Convert.ToDouble(Grain1LabExtTb.Text) );
+                grainOneBill = RoundUpTo2SigFigs( Convert.ToDouble(Grain1BillTb.Text) );
+                UpdateGrainAndFinalVariables();
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("'Bill' and 'Lab Extract' must be numeric values");
+                Grain1LabExtTb.Text = GetDefaultMaltLabExtract(Grain1LP.SelectedIndex);
+            }
         }
         private void Grain1BillTb_LostFocus(object sender, RoutedEventArgs e)
         {
@@ -317,130 +375,306 @@ namespace MagicRock1.Views
             {
                 Grain1BillTb.Text = "0";
             }
-
-            grainOneLabExt = Convert.ToDouble(Grain1LabExtTb.Text);
-            grainOneBill = Convert.ToDouble(Grain1BillTb.Text);
-
-            UpdateGrainAndTotals(1);
+            try
+            {
+                grainOneLabExt = RoundUpTo2SigFigs( Convert.ToDouble(Grain1LabExtTb.Text) );
+                grainOneBill = RoundUpTo2SigFigs( Convert.ToDouble(Grain1BillTb.Text) );
+                UpdateGrainAndFinalVariables();
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("'Bill' and 'Lab Extract' must be numeric values");
+                Grain1BillTb.Text = "0";
+            }
         }
 
         private void Grain2LP_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (!IgnoreSelectionChanged)
+            {
+                if (Grain2LP.SelectedIndex == 0)
+                {
+                    Grain2LabExtTb.Text = "";
+                    Grain2BillTb.Text = "";
+                    Grain2GristLbl.Text = "";
+                }
+                else
+                {
+                    Grain2LabExtTb.Text = GetDefaultMaltLabExtract(Grain2LP.SelectedIndex);
+                    Grain2BillTb.Text = "0";
+                    Grain2GristLbl.Text = "0";
+                }
+            }
 
+            IgnoreSelectionChanged = true;
         }
         private void Grain2LabExtTb_LostFocus(object sender, RoutedEventArgs e)
         {
-
+            if (Grain2LabExtTb.Text == "")
+            {
+                Grain2LabExtTb.Text = GetDefaultMaltLabExtract(Grain2LP.SelectedIndex);
+            }
+            try
+            {
+                grainTwoLabExt = RoundUpTo2SigFigs( Convert.ToDouble(Grain2LabExtTb.Text) );
+                grainTwoBill = RoundUpTo2SigFigs( Convert.ToDouble(Grain2BillTb.Text) );
+                UpdateGrainAndFinalVariables();
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("'Bill' and 'Lab Extract' must be numeric values");
+                Grain2LabExtTb.Text = GetDefaultMaltLabExtract(Grain2LP.SelectedIndex);
+            }
         }
         private void Grain2BillTb_LostFocus(object sender, RoutedEventArgs e)
         {
-
+            if (Grain2BillTb.Text == "")
+            {
+                Grain2BillTb.Text = "0";
+            }
+            try
+            {
+                grainTwoLabExt = RoundUpTo2SigFigs( Convert.ToDouble(Grain2LabExtTb.Text) );
+                grainTwoBill = RoundUpTo2SigFigs(Convert.ToDouble(Grain2BillTb.Text));
+                UpdateGrainAndFinalVariables();
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("'Bill' and 'Lab Extract' must be numeric values");
+                Grain2BillTb.Text = "0";
+            }
         }
 
         private void Grain3LP_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (!IgnoreSelectionChanged)
+            {
+                if (Grain3LP.SelectedIndex == 0)
+                {
+                    Grain3LabExtTb.Text = "";
+                    Grain3BillTb.Text = "";
+                    Grain3GristLbl.Text = "";
+                }
+                else
+                {
+                    Grain3LabExtTb.Text = GetDefaultMaltLabExtract(Grain3LP.SelectedIndex);
+                    Grain3BillTb.Text = "0";
+                    Grain3GristLbl.Text = "0";
+                }
+            }
 
+            IgnoreSelectionChanged = true;
         }
         private void Grain3LabExtTb_LostFocus(object sender, RoutedEventArgs e)
         {
-
+            if (Grain3LabExtTb.Text == "")
+            {
+                Grain3LabExtTb.Text = GetDefaultMaltLabExtract(Grain3LP.SelectedIndex);
+            }
+            try
+            {
+                grainThreeLabExt = RoundUpTo2SigFigs( Convert.ToDouble(Grain3LabExtTb.Text) );
+                grainThreeBill = RoundUpTo2SigFigs( Convert.ToDouble(Grain3BillTb.Text) );
+                UpdateGrainAndFinalVariables();
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("'Bill' and 'Lab Extract' must be numeric values");
+                Grain3LabExtTb.Text = GetDefaultMaltLabExtract(Grain3LP.SelectedIndex);
+            }
         }
         private void Grain3BillTb_LostFocus(object sender, RoutedEventArgs e)
         {
-
+            if (Grain3BillTb.Text == "")
+            {
+                Grain3BillTb.Text = "0";
+            }
+            try
+            {
+                grainThreeLabExt = RoundUpTo2SigFigs( Convert.ToDouble(Grain3LabExtTb.Text) );
+                grainThreeBill = RoundUpTo2SigFigs( Convert.ToDouble(Grain3BillTb.Text) );
+                UpdateGrainAndFinalVariables();
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("'Bill' and 'Lab Extract' must be numeric values");
+                Grain3BillTb.Text = "0";
+            }
         }
 
         private void Grain4LP_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (!IgnoreSelectionChanged)
+            {
+                if (Grain4LP.SelectedIndex == 0)
+                {
+                    Grain4LabExtTb.Text = "";
+                    Grain4BillTb.Text = "";
+                    Grain4GristLbl.Text = "";
+                }
+                else
+                {
+                    Grain4LabExtTb.Text = GetDefaultMaltLabExtract(Grain4LP.SelectedIndex);
+                    Grain4BillTb.Text = "0";
+                    Grain4GristLbl.Text = "0";
+                }
+            }
 
+            IgnoreSelectionChanged = true;
         }
         private void Grain4LabExtTb_LostFocus(object sender, RoutedEventArgs e)
         {
-
+            if (Grain4LabExtTb.Text == "")
+            {
+                Grain4LabExtTb.Text = GetDefaultMaltLabExtract(Grain4LP.SelectedIndex);
+            }
+            try
+            {
+                grainFourLabExt = RoundUpTo2SigFigs( Convert.ToDouble(Grain4LabExtTb.Text) );
+                grainFourBill = RoundUpTo2SigFigs( Convert.ToDouble(Grain4BillTb.Text) );
+                UpdateGrainAndFinalVariables();
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("'Bill' and 'Lab Extract' must be numeric values");
+                Grain4LabExtTb.Text = GetDefaultMaltLabExtract(Grain4LP.SelectedIndex);
+            }
         }
         private void Grain4BillTb_LostFocus(object sender, RoutedEventArgs e)
         {
-
+            if (Grain4BillTb.Text == "")
+            {
+                Grain4BillTb.Text = "0";
+            }
+            try
+            {
+                grainFourLabExt = RoundUpTo2SigFigs( Convert.ToDouble(Grain4LabExtTb.Text) );
+                grainFourBill = RoundUpTo2SigFigs( Convert.ToDouble(Grain4BillTb.Text) );
+                UpdateGrainAndFinalVariables();
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("'Bill' and 'Lab Extract' must be numeric values");
+                Grain4BillTb.Text = "0";
+            }
         }
 
         private void Grain5LP_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (!IgnoreSelectionChanged)
+            {
+                if (Grain5LP.SelectedIndex == 0)
+                {
+                    Grain5LabExtTb.Text = "";
+                    Grain5BillTb.Text = "";
+                    Grain5GristLbl.Text = "";
+                }
+                else
+                {
+                    Grain5LabExtTb.Text = GetDefaultMaltLabExtract(Grain5LP.SelectedIndex);
+                    Grain5BillTb.Text = "0";
+                    Grain5GristLbl.Text = "0";
+                }
+            }
 
+            IgnoreSelectionChanged = true;
         }
         private void Grain5LabExtTb_LostFocus(object sender, RoutedEventArgs e)
         {
-
+            if (Grain5LabExtTb.Text == "")
+            {
+                Grain5LabExtTb.Text = GetDefaultMaltLabExtract(Grain5LP.SelectedIndex);
+            }
+            try
+            {
+                grainFiveLabExt = RoundUpTo2SigFigs( Convert.ToDouble(Grain5LabExtTb.Text) );
+                grainFiveBill = RoundUpTo2SigFigs( Convert.ToDouble(Grain5BillTb.Text) );
+                UpdateGrainAndFinalVariables();
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("'Bill' and 'Lab Extract' must be numeric values");
+                Grain5LabExtTb.Text = GetDefaultMaltLabExtract(Grain5LP.SelectedIndex);
+            }
         }
         private void Grain5BillTb_LostFocus(object sender, RoutedEventArgs e)
         {
-
+            if (Grain5BillTb.Text == "")
+            {
+                Grain5BillTb.Text = "0";
+            }
+            try
+            {
+                grainFiveLabExt = RoundUpTo2SigFigs( Convert.ToDouble(Grain5LabExtTb.Text) );
+                grainFiveBill = RoundUpTo2SigFigs( Convert.ToDouble(Grain5BillTb.Text) );
+                UpdateGrainAndFinalVariables();
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("'Bill' and 'Lab Extract' must be numeric values");
+                Grain5BillTb.Text = "0";
+            }
         }
 
         private void Grain6LP_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (!IgnoreSelectionChanged)
+            {
+                if (Grain6LP.SelectedIndex == 0)
+                {
+                    Grain6LabExtTb.Text = "";
+                    Grain6BillTb.Text = "";
+                    Grain6GristLbl.Text = "";
+                }
+                else
+                {
+                    Grain6LabExtTb.Text = GetDefaultMaltLabExtract(Grain6LP.SelectedIndex);
+                    Grain6BillTb.Text = "0";
+                    Grain6GristLbl.Text = "0";
+                }
+            }
 
+            IgnoreSelectionChanged = true;
         }
         private void Grain6LabExtTb_LostFocus(object sender, RoutedEventArgs e)
         {
-
+            if (Grain6LabExtTb.Text == "")
+            {
+                Grain6LabExtTb.Text = GetDefaultMaltLabExtract(Grain6LP.SelectedIndex);
+            }
+            try
+            {
+                grainSixLabExt = RoundUpTo2SigFigs( Convert.ToDouble(Grain6LabExtTb.Text) );
+                grainSixBill = RoundUpTo2SigFigs( Convert.ToDouble(Grain6BillTb.Text) );
+                UpdateGrainAndFinalVariables();
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("'Bill' and 'Lab Extract' must be numeric values");
+                Grain6LabExtTb.Text = GetDefaultMaltLabExtract(Grain6LP.SelectedIndex);
+            }
         }
         private void Grain6BillTb_LostFocus(object sender, RoutedEventArgs e)
         {
-
+            if (Grain6BillTb.Text == "")
+            {
+                Grain6BillTb.Text = "0";
+            }
+            try
+            {
+                grainSixLabExt = RoundUpTo2SigFigs( Convert.ToDouble(Grain6LabExtTb.Text) );
+                grainSixBill = RoundUpTo2SigFigs( Convert.ToDouble(Grain6BillTb.Text) );
+                UpdateGrainAndFinalVariables();
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("'Bill' and 'Lab Extract' must be numeric values");
+                Grain6BillTb.Text = "0";
+            }
         }
 
         ///// Custom calculation methods
         //
-        public void UpdateGrainAndTotals(int grain)
-        {
-            switch (grain)
-            {
-                case 0:
-                    // Sugar
-                    SugarGristLbl.Text = GetGrist(sugarBill).ToString();
-                    sugarLitreDegrees = GetLitreDegrees(sugarLabExtract, sugarBill);
-                    break;
-                case 1:
-                    // Grain 1
-                    Grain1GristLbl.Text = GetGrist(grainOneBill).ToString();
-                    grainOneLitreDegrees = GetLitreDegrees(grainOneLabExt, grainOneBill);
-                    break;
-                case 2:
-                    // Grain 2
-                    Grain2GristLbl.Text = GetGrist(grainTwoBill).ToString();
-                    grainTwoLitreDegrees = GetLitreDegrees(grainTwoLabExt, grainTwoBill);
-                    break;
-                case 3:
-                    // Grain 3
-                    Grain3GristLbl.Text = GetGrist(grainThreeBill).ToString();
-                    grainThreeLitreDegrees = GetLitreDegrees(grainThreeLabExt, grainThreeBill);
-                    break;
-                case 4:
-                    // Grain 4
-                    Grain4GristLbl.Text = GetGrist(grainFourBill).ToString();
-                    grainFourLitreDegrees = GetLitreDegrees(grainFourLabExt, grainFourBill);
-                    break;
-                case 5:
-                    // Grain 5
-                    Grain5GristLbl.Text = GetGrist(grainFiveBill).ToString();
-                    grainFiveLitreDegrees = GetLitreDegrees(grainFiveLabExt, grainFiveBill);
-                    break;
-                case 6:
-                    // Grain 6
-                    Grain6GristLbl.Text = GetGrist(grainSixBill).ToString();
-                    grainSixLitreDegrees = GetLitreDegrees(grainSixLabExt, grainSixBill);
-                    break;
-                default:
-                    // Default
-                    MessageBox.Show("Error: Could not update Grain & Totals");
-                    break;
-            }
-
-            CalculateTotalLiquorBackVol();
-
-            UpdateGravityTextblocks();
-        }
-
         public string GetDefaultMaltLabExtract(int maltIndex)
         {
             return grainLabExtracts[maltIndex].ToString();
@@ -448,82 +682,143 @@ namespace MagicRock1.Views
 
         public double GetLitreDegrees(double inputLabExtract, double inputBill)
         {
-            return (inputLabExtract * inputBill);
+            return RoundUpTo2SigFigs( (inputLabExtract * inputBill) );
         }
 
         public double GetGrist(double inputBill)
         {
             double grist;
 
-            CalculateTotalMaltBill();
-
             if (totalMaltBill == 0)
             {
                 grist = 0;
-                MessageBox.Show("Add grain(s) will Bill values to display Grist percentages");
+                IgnoreValueUpdates = true;
+                MessageBox.Show("Add grain(s) with Bill values to display Grist percentages");
             }
             else
             {
+                IgnoreValueUpdates = false;
                 grist = (inputBill / totalMaltBill) * 100;
             }
-
-            return grist;
+            return RoundUpTo2SigFigs( grist );
         }
 
             public void CalculateTotalMaltBill()
             {
-                totalMaltBill = grainOneBill + grainTwoBill + grainThreeBill + grainFourBill + grainFiveBill + grainSixBill;
+                totalMaltBill = RoundUpTo2SigFigs( grainOneBill + grainTwoBill + grainThreeBill + 
+                                                   grainFourBill + grainFiveBill + grainSixBill );
             }
 
-        public void CalculateTotalLiquorBackVol()
+        public void UpdateGrainAndFinalVariables()
         {
-            CalculateEndOfBoilGravity();
+            // Updates: Grist & LitreDegrees for all present grains, and updates TotalMaltBill
+            CalculateTotalMaltBill();
+            
+            if (Convert.ToDouble(SugarBillTb.Text) > 0)
+                SugarGristLbl.Text = GetGrist(sugarBill).ToString();
+                sugarLitreDegrees = GetLitreDegrees(sugarLabExtract, sugarBill);
+            if (Grain1LP.SelectedIndex > 0)
+                Grain1GristLbl.Text = GetGrist(grainOneBill).ToString();
+                grainOneLitreDegrees = GetLitreDegrees(grainOneLabExt, grainOneBill);
+            if (Grain2LP.SelectedIndex > 0)
+                Grain2GristLbl.Text = GetGrist(grainTwoBill).ToString();
+                grainTwoLitreDegrees = GetLitreDegrees(grainTwoLabExt, grainTwoBill);
+            if (Grain3LP.SelectedIndex > 0)
+                Grain3GristLbl.Text = GetGrist(grainThreeBill).ToString();
+                grainThreeLitreDegrees = GetLitreDegrees(grainThreeLabExt, grainThreeBill);
+            if (Grain4LP.SelectedIndex > 0)
+                Grain4GristLbl.Text = GetGrist(grainFourBill).ToString();
+                grainFourLitreDegrees = GetLitreDegrees(grainFourLabExt, grainFourBill);
+            if (Grain5LP.SelectedIndex > 0)
+                Grain5GristLbl.Text = GetGrist(grainFiveBill).ToString();
+                grainFiveLitreDegrees = GetLitreDegrees(grainFiveLabExt, grainFiveBill);
+            if (Grain6LP.SelectedIndex > 0)
+                Grain6GristLbl.Text = GetGrist(grainSixBill).ToString();
+                grainSixLitreDegrees = GetLitreDegrees(grainSixLabExt, grainSixBill);
 
-            totalLiquorBackVol = (volumeInFV * (endOfBoilGravity - 1000)) / ((targetOG - 1000) - volumeInFV);
+            if (!IgnoreValueUpdates) // i.e. If TotalMaltBill != 0
+            {
+                // Updates: TotalLitreDegrees, PotentialGravity, GravityWithEfficiency, 
+                //          EndVolumeInCopper, VolumeInFV, EndOfBoilGravity, TotalLiquorBackVol
+                UpdateFinalVariablesAndDisplayGravities();
+            }
         }
 
-            public void CalculateEndOfBoilGravity()
-            {
-                CalculateGravityWithEfficiency();
-                CalculateVolumeInFV();
-
-                endOfBoilGravity = (((startBoil * (gravityWithEfficiency - 1000)) / (endVolumeInCopper)) + 1000);
-            }
-
-                public void CalculateGravityWithEfficiency()
-                {
-                    CalculatePotentialGravity();
-
-                    gravityWithEfficiency = (potentialGravity - 1000) * (mashEfficiency / 100) + 1000 + (sugarLitreDegrees / startBoil);
-                }
-
-                    public void CalculatePotentialGravity()
-                    {
-                        CalculateTotalLitreDegrees();
-                        potentialGravity = (totalLitreDegrees / startBoil) + 1000;
-                    }
-
-                        public void CalculateTotalLitreDegrees()
-                        {
-                            totalLitreDegrees = grainOneLitreDegrees + grainTwoLitreDegrees + grainThreeLitreDegrees +
-                                                grainFourLitreDegrees + grainFiveLitreDegrees + grainSixLitreDegrees;
-                        }
-
-                public void CalculateVolumeInFV()
-                {
-                    CalculateEndVolumeInCopper();
-                    volumeInFV = ((endVolumeInCopper - (0.04 * endVolumeInCopper)) - 1.5);
-                }
-
-                    public void CalculateEndVolumeInCopper()
-                    {
-                        endVolumeInCopper = startBoil - (startBoil * 0.045);
-                    }
-
-        public void UpdateGravityTextblocks()
+        public void UpdateFinalVariablesAndDisplayGravities()
         {
+            CalculateTotalLiquorBackVol();
+
             PotentialGravityTb.Text = potentialGravity.ToString();
             GravityWithEfficiencyTb.Text = gravityWithEfficiency.ToString();
+
+            MessageBox.Show("Target OG:\t\t" + targetOG + "\n" +
+                            "Start Boil:\t\t" + startBoil+ "\n" +
+                            "Efficiency of Mash:\t" + mashEfficiency + "\n\n" + 
+                            
+                            "Total Litre Degrees:\t" + totalLitreDegrees + "\n" + 
+                            "Total Malt Bill:\t\t" + totalMaltBill + "\n" +
+                            "End of Boil Gravity:\t" + endOfBoilGravity + "\n" + 
+                            "Total Liquor Back Vol:\t" + totalLiquorBackVol + "\n" + 
+                            "Volume In FV:\t\t" + volumeInFV + "\n" +
+                            "End Volume In Copper:\t" + endVolumeInCopper);
+        }
+
+            public void CalculateTotalLiquorBackVol()
+            {
+                CalculateEndOfBoilGravity();
+
+                // GETS SLIGHTLY DIFFERENT (LOWER) VALUE TO SPREADSHEET, BUT WAS TESTED TO BE MATHEMATICALLY SOUND (???)
+                totalLiquorBackVol = RoundUpTo2SigFigs( (volumeInFV * (endOfBoilGravity - 1000) / (targetOG - 1000)) - volumeInFV );
+            }
+
+                public void CalculateEndOfBoilGravity()
+                {
+                    CalculateGravityWithEfficiency();
+                    CalculateVolumeInFV();
+
+                    endOfBoilGravity = RoundUpTo1SigFig( (((startBoil * (gravityWithEfficiency - 1000)) / (endVolumeInCopper)) + 1000) );
+                }
+
+                    public void CalculateGravityWithEfficiency()
+                    {
+                        CalculatePotentialGravity();
+
+                        gravityWithEfficiency = RoundUpTo2SigFigs( (potentialGravity - 1000) * (mashEfficiency / 100) +
+                                                                   1000 + (sugarLitreDegrees / startBoil) );
+                    }
+
+                        public void CalculatePotentialGravity()
+                        {
+                            CalculateTotalLitreDegrees();
+                            potentialGravity = RoundUpTo2SigFigs( (totalLitreDegrees / startBoil) + 1000 );
+                        }
+
+                            public void CalculateTotalLitreDegrees()
+                            {
+                                totalLitreDegrees = RoundUpTo2SigFigs( grainOneLitreDegrees + grainTwoLitreDegrees + 
+                                                    grainThreeLitreDegrees + grainFourLitreDegrees + 
+                                                    grainFiveLitreDegrees + grainSixLitreDegrees );
+                            }
+
+                    public void CalculateVolumeInFV()
+                    {
+                        CalculateEndVolumeInCopper();
+                        volumeInFV = RoundUpTo2SigFigs( ((endVolumeInCopper - (0.04 * endVolumeInCopper)) - 1.5) );
+                    }
+
+                        public void CalculateEndVolumeInCopper()
+                        {
+                            endVolumeInCopper = RoundUpTo1SigFig( startBoil - (startBoil * 0.045) );
+                        }
+
+        public double RoundUpTo2SigFigs(double value)
+        {
+            return Math.Round(value, 2, MidpointRounding.AwayFromZero);
+        }
+
+        public double RoundUpTo1SigFig(double value)
+        {
+            return Math.Round(value, 1, MidpointRounding.AwayFromZero);
         }
 
         ///// Help messages
@@ -538,7 +833,7 @@ namespace MagicRock1.Views
             MessageBox.Show("> TBC");
         }
 
-        private void SugarNameCoverup_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        /*private void SugarNameCoverup_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             MessageBox.Show("Sugar cannot be changed. Leave Bill at '0' if not used in Brew");
         }
@@ -546,6 +841,26 @@ namespace MagicRock1.Views
         private void SugarLabExtCoverup_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             MessageBox.Show("Sugar cannot be changed. Leave Bill at '0' if not used in Brew");
+        }*/
+
+        /*private void startProgressIndicator(string progressText)
+        {
+            ProgressIndicator currentProgressIndicator = new ProgressIndicator()
+            {
+                IsVisible = true,
+                IsIndeterminate = true,
+                Text = progressText
+            };
+            SystemTray.SetProgressIndicator(this, currentProgressIndicator);
         }
+
+        private void stopProgressIndicator()
+        {
+            ProgressIndicator currentProgressIndicator = SystemTray.GetProgressIndicator(this);
+            if (currentProgressIndicator != null)
+            {
+                currentProgressIndicator.IsVisible = false;
+            }
+        }*/
     }
 }

@@ -14,6 +14,8 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait"  Orientation="Portrait"
     shell:SystemTray.IsVisible="True">
+    <!--DataContext="{StaticResource ProgIndViewModel}"
+    shell:SystemTray.ProgressIndicator="{Binding ProgressIndicator}">-->
 
     <Grid x:Name="LayoutRoot">
         <Grid.Background>
@@ -56,12 +58,12 @@
                     <TextBlock x:Name="MaltLbl" Text="Grain" Margin="12,45,0,0" Width="50" HorizontalAlignment="Left" VerticalAlignment="Top" />
                     <TextBlock x:Name="LabExtLbl" Text="Lab ext." Margin="276,45,0,0" Width="67" HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Center" />
                     <TextBlock x:Name="BillLbl" Text="Bill (kg)" Margin="363,45,0,0" Width="71" HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Center" />
-                    <TextBlock x:Name="GristLbl" Text="Grist %" Margin="201,45,0,0" Width="63" HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Center" Tap="GristLbl_Tap" />
+                    <TextBlock x:Name="GristLbl" Text="Grist %" Margin="201,45,0,0" Width="63" HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Center" />
 
                     <!--Grain Sugar-->
-                    <TextBox x:Name="SugarNameLbl" Margin="0,63,0,0" Padding="2,2,0,0" Text="Sugar" FontSize="22" LineHeight="6" Width="200" Height="70" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="Black" />
+                    <TextBox x:Name="SugarNameLbl" IsReadOnly="True" Style="{StaticResource ReadOnlyBlackTb}" Margin="0,63,0,0" Padding="2,2,0,0" Text="Sugar" FontSize="22" LineHeight="6" Width="200" Height="70" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="Black" />
                     <TextBlock x:Name="SugarGristLbl" Margin="192,75,0,0" Padding="0,1,0,0" Text="0" Height="46" Width="80" FontSize="30" TextAlignment="Center" LineHeight="6" VerticalAlignment="Top" HorizontalAlignment="Left" />
-                    <TextBox x:Name="SugarLabExtLbl" Margin="264,63,0,0" Padding="0,1,0,0" Text="340.0" Height="70" Width="102" FontSize="24" TextAlignment="Center" LineHeight="6" VerticalAlignment="Top" HorizontalAlignment="Left"   />
+                    <TextBox x:Name="SugarLabExtLbl" IsReadOnly="True" Style="{StaticResource ReadOnlyBlackTb}" Margin="264,63,0,0" Padding="0,1,0,0" Text="340.0" Height="70" Width="102" FontSize="24" TextAlignment="Center" LineHeight="6" VerticalAlignment="Top" HorizontalAlignment="Left"   />
                     <TextBox x:Name="SugarBillTb" Margin="353,63,0,0" Text="0" Height="70" Width="102" TextAlignment="Center" InputScope="Number" VerticalAlignment="Top" FontSize="24" LostFocus="SugarBillTb_LostFocus" />
 
                     <!--Grain 1-->
@@ -71,7 +73,7 @@
                         </toolkit:ListPickerItem>-->
                         <toolkit:ListPicker.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock FontSize="22" Margin="-3,2,-3,0" />
+                                <TextBlock Text="{Binding}" FontSize="22" Margin="-3,2,-3,0" />
                             </DataTemplate>
                         </toolkit:ListPicker.ItemTemplate>
                         <toolkit:ListPicker.FullModeItemTemplate>
@@ -94,7 +96,7 @@
                         </toolkit:ListPickerItem>-->
                         <toolkit:ListPicker.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock FontSize="22" Margin="-3,2,-3,0" />
+                                <TextBlock Text="{Binding}" FontSize="22" Margin="-3,2,-3,0" />
                             </DataTemplate>
                         </toolkit:ListPicker.ItemTemplate>
                         <toolkit:ListPicker.FullModeItemTemplate>
@@ -117,7 +119,7 @@
                         </toolkit:ListPickerItem>-->
                         <toolkit:ListPicker.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock FontSize="22" Margin="-3,2,-3,0" />
+                                <TextBlock Text="{Binding}" FontSize="22" Margin="-3,2,-3,0" />
                             </DataTemplate>
                         </toolkit:ListPicker.ItemTemplate>
                         <toolkit:ListPicker.FullModeItemTemplate>
@@ -140,7 +142,7 @@
                         </toolkit:ListPickerItem>-->
                         <toolkit:ListPicker.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock FontSize="22" Margin="-3,2,-3,0" />
+                                <TextBlock Text="{Binding}" FontSize="22" Margin="-3,2,-3,0" />
                             </DataTemplate>
                         </toolkit:ListPicker.ItemTemplate>
                         <toolkit:ListPicker.FullModeItemTemplate>
@@ -163,7 +165,7 @@
                         </toolkit:ListPickerItem>-->
                         <toolkit:ListPicker.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock FontSize="22" Margin="-3,2,-3,0" />
+                                <TextBlock Text="{Binding}" FontSize="22" Margin="-3,2,-3,0" />
                             </DataTemplate>
                         </toolkit:ListPicker.ItemTemplate>
                         <toolkit:ListPicker.FullModeItemTemplate>
@@ -186,7 +188,7 @@
                         </toolkit:ListPickerItem>-->
                         <toolkit:ListPicker.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock FontSize="22" Margin="-3,2,-3,0" />
+                                <TextBlock Text="{Binding}" FontSize="22" Margin="-3,2,-3,0" />
                             </DataTemplate>
                         </toolkit:ListPicker.ItemTemplate>
                         <toolkit:ListPicker.FullModeItemTemplate>
@@ -206,9 +208,8 @@
                     <TextBlock x:Name="PotentialGravityTb" Text="" Margin="45,483,291,75" Foreground="White" TextAlignment="Center" VerticalAlignment="Center" FontSize="35" Width="120" Height="45" />
                     <TextBlock x:Name="GravityWithEfficiencyLbl" Text="Gravity with Efficiency:" Margin="223,463,0,0" Width="198" HorizontalAlignment="Left" VerticalAlignment="Top" Height="29" TextWrapping="Wrap" TextAlignment="Center" />
                     <TextBlock x:Name="GravityWithEfficiencyTb" Text="" Margin="263,483,73,75" Foreground="White" TextAlignment="Center" VerticalAlignment="Center" FontSize="35" Width="120" Height="45" />
-
-                    <Rectangle x:Name="SugarNameCoverup" Margin="11,74,267,481" MouseLeftButtonDown="SugarNameCoverup_MouseLeftButtonDown" />
-                    <Rectangle x:Name="SugarLabExtCoverup" Margin="275,74,101,481" MouseLeftButtonDown="SugarLabExtCoverup_MouseLeftButtonDown" />
+                    <!--<Rectangle x:Name="SugarNameCoverup" Margin="11,74,267,481" MouseLeftButtonDown="SugarNameCoverup_MouseLeftButtonDown" />
+                    <Rectangle x:Name="SugarLabExtCoverup" Margin="275,74,101,481" MouseLeftButtonDown="SugarLabExtCoverup_MouseLeftButtonDown" />-->
 
                     <!--PREVIOUS XAML UI CODE-->
 

@@ -112,6 +112,7 @@
     <Compile Include="ViewModels\ItemViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MaltViewModel.cs" />
+    <Compile Include="ViewModels\ProgIndViewModel.cs" />
     <Compile Include="Views\Brew.xaml.cs">
       <DependentUpon>Brew.xaml</DependentUpon>
     </Compile>
