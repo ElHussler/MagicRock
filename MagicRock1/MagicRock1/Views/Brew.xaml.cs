@@ -22,24 +22,21 @@ namespace MagicRock1.Views
         
         //private GrainsViewModel gvm;  // NOT IN USE
 
-        // Grain & sugar data
+        // 'Malts' Grain Data
         string[] grainNames = new string[26];
         double[] grainLabExtracts = new double[26];
         double sugarLabExtract = 340.0;
 
-        // User-input 'Malts' fields
+        // 'Malts' User Inputs
         double targetOG = 0;
         double startBoil = 0;
         double mashEfficiency = 0;
-
-        // User-input 'Malts' fields
-        double grainOneLabExt = 0;
-        double grainTwoLabExt = 0;
-        double grainThreeLabExt = 0;
-        double grainFourLabExt = 0;
-        double grainFiveLabExt = 0;
-        double grainSixLabExt = 0;
-
+        double grainOneLabExt = 0;      // (Default to hardcoded values)
+        double grainTwoLabExt = 0;      //  <-
+        double grainThreeLabExt = 0;    //  <-
+        double grainFourLabExt = 0;     //  <-
+        double grainFiveLabExt = 0;     //  <-
+        double grainSixLabExt = 0;      //  <-
         double grainOneBill = 0;
         double grainTwoBill = 0;
         double grainThreeBill = 0;
@@ -48,7 +45,7 @@ namespace MagicRock1.Views
         double grainSixBill = 0;
         double sugarBill = 0;
 
-        // Calculated based on user-input values
+        // 'Malts' Calculated variables
         double grainOneLitreDegrees = 0;
         double grainTwoLitreDegrees = 0;
         double grainThreeLitreDegrees = 0;
@@ -56,27 +53,37 @@ namespace MagicRock1.Views
         double grainFiveLitreDegrees = 0;
         double grainSixLitreDegrees = 0;
         double sugarLitreDegrees = 0;
-
-        // Vary depending on number and quantity of malts used
-        double totalMaltBill = 0;
         double totalLitreDegrees = 0;
 
-        // Needed to calculate below values
         double volumeInFV = 0;
         double endVolumeInCopper = 0;
 
-        // Calculated on 'Malts', passed for use on 'Mash'
         double endOfBoilGravity = 0;
         double totalLiquorBackVol = 0;
 
-        // Dynamic 'Malts' variables
         double potentialGravity = 0;
         double gravityWithEfficiency = 0;
 
-        // Used to select appropriate Listpicker actions
-        private bool ignoreListPickerSelectionChanged = true;
+        // 'Malts' (calculated & used)
+        // 'Mash'  (used)
+        double totalMaltBill = 0;
 
-        ///// Set up all pages' XAML components, Load Grain data from malts.txt file in I.S.
+        // 'Mash' User Inputs
+        double maltTemp = 0;
+        double liquorGrainRatio = 0;
+        double mashTemp = 0;
+
+        // 'Mash' Calculated variables
+        double mashLiquorVol = 0;
+        double dipFromTopOfMt = 0;
+        double strikeTemp = 0;
+        double mashSize = 0;
+
+        // Functionality Flags
+        private bool ignoreListPickerSelectionChanged = true;
+        private bool requiredMaltToMashVariablesGenerated = false;
+
+        ///// Set up XAML components, Load Grain data from IS malts.txt
         //
         public Brew()
         {
@@ -222,6 +229,36 @@ namespace MagicRock1.Views
             MaltSixLP.ItemsSource = grainNames;
         }*/
         // NOT IN USE
+
+        ///// User Pivot Page navigation management
+        private void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Contains(PivotMash))
+            {
+                TotalMaltBillTb.Text = totalMaltBill.ToString();
+
+                if (requiredMaltToMashVariablesGenerated)
+                {
+                    TotalMaltBillTb.Text = totalMaltBill.ToString();
+                }
+                else
+                {
+                    MessageBox.Show("Required values from 'Malts' not generated, please return and check your inputs");
+                }
+            }
+        }
+        
+        ///// AppBar Events
+        //
+        private void AppBarHelpBtn_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("> TBC");
+        }
+
+        private void AppBarNextBtn_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("> TBC");
+        }
 
         ///// --- MALTS --- UI Control Events for gathering required input data
         //
@@ -786,36 +823,43 @@ namespace MagicRock1.Views
 
         public void UpdateGrainAndFinalVariables()
         {
-            // Updates: TotalMaltBill and all current Grist & LitreDegrees values
-            CalculateTotalMaltBill();
-            
-            if (Convert.ToDouble(SugarBillTb.Text) > 0)
-                SugarGristLbl.Text = GetGrist(sugarBill).ToString();
-                sugarLitreDegrees = GetLitreDegrees(sugarLabExtract, sugarBill);
-            if (Grain1LP.SelectedIndex > 0)
-                Grain1GristLbl.Text = GetGrist(grainOneBill).ToString();
-                grainOneLitreDegrees = GetLitreDegrees(grainOneLabExt, grainOneBill);
-            if (Grain2LP.SelectedIndex > 0)
-                Grain2GristLbl.Text = GetGrist(grainTwoBill).ToString();
-                grainTwoLitreDegrees = GetLitreDegrees(grainTwoLabExt, grainTwoBill);
-            if (Grain3LP.SelectedIndex > 0)
-                Grain3GristLbl.Text = GetGrist(grainThreeBill).ToString();
-                grainThreeLitreDegrees = GetLitreDegrees(grainThreeLabExt, grainThreeBill);
-            if (Grain4LP.SelectedIndex > 0)
-                Grain4GristLbl.Text = GetGrist(grainFourBill).ToString();
-                grainFourLitreDegrees = GetLitreDegrees(grainFourLabExt, grainFourBill);
-            if (Grain5LP.SelectedIndex > 0)
-                Grain5GristLbl.Text = GetGrist(grainFiveBill).ToString();
-                grainFiveLitreDegrees = GetLitreDegrees(grainFiveLabExt, grainFiveBill);
-            if (Grain6LP.SelectedIndex > 0)
-                Grain6GristLbl.Text = GetGrist(grainSixBill).ToString();
-                grainSixLitreDegrees = GetLitreDegrees(grainSixLabExt, grainSixBill);
-
-            if (totalMaltBill != 0)
+            if (targetOG != 0 && startBoil != 0 && mashEfficiency != 0)
             {
-                // Updates: TotalLitreDegrees, PotentialGravity, GravityWithEfficiency,
-                //          EndVolumeInCopper, VolumeInFV, EndOfBoilGravity, TotalLiquorBackVol
-                UpdateFinalVariablesAndDisplayGravities();
+                // Updates: TotalMaltBill and all current Grist & LitreDegrees values
+                CalculateTotalMaltBill();
+
+                if (Convert.ToDouble(SugarBillTb.Text) > 0)
+                    SugarGristLbl.Text = GetGrist(sugarBill).ToString();
+                    sugarLitreDegrees = GetLitreDegrees(sugarLabExtract, sugarBill);
+                if (Grain1LP.SelectedIndex > 0)
+                    Grain1GristLbl.Text = GetGrist(grainOneBill).ToString();
+                    grainOneLitreDegrees = GetLitreDegrees(grainOneLabExt, grainOneBill);
+                if (Grain2LP.SelectedIndex > 0)
+                    Grain2GristLbl.Text = GetGrist(grainTwoBill).ToString();
+                    grainTwoLitreDegrees = GetLitreDegrees(grainTwoLabExt, grainTwoBill);
+                if (Grain3LP.SelectedIndex > 0)
+                    Grain3GristLbl.Text = GetGrist(grainThreeBill).ToString();
+                    grainThreeLitreDegrees = GetLitreDegrees(grainThreeLabExt, grainThreeBill);
+                if (Grain4LP.SelectedIndex > 0)
+                    Grain4GristLbl.Text = GetGrist(grainFourBill).ToString();
+                    grainFourLitreDegrees = GetLitreDegrees(grainFourLabExt, grainFourBill);
+                if (Grain5LP.SelectedIndex > 0)
+                    Grain5GristLbl.Text = GetGrist(grainFiveBill).ToString();
+                    grainFiveLitreDegrees = GetLitreDegrees(grainFiveLabExt, grainFiveBill);
+                if (Grain6LP.SelectedIndex > 0)
+                    Grain6GristLbl.Text = GetGrist(grainSixBill).ToString();
+                    grainSixLitreDegrees = GetLitreDegrees(grainSixLabExt, grainSixBill);
+
+                if (totalMaltBill != 0)
+                {
+                    // Updates: TotalLitreDegrees, PotentialGravity, GravityWithEfficiency,
+                    //          EndVolumeInCopper, VolumeInFV, EndOfBoilGravity, TotalLiquorBackVol
+                    UpdateFinalVariablesAndDisplayGravities();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Add Target OG, Start Boil & Mash Efficiency values to see this Brew's Grain and Gravity data");
             }
         }
 
@@ -863,6 +907,8 @@ namespace MagicRock1.Views
                             "Total Liquor Back Vol:\t" + totalLiquorBackVol + "\n" + 
                             "Volume In FV:\t\t" + volumeInFV + "\n" +
                             "End Volume In Copper:\t" + endVolumeInCopper);
+
+            requiredMaltToMashVariablesGenerated = true;
         }
 
             public void CalculateTotalLiquorBackVol()
@@ -923,36 +969,141 @@ namespace MagicRock1.Views
             return Math.Round(value, 1, MidpointRounding.AwayFromZero);
         }
 
-        ///// Help messages
+        ///// --- MASH --- UI Control Events for gathering required input data
         //
-        private void AppBarHelpBtn_Click(object sender, EventArgs e)
+        private void MaltTempTb_GotFocus(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("> TBC");
-        }
-
-        private void AppBarNextBtn_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("> TBC");
-        }
-
-        /*private void startProgressIndicator(string progressText)
-        {
-            ProgressIndicator currentProgressIndicator = new ProgressIndicator()
+            if (MaltTempTb.Text == "0")
             {
-                IsVisible = true,
-                IsIndeterminate = true,
-                Text = progressText
-            };
-            SystemTray.SetProgressIndicator(this, currentProgressIndicator);
-        }
-
-        private void stopProgressIndicator()
-        {
-            ProgressIndicator currentProgressIndicator = SystemTray.GetProgressIndicator(this);
-            if (currentProgressIndicator != null)
-            {
-                currentProgressIndicator.IsVisible = false;
+                MaltTempTb.Text = "";
             }
-        }*/
+        }
+        private void MaltTempTb_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (MaltTempTb.Text == "")
+            {
+                MaltTempTb.Text = "0";
+            }
+            else
+            {
+                try
+                {
+                    maltTemp = RoundUpTo2SigFigs(Convert.ToDouble(MaltTempTb.Text));
+                    if (maltTemp != 0 && liquorGrainRatio != 0)
+                    {
+                        UpdateAndDisplayFinalMashVariables();
+                    }
+                }
+                catch (FormatException)
+                {
+                    MessageBox.Show("Malt Temp must be a numeric value");
+                    MaltTempTb.Text = "0";
+                }
+            }
+        }
+        private void LiquorGrainRatioTb_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (LiquorGrainRatioTb.Text == "0")
+            {
+                LiquorGrainRatioTb.Text = "";
+            }
+        }
+        private void LiquorGrainRatioTb_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (LiquorGrainRatioTb.Text == "")
+            {
+                LiquorGrainRatioTb.Text = "0";
+            }
+            else
+            {
+                try
+                {
+                    liquorGrainRatio = RoundUpTo2SigFigs(Convert.ToDouble(LiquorGrainRatioTb.Text));
+                    if (maltTemp != 0 && liquorGrainRatio != 0)
+                    {
+                        UpdateAndDisplayFinalMashVariables();
+                    }
+                }
+                catch (FormatException)
+                {
+                    MessageBox.Show("Liquor-Grain Ratio must be a numeric value");
+                    LiquorGrainRatioTb.Text = "0";
+                }
+            }
+        }
+        private void MashTempTb_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (MashTempTb.Text == "0")
+            {
+                MashTempTb.Text = "";
+            }
+        }
+        private void MashTempTb_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (MashTempTb.Text == "")
+            {
+                MashTempTb.Text = "0";
+            }
+            else
+            {
+                try
+                {
+                    mashTemp = RoundUpTo2SigFigs(Convert.ToDouble(MashTempTb.Text));
+                    if (maltTemp != 0 && liquorGrainRatio != 0)
+                    {
+                        UpdateAndDisplayFinalMashVariables();
+                    }
+                }
+                catch (FormatException)
+                {
+                    MessageBox.Show("Mash Temp must be a numeric value");
+                    MashTempTb.Text = "0";
+                }
+            }
+        }
+
+        ///// --- MASH --- Custom calculation methods
+        //
+        public void UpdateAndDisplayFinalMashVariables()
+        {
+            CalculateDipFromTopOfMt();
+            MashLiquorVolumeTb.Text = mashLiquorVol.ToString();
+            DipFromTopOfMtTb.Text = dipFromTopOfMt.ToString();
+
+            if (mashTemp != 0)
+            {
+                CalculateStrikeTemp();
+                CalculateMashSize();
+                StrikeTempTb.Text = strikeTemp.ToString();
+                MashSizeTb.Text = mashSize.ToString();
+            }
+        }
+
+            public void CalculateDipFromTopOfMt()
+            {
+                CalculateMashLiquorVolume();
+
+                double hardcodedValue1 = 45;
+                double hardcodedValue2 = 27;
+                double hardcodedValue3 = 0.25;
+                double dipInnerCalculationResult = (3.1415 * hardcodedValue2 * hardcodedValue2 * hardcodedValue3);
+
+                dipFromTopOfMt = (hardcodedValue1 - ((mashLiquorVol * 1000) / dipInnerCalculationResult));
+            }
+
+                public void CalculateMashLiquorVolume()
+                {
+                    mashLiquorVol = RoundUpTo2SigFigs(totalMaltBill * liquorGrainRatio);
+                }
+            
+            public void CalculateStrikeTemp()
+            {
+                strikeTemp = RoundUpTo1SigFig( (((1525 * totalMaltBill * (mashTemp - maltTemp)) / (4184 * mashLiquorVol)) + mashTemp) );
+            }
+
+            public void CalculateMashSize()
+            {
+                mashSize = RoundUpTo1SigFig( ((totalMaltBill * 0.67) + mashLiquorVol + 1) );
+            }
     }
 }

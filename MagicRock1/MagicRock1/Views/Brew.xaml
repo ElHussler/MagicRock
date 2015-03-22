@@ -44,7 +44,7 @@
          -->
 
         <!--Pivot Control-->
-        <phone:Pivot Title="Crafting Table">
+        <phone:Pivot x:Name="Pivot" Title="Crafting Table" SelectionChanged="Pivot_SelectionChanged">
             <!--Pivot item one-->
             <phone:PivotItem x:Name="PivotMalts" Header="Malts">
                 <Grid>
@@ -55,10 +55,10 @@
                     <TextBlock x:Name="MashEfficiencyLbl" Text="Mash Efficiency:" Margin="306,-36,0,0" Width="140" HorizontalAlignment="Left" VerticalAlignment="Top" />
                     <TextBox x:Name="MashEfficiencyTb" Margin="296,-18,0,0" Width="160" Height="70" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="24" TextAlignment="Center" InputScope="Number" LostFocus="MashEfficiencyTb_LostFocus" Text="0" GotFocus="MashEfficiencyTb_GotFocus" />
 
-                    <TextBlock x:Name="MaltLbl" Text="Grain" Margin="12,45,0,0" Width="50" HorizontalAlignment="Left" VerticalAlignment="Top" />
-                    <TextBlock x:Name="LabExtLbl" Text="Lab ext." Margin="276,45,0,0" Width="67" HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Center" />
-                    <TextBlock x:Name="BillLbl" Text="Bill (kg)" Margin="363,45,0,0" Width="71" HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Center" />
+                    <TextBlock x:Name="GrainLbl" Text="Grain" Margin="12,45,0,0" Width="50" HorizontalAlignment="Left" VerticalAlignment="Top" />
                     <TextBlock x:Name="GristLbl" Text="Grist %" Margin="201,45,0,0" Width="63" HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Center" />
+                    <TextBlock x:Name="LabExtLbl" Text="Lab Ext." Margin="276,45,0,0" Width="67" HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Center" />
+                    <TextBlock x:Name="BillLbl" Text="Bill (kg)" Margin="363,45,0,0" Width="71" HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Center" />
 
                     <!--Grain Sugar-->
                     <TextBox x:Name="SugarNameLbl" IsReadOnly="True" Style="{StaticResource ReadOnlyBlackTb}" Margin="0,63,0,0" Padding="2,2,0,0" Text="Sugar" FontSize="22" LineHeight="6" Width="200" Height="70" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="Black" />
@@ -302,7 +302,27 @@
 
             <!--Pivot item two-->
             <phone:PivotItem x:Name="PivotMash" Header="Mash">
+                <Grid>
+                    <TextBlock x:Name="MaltTempLbl" Text="Malt Temp (°c) :" Margin="16,10,0,0" Width="265" HorizontalAlignment="Left" VerticalAlignment="Top" Height="43" FontSize="30" TextAlignment="Right" />
+                    <TextBox x:Name="MaltTempTb" Margin="0,0,14,0" Text="0" Height="70" TextAlignment="Center" InputScope="Number" VerticalAlignment="Top" FontSize="24" HorizontalAlignment="Right" Width="135" GotFocus="MaltTempTb_GotFocus" LostFocus="MaltTempTb_LostFocus" />
+                    <TextBlock x:Name="TotalMaltBillLbl" Text="Total Malt Bill (kg) :" Margin="16,70,0,0" Width="265" HorizontalAlignment="Left" VerticalAlignment="Top" Height="43" FontSize="30" TextAlignment="Right" />
+                    <TextBox x:Name="TotalMaltBillTb" Text="0" IsReadOnly="True" Style="{StaticResource ReadOnlyBlackTb}" Margin="0,60,14,0" Padding="0,1,0,0" Height="70" FontSize="24" TextAlignment="Center" LineHeight="6" VerticalAlignment="Top" HorizontalAlignment="Right" Width="135" />
+                    <TextBlock x:Name="LiquorGrainRatioLbl" Text="Liquor-Grain Ratio :" Margin="16,130,0,0" Width="265" HorizontalAlignment="Left" VerticalAlignment="Top" Height="43" FontSize="30" TextAlignment="Right" />
+                    <TextBox x:Name="LiquorGrainRatioTb" Margin="0,120,14,0" Text="0" Height="70" TextAlignment="Center" InputScope="Number" VerticalAlignment="Top" FontSize="24" HorizontalAlignment="Right" Width="135" GotFocus="LiquorGrainRatioTb_GotFocus" LostFocus="LiquorGrainRatioTb_LostFocus" />
 
+                    <TextBlock x:Name="MashLiquorVolumeLbl" Text="Mash Liquor Vol :" Margin="16,220,0,0" Width="265" HorizontalAlignment="Left" VerticalAlignment="Top" Height="43" TextWrapping="Wrap" FontSize="30" TextAlignment="Right"/>
+                    <TextBlock x:Name="MashLiquorVolumeTb" Margin="0,217,15,0" Foreground="White" TextAlignment="Center" VerticalAlignment="Top" FontSize="35" Height="52" Width="135" HorizontalAlignment="Right" />
+                    <TextBlock x:Name="DipFromTopOfMtLbl" Text="Dip from top of MT :" Margin="6,270,0,0" Width="275" HorizontalAlignment="Left" VerticalAlignment="Top" Height="43" TextWrapping="Wrap" FontSize="30" TextAlignment="Right" />
+                    <TextBlock x:Name="DipFromTopOfMtTb" Margin="0,267,14,0" Foreground="White" TextAlignment="Center" VerticalAlignment="Top" FontSize="35" Height="52" Width="135" HorizontalAlignment="Right" />
+
+                    <TextBlock x:Name="MashTempLbl" Text="Mash Temp (°c) :" Margin="16,350,0,0" Width="265" HorizontalAlignment="Left" VerticalAlignment="Top" Height="43" FontSize="30" TextAlignment="Right" />
+                    <TextBox x:Name="MashTempTb" Margin="0,340,14,0" Text="0" Height="70" TextAlignment="Center" InputScope="Number" VerticalAlignment="Top" FontSize="24" HorizontalAlignment="Right" Width="135" GotFocus="MashTempTb_GotFocus" LostFocus="MashTempTb_LostFocus" />
+                    <TextBlock x:Name="StrikeTempLbl" Text="Strike Temp (°c) :" Margin="16,406,0,0" Width="265" HorizontalAlignment="Left" VerticalAlignment="Top" Height="43" TextWrapping="Wrap" FontSize="30" TextAlignment="Right"/>
+                    <TextBlock x:Name="StrikeTempTb" Margin="0,404,15,0" Foreground="White" TextAlignment="Center" VerticalAlignment="Top" FontSize="35" Width="135" Height="52" HorizontalAlignment="Right" />
+                    <TextBlock x:Name="MashSizeLbl" Text="Mash Size (L) :" Margin="16,462,0,0" Width="265" HorizontalAlignment="Left" VerticalAlignment="Top" Height="43" TextWrapping="Wrap" FontSize="30" TextAlignment="Right" />
+                    <TextBlock x:Name="MashSizeTb" Margin="0,459,14,92" Foreground="White" TextAlignment="Center" VerticalAlignment="Center" FontSize="35" Height="52" Width="135" HorizontalAlignment="Right" />
+
+                </Grid>
             </phone:PivotItem>
 
             <!--Pivot item three-->
@@ -312,17 +332,7 @@
 
             <!--Pivot item four-->
             <phone:PivotItem x:Name="PivotGravity" Header="Gravity">
-                <!--Double line list no text wrapping
-                <phone:LongListSelector Margin="0,0,-12,0" ItemsSource="{Binding Items}">
-                    <phone:LongListSelector.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Margin="0,0,0,17">
-                                <TextBlock Text="{Binding LineOne}" TextWrapping="NoWrap" Margin="12,0,0,0" Style="{StaticResource PhoneTextExtraLargeStyle}"/>
-                                <TextBlock Text="{Binding LineThree}" TextWrapping="NoWrap" Margin="12,-6,0,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </phone:LongListSelector.ItemTemplate>
-                </phone:LongListSelector>-->
+
             </phone:PivotItem>
         </phone:Pivot>
 
