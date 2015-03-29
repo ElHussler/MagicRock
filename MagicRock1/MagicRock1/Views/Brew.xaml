@@ -205,98 +205,9 @@
                     <TextBox x:Name="Grain6BillTb" Margin="353,399,0,0" Height="70" Width="102" InputScope="Number" VerticalAlignment="Top" LostFocus="Grain6BillTb_LostFocus" FontSize="24" TextAlignment="Center" GotFocus="Grain6BillTb_GotFocus" />
 
                     <TextBlock x:Name="PotentialGravityLbl" Text="Potential Gravity:" Margin="28,463,0,0" Width="154" HorizontalAlignment="Left" VerticalAlignment="Top" Height="29" TextWrapping="Wrap" TextAlignment="Center"/>
-                    <TextBlock x:Name="PotentialGravityTb" Text="" Margin="45,483,291,75" Foreground="White" TextAlignment="Center" VerticalAlignment="Center" FontSize="35" Width="120" Height="45" />
+                    <TextBlock x:Name="PotentialGravityTb" Text="0" Margin="45,483,291,75" Foreground="White" TextAlignment="Center" VerticalAlignment="Center" FontSize="35" Width="120" Height="45" />
                     <TextBlock x:Name="GravityWithEfficiencyLbl" Text="Gravity with Efficiency:" Margin="223,463,0,0" Width="198" HorizontalAlignment="Left" VerticalAlignment="Top" Height="29" TextWrapping="Wrap" TextAlignment="Center" />
-                    <TextBlock x:Name="GravityWithEfficiencyTb" Text="" Margin="263,483,73,75" Foreground="White" TextAlignment="Center" VerticalAlignment="Center" FontSize="35" Width="120" Height="45" />
-                    <!--<Rectangle x:Name="SugarNameCoverup" Margin="11,74,267,481" MouseLeftButtonDown="SugarNameCoverup_MouseLeftButtonDown" />
-                    <Rectangle x:Name="SugarLabExtCoverup" Margin="275,74,101,481" MouseLeftButtonDown="SugarLabExtCoverup_MouseLeftButtonDown" />-->
-
-                    <!--PREVIOUS XAML UI CODE-->
-
-                    <!--MVVM controls-->
-                    <!--<views:GrainView x:Name="GrainViewSugar" Margin="0,71,0,0" Height="55" VerticalAlignment="Top" HorizontalAlignment="Left" />-->
-
-                    <!--<views:GrainView x:Name="GrainViewOne" Margin="8,126,93,0" Height="55" VerticalAlignment="Top"/>-->
-
-                    <!--<toolkit:ListPicker x:Name="MaltTwoLP" Margin="10,177,0,0" Width="176" Foreground="Black" Background="#BFFFFFFF" HorizontalAlignment="Left" ExpansionMode="FullScreenOnly" Height="63" VerticalAlignment="Top" Padding="0" BorderThickness="0" SelectionChanged="MaltTwoLP_SelectionChanged">
-                        <toolkit:ListPicker.FullModeItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding}" 
-                                           Margin="0 24 24 24"
-                                           TextWrapping="Wrap" 
-                                           Style="{StaticResource PhoneTextTitle2Style}" />
-                            </DataTemplate>
-                        </toolkit:ListPicker.FullModeItemTemplate>
-                    </toolkit:ListPicker>
-
-                    <TextBlock x:Name="MaltTwoGristLbl" Margin="192,186,0,0" Text="00.00" FontSize="30" TextAlignment="Center" LineHeight="6" Width="80" Height="45" VerticalAlignment="Top" HorizontalAlignment="Left" />
-                    <TextBox x:Name="MaltTwoLabExtTb" Margin="269,173,86,360" Height="70" InputScope="Number" />
-                    <TextBox x:Name="MaltTwoBillTb" Margin="355,173,0,0" Height="70" InputScope="Number" VerticalAlignment="Top" />
-                    <toolkit:ListPicker x:Name="MaltThreeLP" Margin="10,233,0,0" Width="176" Foreground="Black" Background="#BFFFFFFF" HorizontalAlignment="Left" ExpansionMode="FullScreenOnly" Height="63" VerticalAlignment="Top" Padding="0" BorderThickness="0" SelectionChanged="MaltThreeLP_SelectionChanged">
-                        <toolkit:ListPicker.FullModeItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding}" 
-                                           Margin="0 24 24 24"
-                                           TextWrapping="Wrap" 
-                                           Style="{StaticResource PhoneTextTitle2Style}" />
-                            </DataTemplate>
-                        </toolkit:ListPicker.FullModeItemTemplate>
-                    </toolkit:ListPicker>
-
-                    <views:GrainView x:Name="GrainViewThree" Margin="8,236,93,0" Height="55" VerticalAlignment="Top" />
-
-                    <TextBlock x:Name="MaltThreeGristLbl" Margin="192,241,0,0" Text="00.00" FontSize="30" TextAlignment="Center" LineHeight="6" Width="80" Height="45" VerticalAlignment="Top" HorizontalAlignment="Left" />
-                    <TextBox x:Name="MaltThreeLabExtTb" Margin="269,229,86,304" Height="70" InputScope="Number" />
-                    <TextBox x:Name="MaltThreeBillTb" Margin="355,228,0,0" Height="70" InputScope="Number" VerticalAlignment="Top" />
-                    <toolkit:ListPicker x:Name="MaltFourLP" Margin="10,289,0,0" Width="176" Foreground="Black" Background="#BFFFFFFF" HorizontalAlignment="Left" ExpansionMode="FullScreenOnly" Height="63" VerticalAlignment="Top" Padding="0" BorderThickness="0" SelectionChanged="MaltFourLP_SelectionChanged">
-                        <toolkit:ListPicker.FullModeItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding}" 
-                                           Margin="0 24 24 24"
-                                           TextWrapping="Wrap" 
-                                           Style="{StaticResource PhoneTextTitle2Style}" />
-                            </DataTemplate>
-                        </toolkit:ListPicker.FullModeItemTemplate>
-                    </toolkit:ListPicker>
-
-                    <views:GrainView x:Name="GrainViewFour" Margin="8,291,0,0" HorizontalAlignment="Left" Height="55" VerticalAlignment="Top" />
-                    <views:GrainView x:Name="GrainViewTwo" Margin="8,181,93,0" Height="55" VerticalAlignment="Top" />
-
-                    <TextBlock x:Name="MaltFourGristLbl" Margin="192,296,0,0" Text="00.00" FontSize="30" TextAlignment="Center" LineHeight="6" Width="80" Height="45" VerticalAlignment="Top" HorizontalAlignment="Left" />
-                    <TextBox x:Name="MaltFourLabExtTb" Margin="269,285,86,248" Height="70" InputScope="Number" />
-                    <TextBox x:Name="MaltFourBillTb" Margin="355,283,0,0" Height="70" InputScope="Number" VerticalAlignment="Top" />
-                    <toolkit:ListPicker x:Name="MaltFiveLP" Margin="10,345,0,0" Width="176" Foreground="Black" Background="#BFFFFFFF" HorizontalAlignment="Left" ExpansionMode="FullScreenOnly" Height="63" VerticalAlignment="Top" Padding="0" BorderThickness="0" SelectionChanged="MaltFiveLP_SelectionChanged">
-                        <toolkit:ListPicker.FullModeItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding}" 
-                                           Margin="0 24 24 24"
-                                           TextWrapping="Wrap" 
-                                           Style="{StaticResource PhoneTextTitle2Style}" />
-                            </DataTemplate>
-                        </toolkit:ListPicker.FullModeItemTemplate>
-                    </toolkit:ListPicker>
-
-                    <views:GrainView x:Name="GrainViewFive" Margin="8,346,0,0" Height="55" VerticalAlignment="Top" HorizontalAlignment="Left" />
-
-                    <TextBlock x:Name="MaltFiveGristLbl" Margin="192,351,0,0" Text="00.00" FontSize="30" TextAlignment="Center" LineHeight="6" Width="80" Height="45" VerticalAlignment="Top" HorizontalAlignment="Left" />
-                    <TextBox x:Name="MaltFiveLabExtTb" Margin="269,341,86,192" Height="70" InputScope="Number" />
-                    <TextBox x:Name="MaltFiveBillTb" Margin="355,338,0,0" Height="70" InputScope="Number" VerticalAlignment="Top" />
-                    <toolkit:ListPicker x:Name="MaltSixLP" Margin="10,401,0,0" Width="176" Foreground="Black" Background="#BFFFFFFF" HorizontalAlignment="Left" ExpansionMode="FullScreenOnly" Height="63" VerticalAlignment="Top" Padding="0" BorderThickness="0" SelectionChanged="MaltSixLP_SelectionChanged">
-                        <toolkit:ListPicker.FullModeItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding}" 
-                                           Margin="0 24 24 24"
-                                           TextWrapping="Wrap" 
-                                           Style="{StaticResource PhoneTextTitle2Style}" />
-                            </DataTemplate>
-                        </toolkit:ListPicker.FullModeItemTemplate>
-                    </toolkit:ListPicker>
-
-                    <views:GrainView x:Name="GrainViewSix" Margin="8,401,0,0" HorizontalAlignment="Left" Height="55" VerticalAlignment="Top" />
-
-                    <TextBlock x:Name="MaltSixGristLbl" Margin="192,406,0,0" Text="00.00" FontSize="30" TextAlignment="Center" LineHeight="6" Width="80" Height="45" VerticalAlignment="Top" HorizontalAlignment="Left" />
-                    <TextBox x:Name="MaltSixLabExtTb" Margin="269,397,86,136" Height="70" InputScope="Number" />
-                    <TextBox x:Name="MaltSixBillTb" Margin="355,393,0,0" Height="70" InputScope="Number" VerticalAlignment="Top" />-->
+                    <TextBlock x:Name="GravityWithEfficiencyTb" Text="0" Margin="263,483,73,75" Foreground="White" TextAlignment="Center" VerticalAlignment="Center" FontSize="35" Width="120" Height="45" />
                 </Grid>
             </phone:PivotItem>
 
@@ -311,28 +222,191 @@
                     <TextBox x:Name="LiquorGrainRatioTb" Margin="0,120,14,0" Text="0" Height="70" TextAlignment="Center" InputScope="Number" VerticalAlignment="Top" FontSize="24" HorizontalAlignment="Right" Width="135" GotFocus="LiquorGrainRatioTb_GotFocus" LostFocus="LiquorGrainRatioTb_LostFocus" />
 
                     <TextBlock x:Name="MashLiquorVolumeLbl" Text="Mash Liquor Vol :" Margin="16,220,0,0" Width="265" HorizontalAlignment="Left" VerticalAlignment="Top" Height="43" TextWrapping="Wrap" FontSize="30" TextAlignment="Right"/>
-                    <TextBlock x:Name="MashLiquorVolumeTb" Margin="0,217,15,0" Foreground="White" TextAlignment="Center" VerticalAlignment="Top" FontSize="35" Height="52" Width="135" HorizontalAlignment="Right" />
+                    <TextBlock x:Name="MashLiquorVolumeTb" Text="0" Margin="0,217,14,0" Foreground="White" TextAlignment="Center" VerticalAlignment="Top" FontSize="35" Height="52" Width="135" HorizontalAlignment="Right" />
                     <TextBlock x:Name="DipFromTopOfMtLbl" Text="Dip from top of MT :" Margin="6,270,0,0" Width="275" HorizontalAlignment="Left" VerticalAlignment="Top" Height="43" TextWrapping="Wrap" FontSize="30" TextAlignment="Right" />
-                    <TextBlock x:Name="DipFromTopOfMtTb" Margin="0,267,14,0" Foreground="White" TextAlignment="Center" VerticalAlignment="Top" FontSize="35" Height="52" Width="135" HorizontalAlignment="Right" />
+                    <TextBlock x:Name="DipFromTopOfMtTb" Text="0" Margin="0,267,14,0" Foreground="White" TextAlignment="Center" VerticalAlignment="Top" FontSize="35" Height="52" Width="135" HorizontalAlignment="Right" />
 
                     <TextBlock x:Name="MashTempLbl" Text="Mash Temp (°c) :" Margin="16,350,0,0" Width="265" HorizontalAlignment="Left" VerticalAlignment="Top" Height="43" FontSize="30" TextAlignment="Right" />
                     <TextBox x:Name="MashTempTb" Margin="0,340,14,0" Text="0" Height="70" TextAlignment="Center" InputScope="Number" VerticalAlignment="Top" FontSize="24" HorizontalAlignment="Right" Width="135" GotFocus="MashTempTb_GotFocus" LostFocus="MashTempTb_LostFocus" />
                     <TextBlock x:Name="StrikeTempLbl" Text="Strike Temp (°c) :" Margin="16,406,0,0" Width="265" HorizontalAlignment="Left" VerticalAlignment="Top" Height="43" TextWrapping="Wrap" FontSize="30" TextAlignment="Right"/>
-                    <TextBlock x:Name="StrikeTempTb" Margin="0,404,15,0" Foreground="White" TextAlignment="Center" VerticalAlignment="Top" FontSize="35" Width="135" Height="52" HorizontalAlignment="Right" />
+                    <TextBlock x:Name="StrikeTempTb" Text="0" Margin="0,404,14,0" Foreground="White" TextAlignment="Center" VerticalAlignment="Top" FontSize="35" Width="135" Height="52" HorizontalAlignment="Right" />
                     <TextBlock x:Name="MashSizeLbl" Text="Mash Size (L) :" Margin="16,462,0,0" Width="265" HorizontalAlignment="Left" VerticalAlignment="Top" Height="43" TextWrapping="Wrap" FontSize="30" TextAlignment="Right" />
-                    <TextBlock x:Name="MashSizeTb" Margin="0,459,14,92" Foreground="White" TextAlignment="Center" VerticalAlignment="Center" FontSize="35" Height="52" Width="135" HorizontalAlignment="Right" />
+                    <TextBlock x:Name="MashSizeTb" Text="0" Margin="0,459,14,92" Foreground="White" TextAlignment="Center" VerticalAlignment="Center" FontSize="35" Height="52" Width="135" HorizontalAlignment="Right" />
 
                 </Grid>
             </phone:PivotItem>
 
             <!--Pivot item three-->
             <phone:PivotItem x:Name="PivotHops" Header="Hops">
+                <Grid>
+                    <TextBlock x:Name="GravityAtBoilLbl" Text="Gravity at Boil:" Margin="68,0,0,0" Width="129" HorizontalAlignment="Left" VerticalAlignment="Top" Height="29" TextWrapping="Wrap" TextAlignment="Center" />
+                    <TextBlock x:Name="GravityAtBoilTb" Text="0" Margin="36,27,0,0" Foreground="White" TextAlignment="Center" VerticalAlignment="Top" FontSize="35" Width="193" Height="45" HorizontalAlignment="Left" />
+                    <TextBlock x:Name="LitresLbl" Text="Litres:" Margin="0,0,99,0" Height="29" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Right" Width="53" />
+                    <TextBox x:Name="LitresTb" Text="0" Margin="0,16,46,0" Width="160" Height="70" VerticalAlignment="Top" HorizontalAlignment="Right" FontSize="24" TextAlignment="Center" InputScope="Number" GotFocus="LitresTb_GotFocus" LostFocus="LitresTb_LostFocus" />
 
+                    <TextBlock x:Name="HopLbl" Text="Hop" Margin="12,83,0,0" Width="50" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                    <TextBlock x:Name="AlphaLbl" Text="Alpha %" Margin="196,83,0,0" Width="72" HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Center" />
+                    <TextBlock x:Name="UtilLbl" Text="Util %" Margin="278,83,0,0" Width="70" HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Center" />
+                    <TextBlock x:Name="WeightLbl" Text="Weight (g)" Margin="357,83,0,0" Width="91" HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Center" />
+
+                    <!--Hop 1-->
+                    <toolkit:ListPicker x:Name="Hop1LP" Margin="12,107,0,0" Height="63" Width="176" FontSize="22" Foreground="Black" Background="#BFFFFFFF" HorizontalAlignment="Left" ExpansionMode="FullScreenOnly" VerticalAlignment="Top" Padding="0" BorderThickness="0" MouseLeftButtonDown="Hop1LP_MouseLeftButtonDown" SelectionChanged="Hop1LP_SelectionChanged">
+                        <!--<toolkit:ListPickerItem>
+                            <TextBlock Text="Golden Promise" Margin="-3,2,-3,0" />
+                        </toolkit:ListPickerItem>-->
+                        <toolkit:ListPicker.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" FontSize="22" Margin="-3,2,-3,0" />
+                            </DataTemplate>
+                        </toolkit:ListPicker.ItemTemplate>
+                        <toolkit:ListPicker.FullModeItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" 
+                                           Margin="0 24 24 24"
+                                           TextWrapping="Wrap" 
+                                           Style="{StaticResource PhoneTextTitle2Style}" />
+                            </DataTemplate>
+                        </toolkit:ListPicker.FullModeItemTemplate>
+                    </toolkit:ListPicker>
+                    <TextBox x:Name="Hop1AlphaTb" Margin="186,103,0,0" Height="70" Width="94" Padding="0,1,0,0" InputScope="Number" FontSize="24" TextAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" LostFocus="Hop1AlphaTb_LostFocus" GotFocus="Hop1AlphaTb_GotFocus" />
+                    <TextBox x:Name="Hop1UtilTb" Margin="266,103,0,0" Height="70" Width="94" Padding="0,1,0,0" InputScope="Number" FontSize="24" TextAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" LostFocus="Hop1UtilTb_LostFocus" GotFocus="Hop1UtilTb_GotFocus" />
+                    <TextBox x:Name="Hop1WeightTb" Margin="346,103,0,0" Height="70" Width="110" Padding="0,1,0,0" InputScope="Number" FontSize="24" TextAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" GotFocus="Hop1WeightTb_GotFocus" LostFocus="Hop1WeightTb_LostFocus" />
+
+                    <!--Hop 2-->
+                    <toolkit:ListPicker x:Name="Hop2LP" Margin="12,163,0,0" Height="63" Width="176" FontSize="22" Foreground="Black" Background="#BFFFFFFF" HorizontalAlignment="Left" ExpansionMode="FullScreenOnly" VerticalAlignment="Top" Padding="0" BorderThickness="0" MouseLeftButtonDown="Hop2LP_MouseLeftButtonDown" SelectionChanged="Hop2LP_SelectionChanged">
+                        <!--<toolkit:ListPickerItem>
+                            <TextBlock Text="Golden Promise" Margin="-3,2,-3,0" />
+                        </toolkit:ListPickerItem>-->
+                        <toolkit:ListPicker.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" FontSize="22" Margin="-3,2,-3,0" />
+                            </DataTemplate>
+                        </toolkit:ListPicker.ItemTemplate>
+                        <toolkit:ListPicker.FullModeItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" 
+                                           Margin="0 24 24 24"
+                                           TextWrapping="Wrap" 
+                                           Style="{StaticResource PhoneTextTitle2Style}" />
+                            </DataTemplate>
+                        </toolkit:ListPicker.FullModeItemTemplate>
+                    </toolkit:ListPicker>
+                    <TextBox x:Name="Hop2AlphaTb" Margin="186,159,0,0" Height="70" Width="94" Padding="0,1,0,0" InputScope="Number" FontSize="24" TextAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" LostFocus="Hop2AlphaTb_LostFocus" GotFocus="Hop2AlphaTb_GotFocus" />
+                    <TextBox x:Name="Hop2UtilTb" Margin="266,159,0,0" Height="70" Width="94" Padding="0,1,0,0" InputScope="Number" FontSize="24" TextAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" LostFocus="Hop2UtilTb_LostFocus" GotFocus="Hop2UtilTb_GotFocus" />
+                    <TextBox x:Name="Hop2WeightTb" Margin="346,159,0,0" Height="70" Width="110" Padding="0,1,0,0" InputScope="Number" FontSize="24" TextAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" GotFocus="Hop2WeightTb_GotFocus" LostFocus="Hop2WeightTb_LostFocus" />
+
+                    <!--Hop 3-->
+                    <toolkit:ListPicker x:Name="Hop3LP" Margin="12,219,0,0" Height="63" Width="176" FontSize="22" Foreground="Black" Background="#BFFFFFFF" HorizontalAlignment="Left" ExpansionMode="FullScreenOnly" VerticalAlignment="Top" Padding="0" BorderThickness="0" MouseLeftButtonDown="Hop3LP_MouseLeftButtonDown" SelectionChanged="Hop3LP_SelectionChanged">
+                        <!--<toolkit:ListPickerItem>
+                            <TextBlock Text="Golden Promise" Margin="-3,2,-3,0" />
+                        </toolkit:ListPickerItem>-->
+                        <toolkit:ListPicker.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" FontSize="22" Margin="-3,2,-3,0" />
+                            </DataTemplate>
+                        </toolkit:ListPicker.ItemTemplate>
+                        <toolkit:ListPicker.FullModeItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" 
+                                           Margin="0 24 24 24"
+                                           TextWrapping="Wrap" 
+                                           Style="{StaticResource PhoneTextTitle2Style}" />
+                            </DataTemplate>
+                        </toolkit:ListPicker.FullModeItemTemplate>
+                    </toolkit:ListPicker>
+                    <TextBox x:Name="Hop3AlphaTb" Margin="186,215,0,0" Height="70" Width="94" Padding="0,1,0,0" InputScope="Number" FontSize="24" TextAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" LostFocus="Hop3AlphaTb_LostFocus" GotFocus="Hop3AlphaTb_GotFocus" />
+                    <TextBox x:Name="Hop3UtilTb" Margin="266,215,0,0" Height="70" Width="94" Padding="0,1,0,0" InputScope="Number" FontSize="24" TextAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" LostFocus="Hop3UtilTb_LostFocus" GotFocus="Hop3UtilTb_GotFocus" />
+                    <TextBox x:Name="Hop3WeightTb" Margin="346,215,0,0" Height="70" Width="110" Padding="0,1,0,0" InputScope="Number" FontSize="24" TextAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" GotFocus="Hop3WeightTb_GotFocus" LostFocus="Hop3WeightTb_LostFocus" />
+
+                    <!--Hop 4-->
+                    <toolkit:ListPicker x:Name="Hop4LP" Margin="12,275,0,0" Height="63" Width="176" FontSize="22" Foreground="Black" Background="#BFFFFFFF" HorizontalAlignment="Left" ExpansionMode="FullScreenOnly" VerticalAlignment="Top" Padding="0" BorderThickness="0" MouseLeftButtonDown="Hop4LP_MouseLeftButtonDown" SelectionChanged="Hop4LP_SelectionChanged">
+                        <!--<toolkit:ListPickerItem>
+                            <TextBlock Text="Golden Promise" Margin="-3,2,-3,0" />
+                        </toolkit:ListPickerItem>-->
+                        <toolkit:ListPicker.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" FontSize="22" Margin="-3,2,-3,0" />
+                            </DataTemplate>
+                        </toolkit:ListPicker.ItemTemplate>
+                        <toolkit:ListPicker.FullModeItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" 
+                                           Margin="0 24 24 24"
+                                           TextWrapping="Wrap" 
+                                           Style="{StaticResource PhoneTextTitle2Style}" />
+                            </DataTemplate>
+                        </toolkit:ListPicker.FullModeItemTemplate>
+                    </toolkit:ListPicker>
+                    <TextBox x:Name="Hop4AlphaTb" Margin="186,271,0,0" Height="70" Width="94" Padding="0,1,0,0" InputScope="Number" FontSize="24" TextAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" LostFocus="Hop4AlphaTb_LostFocus" GotFocus="Hop4AlphaTb_GotFocus" />
+                    <TextBox x:Name="Hop4UtilTb" Margin="266,271,0,0" Height="70" Width="94" Padding="0,1,0,0" InputScope="Number" FontSize="24" TextAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" LostFocus="Hop4UtilTb_LostFocus" GotFocus="Hop4UtilTb_GotFocus" />
+                    <TextBox x:Name="Hop4WeightTb" Margin="346,271,0,0" Height="70" Width="110" Padding="0,1,0,0" InputScope="Number" FontSize="24" TextAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" GotFocus="Hop4WeightTb_GotFocus" LostFocus="Hop4WeightTb_LostFocus" />
+
+                    <!--Hop 5-->
+                    <toolkit:ListPicker x:Name="Hop5LP" Margin="12,331,0,0" Height="63" Width="176" FontSize="22" Foreground="Black" Background="#BFFFFFFF" HorizontalAlignment="Left" ExpansionMode="FullScreenOnly" VerticalAlignment="Top" Padding="0" BorderThickness="0" MouseLeftButtonDown="Hop5LP_MouseLeftButtonDown" SelectionChanged="Hop5LP_SelectionChanged">
+                        <!--<toolkit:ListPickerItem>
+                            <TextBlock Text="Golden Promise" Margin="-3,2,-3,0" />
+                        </toolkit:ListPickerItem>-->
+                        <toolkit:ListPicker.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" FontSize="22" Margin="-3,2,-3,0" />
+                            </DataTemplate>
+                        </toolkit:ListPicker.ItemTemplate>
+                        <toolkit:ListPicker.FullModeItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" 
+                                           Margin="0 24 24 24"
+                                           TextWrapping="Wrap" 
+                                           Style="{StaticResource PhoneTextTitle2Style}" />
+                            </DataTemplate>
+                        </toolkit:ListPicker.FullModeItemTemplate>
+                    </toolkit:ListPicker>
+                    <TextBox x:Name="Hop5AlphaTb" Margin="186,327,0,0" Height="70" Width="94" Padding="0,1,0,0" InputScope="Number" FontSize="24" TextAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" LostFocus="Hop5AlphaTb_LostFocus" GotFocus="Hop5AlphaTb_GotFocus" />
+                    <TextBox x:Name="Hop5UtilTb" Margin="266,327,0,0" Height="70" Width="94" Padding="0,1,0,0" InputScope="Number" FontSize="24" TextAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" LostFocus="Hop5UtilTb_LostFocus" GotFocus="Hop5UtilTb_GotFocus" />
+                    <TextBox x:Name="Hop5WeightTb" Margin="346,327,0,0" Height="70" Width="110" Padding="0,1,0,0" InputScope="Number" FontSize="24" TextAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" GotFocus="Hop5WeightTb_GotFocus" LostFocus="Hop5WeightTb_LostFocus" />
+
+                    <!--Hop 6-->
+                    <toolkit:ListPicker x:Name="Hop6LP" Margin="12,387,0,0" Height="63" Width="176" FontSize="22" Foreground="Black" Background="#BFFFFFFF" HorizontalAlignment="Left" ExpansionMode="FullScreenOnly" VerticalAlignment="Top" Padding="0" BorderThickness="0" MouseLeftButtonDown="Hop6LP_MouseLeftButtonDown" SelectionChanged="Hop6LP_SelectionChanged">
+                        <!--<toolkit:ListPickerItem>
+                            <TextBlock Text="Golden Promise" Margin="-3,2,-3,0" />
+                        </toolkit:ListPickerItem>-->
+                        <toolkit:ListPicker.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" FontSize="22" Margin="-3,2,-3,0" />
+                            </DataTemplate>
+                        </toolkit:ListPicker.ItemTemplate>
+                        <toolkit:ListPicker.FullModeItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" 
+                                           Margin="0 24 24 24"
+                                           TextWrapping="Wrap" 
+                                           Style="{StaticResource PhoneTextTitle2Style}" />
+                            </DataTemplate>
+                        </toolkit:ListPicker.FullModeItemTemplate>
+                    </toolkit:ListPicker>
+                    <TextBox x:Name="Hop6AlphaTb" Margin="186,383,0,0" Height="70" Width="94" Padding="0,1,0,0" InputScope="Number" FontSize="24" TextAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" LostFocus="Hop6AlphaTb_LostFocus" GotFocus="Hop6AlphaTb_GotFocus" />
+                    <TextBox x:Name="Hop6UtilTb" Margin="266,383,0,0" Height="70" Width="94" Padding="0,1,0,0" InputScope="Number" FontSize="24" TextAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" LostFocus="Hop6UtilTb_LostFocus" GotFocus="Hop6UtilTb_GotFocus" />
+                    <TextBox x:Name="Hop6WeightTb" Margin="346,383,0,0" Height="70" Width="110" Padding="0,1,0,0" InputScope="Number" FontSize="24" TextAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" GotFocus="Hop6WeightTb_GotFocus" LostFocus="Hop6WeightTb_LostFocus" />
+
+                    <TextBlock x:Name="TotalWeightLbl" Text="Total Weight:" Margin="80,457,0,0" Width="154" HorizontalAlignment="Left" VerticalAlignment="Top" Height="29" TextWrapping="Wrap" TextAlignment="Center"/>
+                    <TextBlock x:Name="TotalWeightTb" Text="0" Margin="97,477,239,81" Foreground="White" TextAlignment="Center" VerticalAlignment="Center" FontSize="35" Width="120" Height="45" />
+                    <TextBlock x:Name="TotalIbuLbl" Text="Total IBU:" Margin="261,457,100,0" VerticalAlignment="Top" Height="29" Width="95" TextWrapping="Wrap" TextAlignment="Center" />
+                    <TextBlock x:Name="TotalIbuTb" Text="0" Margin="249,477,87,81" Foreground="White" TextAlignment="Center" VerticalAlignment="Center" FontSize="35" Width="120" Height="45" />
+                </Grid>
             </phone:PivotItem>
 
             <!--Pivot item four-->
             <phone:PivotItem x:Name="PivotGravity" Header="Gravity">
+                <Grid>
+                    <TextBlock x:Name="FinalPotentialGravityLbl" Text="Potential Gravity:" Margin="78,33,78,0" VerticalAlignment="Top" Height="43" TextWrapping="Wrap" FontSize="30" TextAlignment="Center" Width="300"/>
+                    <TextBlock x:Name="FinalPotentialGravityTb" Text="0" Margin="78,81,78,0" Foreground="White" TextAlignment="Center" VerticalAlignment="Top" FontSize="35" Height="52" Width="300" />
+                    <TextBlock x:Name="FinalGravityWithEfficiencyLbl" Text="Gravity with Efficiency:" Margin="78,154,78,0" VerticalAlignment="Top" Height="43" TextWrapping="Wrap" FontSize="30" TextAlignment="Center" Width="300" />
+                    <TextBlock x:Name="FinalGravityWithEfficiencyTb" Text="0" Margin="78,202,78,0" Foreground="White" TextAlignment="Center" VerticalAlignment="Top" FontSize="35" Height="52" Width="300" />
+                    <TextBlock x:Name="FinalEndOfBoilGravityLbl" Text="End of Boil Gravity:" Margin="78,272,78,0" VerticalAlignment="Top" Height="43" TextWrapping="Wrap" FontSize="30" TextAlignment="Center" Width="300"/>
+                    <TextBlock x:Name="FinalEndOfBoilGravityTb" Text="0" Margin="78,320,78,0" Foreground="White" TextAlignment="Center" VerticalAlignment="Top" FontSize="35" Height="52" Width="300" />
+                    <TextBlock x:Name="FinalTotalLiquorBackLbl" Text="Total Liquor Back:" Margin="78,394,78,0" VerticalAlignment="Top" Height="43" TextWrapping="Wrap" FontSize="30" TextAlignment="Center" Width="300" />
+                    <TextBlock x:Name="FinalTotalLiquorBackTb" Text="0" Margin="78,442,78,0" Foreground="White" TextAlignment="Center" VerticalAlignment="Top" FontSize="35" Height="52" Width="300" />
 
+                </Grid>
             </phone:PivotItem>
         </phone:Pivot>
 
@@ -349,7 +423,6 @@
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" Opacity="0.35">
             <shell:ApplicationBarIconButton x:Name="AppBarHelpBtn" Text="Help" IconUri="/Assets/AppBar/questionmark.png" Click="AppBarHelpBtn_Click" />
-            <shell:ApplicationBarIconButton x:Name="AppBarNextBtn" Text="Next" IconUri="/Assets/AppBar/next.png" Click="AppBarNextBtn_Click"/>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 

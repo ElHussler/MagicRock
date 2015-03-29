@@ -105,8 +105,6 @@ namespace MagicRock1
                 // No Malt data directory/file (app is fresh install), so create them
                 if (!appIsolatedStorage.DirectoryExists("MaltData"))
                 {
-                    //startProgressIndicator("Manipulating Modal Memory…");
-
                     appIsolatedStorage.CreateDirectory("MaltData");
 
                     IsolatedStorageFileStream maltWriteStream = appIsolatedStorage.CreateFile("MaltData\\malts.txt");
@@ -114,7 +112,6 @@ namespace MagicRock1
                     // Create and populate 'malts.txt' file inside 'MaltData', separate Name & LE with tilde, malts with '\r\n'???
                     using (StreamWriter maltDataWriter = new StreamWriter(maltWriteStream))
                     {
-                        //maltDataWriter.WriteLine("Sugar~340.0");
                         maltDataWriter.WriteLine("Low Colour Maris Otter~291.0");
                         maltDataWriter.WriteLine("Golden Promise~295.0");
                         maltDataWriter.WriteLine("Wheat malt~291.0");
@@ -146,39 +143,40 @@ namespace MagicRock1
 
                     //MessageBox.Show("Malts created and saved to storage");
                 }
-                // Malt data directory exists (app has been opened before), so read data from file
+                // Malt data directory exists (app has been opened before), so can read data from file
                 else
                 {
                     //MessageBox.Show("Malts already in storage, go to Brew page to load them for lists");
                 }
+
+                // No Hop data directory/file (app is fresh install), so create them
+                if (!appIsolatedStorage.DirectoryExists("HopData"))
+                {
+                    appIsolatedStorage.CreateDirectory("HopData");
+
+                    IsolatedStorageFileStream hopWriteStream = appIsolatedStorage.CreateFile("HopData\\hops.txt");
+
+                    // Create and populate 'hops.txt' file inside 'HopData'
+                    using (StreamWriter hopDataWriter = new StreamWriter(hopWriteStream))
+                    {
+                        hopDataWriter.WriteLine("");
+
+                        hopDataWriter.Close();
+                    }
+
+                    //MessageBox.Show("Hops created and saved to storage");
+                }
+                // Hop data directory exists (app has been opened before), so can read data from file
+                else
+                {
+                    //MessageBox.Show("Hops already in storage, go to Brew page to load them for lists");
+                }
             }
             catch (Exception)
             {
-                MessageBox.Show("Couldn't set up Malt data", "Error", MessageBoxButton.OK);
+                MessageBox.Show("Couldn't set up Malt & Hop data", "Error", MessageBoxButton.OK);
             }
-            
-            //stopProgressIndicator();
         }
-
-        //private void startProgressIndicator(string progressText)
-        //{
-        //    ProgressIndicator currentProgressIndicator = new ProgressIndicator()
-        //    {
-        //        IsVisible = true,
-        //        IsIndeterminate = true,
-        //        Text = progressText
-        //    };
-        //    SystemTray.SetProgressIndicator(this, currentProgressIndicator);
-        //}
-
-        //private void stopProgressIndicator()
-        //{
-        //    ProgressIndicator currentProgressIndicator = SystemTray.GetProgressIndicator(this);
-        //    if (currentProgressIndicator != null)
-        //    {
-        //        currentProgressIndicator.IsVisible = false;
-        //    }
-        //}
 
         // Code to execute when the application is activated (brought to foreground)
         // This code will not execute when the application is first launched

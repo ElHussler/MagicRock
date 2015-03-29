@@ -64,8 +64,7 @@ namespace MagicRock1.Views
         double potentialGravity = 0;
         double gravityWithEfficiency = 0;
 
-        // 'Malts' (calculated & used)
-        // 'Mash'  (used)
+        // 'Malts' (calculated & used), 'Mash'  (used)
         double totalMaltBill = 0;
 
         // 'Mash' User Inputs
@@ -79,6 +78,12 @@ namespace MagicRock1.Views
         double strikeTemp = 0;
         double mashSize = 0;
 
+        // 'Hops' User Inputs
+        double litres = 0;
+
+        // 'Hops' Calculated variables
+        double gravityAtBoil = 0;
+
         // Functionality Flags
         private bool ignoreListPickerSelectionChanged = true;
         private bool requiredMaltToMashVariablesGenerated = false;
@@ -88,27 +93,7 @@ namespace MagicRock1.Views
         public Brew()
         {
             InitializeComponent();
-            //DataContext = App.ViewModel;
             LoadMaltsPageData();
-
-            //ProgressIndicator indicator = App.ViewModel.ProgressIndicator;
-            //indicator.IsVisible = false;
-
-            //stopProgressIndicator();
-
-            //gvm = new GrainsViewModel();
-            //gvm.GetGrains();
-
-            //GrainViewOne.DataContext = gvm.Grains;
-            //GrainViewSugar.DataContext = gvm.Grains;
-            //GrainViewTwo.DataContext = gvm.Grains;
-            //GrainViewThree.DataContext = gvm.Grains;
-            //GrainViewFour.DataContext = gvm.Grains;
-            //GrainViewFive.DataContext = gvm.Grains;
-            //GrainViewSix.DataContext = gvm.Grains;
-
-            //InstatiateMaltData();
-            //SetUpListPickers();
         }
 
         public void LoadMaltsPageData()
@@ -246,18 +231,17 @@ namespace MagicRock1.Views
                     MessageBox.Show("Required values from 'Malts' not generated, please return and check your inputs");
                 }
             }
+            else if (e.AddedItems.Contains(PivotHops) || e.AddedItems.Contains(PivotGravity))
+            {
+                MessageBox.Show("Beta version only contains 'Malts' and 'Mash' pages' functionality.");
+            }
         }
         
         ///// AppBar Events
         //
         private void AppBarHelpBtn_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("> TBC");
-        }
-
-        private void AppBarNextBtn_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("> TBC");
+            MessageBox.Show("To give app feedback, leave a review on the Windows Phone Store or email:\n11215245@students.lincoln.ac.uk");
         }
 
         ///// --- MALTS --- UI Control Events for gathering required input data
@@ -280,7 +264,7 @@ namespace MagicRock1.Views
                 targetOG = RoundUpTo2SigFigs( Convert.ToDouble(TargetOgTb.Text) );
                 if (targetOG != 0 && startBoil != 0 && mashEfficiency != 0)
                 {
-                    UpdateFinalVariablesAndDisplayGravities();
+                    UpdateAndDisplayFinalMaltsVariables();
                 }
             }
             catch (FormatException)
@@ -307,7 +291,7 @@ namespace MagicRock1.Views
                 startBoil = RoundUpTo2SigFigs( Convert.ToDouble(StartBoilTb.Text) );
                 if (targetOG != 0 && startBoil != 0 && mashEfficiency != 0)
                 {
-                    UpdateFinalVariablesAndDisplayGravities();
+                    UpdateAndDisplayFinalMaltsVariables();
                 }
             }
             catch (FormatException)
@@ -334,7 +318,7 @@ namespace MagicRock1.Views
                 mashEfficiency = RoundUpTo2SigFigs( Convert.ToDouble(MashEfficiencyTb.Text) );
                 if (targetOG != 0 && startBoil != 0 && mashEfficiency != 0)
                 {
-                    UpdateFinalVariablesAndDisplayGravities();
+                    UpdateAndDisplayFinalMaltsVariables();
                 }
             }
             catch (FormatException)
@@ -854,7 +838,7 @@ namespace MagicRock1.Views
                 {
                     // Updates: TotalLitreDegrees, PotentialGravity, GravityWithEfficiency,
                     //          EndVolumeInCopper, VolumeInFV, EndOfBoilGravity, TotalLiquorBackVol
-                    UpdateFinalVariablesAndDisplayGravities();
+                    UpdateAndDisplayFinalMaltsVariables();
                 }
             }
             else
@@ -890,7 +874,7 @@ namespace MagicRock1.Views
                 return RoundUpTo2SigFigs( (inputLabExtract * inputBill) );
             }
 
-        public void UpdateFinalVariablesAndDisplayGravities()
+        public void UpdateAndDisplayFinalMaltsVariables()
         {
             CalculateTotalLiquorBackVol();
 
@@ -1105,5 +1089,258 @@ namespace MagicRock1.Views
             {
                 mashSize = RoundUpTo1SigFig( ((totalMaltBill * 0.67) + mashLiquorVol + 1) );
             }
+
+        ///// --- HOPS --- Custom calculation methods
+        //
+        public void UpdateAndDisplayFinalHopsVariables()
+        {
+
+        }
+            public void CalculateIbu()
+            {
+
+            }
+            public void CalculateTotalIbu()
+            {
+
+            }
+                public void CalculateTotalWeight()
+                {
+
+                }
+
+        ///// --- HOPS --- UI Control Events for gathering required input data
+        //
+        private void LitresTb_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (LitresTb.Text == "0")
+            {
+                LitresTb.Text = "";
+            }
+        }
+        private void LitresTb_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (LitresTb.Text == "")
+            {
+                LitresTb.Text = "0";
+            }
+            else
+            {
+                try
+                {
+                    litres = RoundUpTo2SigFigs(Convert.ToDouble(LitresTb.Text));
+                    gravityAtBoil = gravityWithEfficiency;
+
+                    if (litres != 0 && gravityAtBoil != 0)
+                    {
+                        UpdateAndDisplayFinalHopsVariables();
+                    }
+                }
+                catch (FormatException)
+                {
+                    MessageBox.Show("Litres must be a numeric value");
+                    LitresTb.Text = "0";
+                }
+            }
+        }
+
+        private void Hop1LP_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            ignoreListPickerSelectionChanged = false;
+        }
+        private void Hop2LP_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            ignoreListPickerSelectionChanged = false;
+        }
+        private void Hop3LP_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            ignoreListPickerSelectionChanged = false;
+        }
+        private void Hop4LP_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            ignoreListPickerSelectionChanged = false;
+        }
+        private void Hop5LP_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            ignoreListPickerSelectionChanged = false;
+        }
+        private void Hop6LP_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            ignoreListPickerSelectionChanged = false;
+        }
+
+        private void Hop1LP_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+        private void Hop1AlphaTb_GotFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void Hop1AlphaTb_LostFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void Hop1UtilTb_GotFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void Hop1UtilTb_LostFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void Hop1WeightTb_GotFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void Hop1WeightTb_LostFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Hop2LP_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+        private void Hop2AlphaTb_GotFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void Hop2AlphaTb_LostFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void Hop2UtilTb_GotFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void Hop2UtilTb_LostFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void Hop2WeightTb_GotFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void Hop2WeightTb_LostFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Hop3LP_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+        private void Hop3AlphaTb_GotFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void Hop3AlphaTb_LostFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void Hop3UtilTb_GotFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void Hop3UtilTb_LostFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void Hop3WeightTb_GotFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void Hop3WeightTb_LostFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Hop4LP_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+        private void Hop4AlphaTb_GotFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void Hop4AlphaTb_LostFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void Hop4UtilTb_GotFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void Hop4UtilTb_LostFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void Hop4WeightTb_GotFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void Hop4WeightTb_LostFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Hop5LP_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+        private void Hop5AlphaTb_GotFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void Hop5AlphaTb_LostFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void Hop5UtilTb_GotFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void Hop5UtilTb_LostFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void Hop5WeightTb_GotFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void Hop5WeightTb_LostFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Hop6LP_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+        private void Hop6AlphaTb_GotFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void Hop6AlphaTb_LostFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void Hop6UtilTb_GotFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void Hop6UtilTb_LostFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void Hop6WeightTb_GotFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void Hop6WeightTb_LostFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
