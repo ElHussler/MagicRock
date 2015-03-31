@@ -150,16 +150,18 @@ namespace MagicRock1
                 }
 
                 // No Hop data directory/file (app is fresh install), so create them
-                if (!appIsolatedStorage.DirectoryExists("HopData"))
+                /*if (!appIsolatedStorage.DirectoryExists("HopData"))
                 {
                     appIsolatedStorage.CreateDirectory("HopData");
 
                     IsolatedStorageFileStream hopWriteStream = appIsolatedStorage.CreateFile("HopData\\hops.txt");
 
                     // Create and populate 'hops.txt' file inside 'HopData'
+                    // NEED FULL ALPHABETISED LIST OF HOP NAMES!!!
                     using (StreamWriter hopDataWriter = new StreamWriter(hopWriteStream))
                     {
-                        hopDataWriter.WriteLine("");
+                        hopDataWriter.WriteLine("Magnum");
+                        hopDataWriter.WriteLine("Target");
 
                         hopDataWriter.Close();
                     }
@@ -170,11 +172,11 @@ namespace MagicRock1
                 else
                 {
                     //MessageBox.Show("Hops already in storage, go to Brew page to load them for lists");
-                }
+                }*/
             }
             catch (Exception)
             {
-                MessageBox.Show("Couldn't set up Malt & Hop data", "Error", MessageBoxButton.OK);
+                MessageBox.Show("Couldn't set up Malt data", "Error", MessageBoxButton.OK);
             }
         }
 

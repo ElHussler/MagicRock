@@ -20,8 +20,6 @@ namespace MagicRock1.Views
         ///// Page-scope variable declarations
         //
         
-        //private GrainsViewModel gvm;  // NOT IN USE
-
         // 'Malts' Grain Data
         string[] grainNames = new string[26];
         double[] grainLabExtracts = new double[26];
@@ -29,7 +27,7 @@ namespace MagicRock1.Views
 
         // 'Malts' User Inputs
         double targetOG = 0;
-        double startBoil = 0;
+        double startBoilVol = 0;
         double mashEfficiency = 0;
         double grainOneLabExt = 0;      // (Default to hardcoded values)
         double grainTwoLabExt = 0;      //  <-
@@ -80,23 +78,54 @@ namespace MagicRock1.Views
 
         // 'Hops' User Inputs
         double litres = 0;
+        double hopOneAlpha = 0;
+        double hopTwoAlpha = 0;
+        double hopThreeAlpha = 0;
+        double hopFourAlpha = 0;
+        double hopFiveAlpha = 0;
+        double hopSixAlpha = 0;
+        double hopOneUtil = 0;
+        double hopTwoUtil = 0;
+        double hopThreeUtil = 0;
+        double hopFourUtil = 0;
+        double hopFiveUtil = 0;
+        double hopSixUtil = 0;
+        double hopOneWeight = 0;
+        double hopTwoWeight = 0;
+        double hopThreeWeight = 0;
+        double hopFourWeight = 0;
+        double hopFiveWeight = 0;
+        double hopSixWeight = 0;
 
         // 'Hops' Calculated variables
         double gravityAtBoil = 0;
+        double hopOneIbu = 0;
+        double hopTwoIbu = 0;
+        double hopThreeIbu = 0;
+        double hopFourIbu = 0;
+        double hopFiveIbu = 0;
+        double hopSixIbu = 0;
+        double totalHopWeight = 0;
+        double totalHopIbu = 0;
 
         // Functionality Flags
         private bool ignoreListPickerSelectionChanged = true;
-        private bool requiredMaltToMashVariablesGenerated = false;
+        private bool requiredMashVariablesGenerated = false;
+        private bool requiredHopsVariablesGenerated = false;
+        private bool requiredGravityVariablesGenerated = false;
+
+        string messageBoxTextDefault = "To give app feedback, leave a review on the Windows Phone Store or email:\n11215245@students.lincoln.ac.uk";
+        string messageBoxText = "";
 
         ///// Set up XAML components, Load Grain data from IS malts.txt
         //
         public Brew()
         {
             InitializeComponent();
-            LoadMaltsPageData();
+            LoadMaltsGrainData();
         }
 
-        public void LoadMaltsPageData()
+        public void LoadMaltsGrainData()
         {
             IsolatedStorageFile appIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication();
             IsolatedStorageFileStream maltReadStream = appIsolatedStorage.OpenFile("MaltData\\malts.txt", FileMode.Open, FileAccess.ReadWrite);
@@ -143,105 +172,95 @@ namespace MagicRock1.Views
             //MessageBox.Show("Malts loaded from storage");
         }
 
-        // NOT IN USE - Populate arrays with Grain 'Name' and 'Lab Extract' values (including Sugar)
-        /*public void InstatiateMaltData()
-        {
-            sugarName[0] = "Sugar";
-            sugarLabExtract = 340.0;
-
-            grainNames[0] = "Low Colour Maris Otter";
-            grainLabExtract[0] = 291.0;
-            grainNames[1] = "Golden Promise";
-            grainLabExtract[1] = 295.0;
-            grainNames[2] = "Wheat malt";
-            grainLabExtract[2] = 291.0;
-            grainNames[3] = "Vienna";
-            grainLabExtract[3] = 289.0;
-            grainNames[4] = "Munich";
-            grainLabExtract[4] = 285.0;
-            grainNames[5] = "Pilsner";
-            grainLabExtract[5] = 298.0;
-            grainNames[6] = "Acidulated malt";
-            grainLabExtract[6] = 0.0;
-            grainNames[7] = "Rye malt";
-            grainLabExtract[7] = 260.0;
-            grainNames[8] = "Smoked malt";
-            grainLabExtract[8] = 295.0;
-            grainNames[9] = "Oat Malt";
-            grainLabExtract[9] = 219.0;
-            grainNames[10] = "Carapils";
-            grainLabExtract[10] = 267.4;
-            grainNames[11] = "Carared";
-            grainLabExtract[11] = 268.0;
-            grainNames[12] = "Caramalt";
-            grainLabExtract[12] = 268.4;
-            grainNames[13] = "Melanoiden malt";
-            grainLabExtract[13] = 287.0;
-            grainNames[14] = "Crystal";
-            grainLabExtract[14] = 260.8;
-            grainNames[15] = "Caramunich II";
-            grainLabExtract[15] = 265.0;
-            grainNames[16] = "Dark Crystal";
-            grainLabExtract[16] = 270.8;
-            grainNames[17] = "Cara Aroma";
-            grainLabExtract[17] = 266.0;
-            grainNames[18] = "Amber";
-            grainLabExtract[18] = 266.1;
-            grainNames[19] = "Special B";
-            grainLabExtract[19] = 266.0;
-            grainNames[20] = "Brown";
-            grainLabExtract[20] = 270.0;
-            grainNames[21] = "Chocolate";
-            grainLabExtract[21] = 267.2;
-            grainNames[22] = "Roast Barley";
-            grainLabExtract[22] = 264.0;
-            grainNames[23] = "Black";
-            grainLabExtract[23] = 265.7;
-            grainNames[24] = "Carafa Special III";
-            grainLabExtract[24] = 250.0;
-        }
-
-        public void SetUpListPickers()
-        {
-            SugarLP.ItemsSource = sugarName;
-            SugarLabExtTb.Text = sugarLabExtract.ToString();
-
-            MaltOneLP.ItemsSource = grainNames;
-            MaltTwoLP.ItemsSource = grainNames;
-            MaltThreeLP.ItemsSource = grainNames;
-            MaltFourLP.ItemsSource = grainNames;
-            MaltFiveLP.ItemsSource = grainNames;
-            MaltSixLP.ItemsSource = grainNames;
-        }*/
-        // NOT IN USE
-
         ///// User Pivot Page navigation management
+        //
         private void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (e.AddedItems.Contains(PivotMash))
+            if (e.AddedItems.Contains(PivotMalts))
             {
-                TotalMaltBillTb.Text = totalMaltBill.ToString();
-
-                if (requiredMaltToMashVariablesGenerated)
+                //messageBoxText = "'Clear Brew' option currently in development, manual deletion required until update.";
+                //MessageBox.Show(messageBoxText);
+            }
+            else if (e.AddedItems.Contains(PivotMash))
+            {
+                if (requiredMashVariablesGenerated)
                 {
                     TotalMaltBillTb.Text = totalMaltBill.ToString();
+                    if (maltTemp != 0 && liquorGrainRatio != 0)
+                    {
+                        UpdateAndDisplayFinalMashVariables();
+                    }
                 }
                 else
                 {
                     MessageBox.Show("Required values from 'Malts' not generated, please return and check your inputs");
                 }
             }
-            else if (e.AddedItems.Contains(PivotHops) || e.AddedItems.Contains(PivotGravity))
+            else if (e.AddedItems.Contains(PivotHops))
             {
-                MessageBox.Show("Beta version only contains 'Malts' and 'Mash' pages' functionality.");
+                if (requiredHopsVariablesGenerated)
+                {
+                    gravityAtBoil = gravityWithEfficiency;
+                    GravityAtBoilTb.Text = gravityAtBoil.ToString();
+
+                    UpdateHopAndFinalHopsVariables();
+                }
+                else
+                {
+                    MessageBox.Show("Required values from 'Malts' and 'Mash' not generated, please return and check your inputs");
+                }
             }
+            else if (e.AddedItems.Contains(PivotGravity))
+            {
+                if (requiredGravityVariablesGenerated)
+                {
+                    FinalPotentialGravityTb.Text = potentialGravity.ToString();
+                    FinalGravityWithEfficiencyTb.Text = gravityWithEfficiency.ToString();
+                    FinalTotalLiquorBackTb.Text = totalLiquorBackVol.ToString();
+                    FinalEndOfBoilGravityTb.Text = endOfBoilGravity.ToString();
+                }
+                else
+                {
+                    MessageBox.Show("Required values from previous pages not generated, please return and check your inputs");
+                }
+            }
+        }
+
+        ///// Mathematic Rounding methods
+        //
+        public double RoundUpTo1SigFig(double value)
+        {
+            return Math.Round(value, 1, MidpointRounding.AwayFromZero);
+        }
+        public double RoundUpTo2SigFigs(double value)
+        {
+            return Math.Round(value, 2, MidpointRounding.AwayFromZero);
         }
         
         ///// AppBar Events
         //
         private void AppBarHelpBtn_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("To give app feedback, leave a review on the Windows Phone Store or email:\n11215245@students.lincoln.ac.uk");
+            MessageBox.Show(messageBoxTextDefault);
+        }
+        private void AppBarDetailsBtn_Click(object sender, EventArgs e)
+        {
+            ShowMoreBrewValues();
+        }
+
+        public void ShowMoreBrewValues()
+        {
+            MessageBox.Show("Target OG:\t\t" + targetOG + "\n" +
+                            "Start Boil:\t\t" + startBoilVol + "\n" +
+                            "Efficiency of Mash:\t" + mashEfficiency + "\n\n" +
+
+                            "Total Litre Degrees:\t" + totalLitreDegrees + "\n" +
+                            "Total Malt Bill:\t\t" + totalMaltBill + "\n\n" +
+
+                            "End of Boil Gravity:\t" + endOfBoilGravity + "\n" +
+                            "Total Liquor Back Vol:\t" + totalLiquorBackVol + "\n" +
+                            "Volume In FV:\t\t" + volumeInFV + "\n" +
+                            "End Volume In Copper:\t" + endVolumeInCopper);
         }
 
         ///// --- MALTS --- UI Control Events for gathering required input data
@@ -262,10 +281,8 @@ namespace MagicRock1.Views
             try
             {
                 targetOG = RoundUpTo2SigFigs( Convert.ToDouble(TargetOgTb.Text) );
-                if (targetOG != 0 && startBoil != 0 && mashEfficiency != 0)
-                {
-                    UpdateAndDisplayFinalMaltsVariables();
-                }
+                
+                UpdateGrainAndFinalMaltsVariables();
             }
             catch (FormatException)
             {
@@ -288,11 +305,9 @@ namespace MagicRock1.Views
             }
             try
             {
-                startBoil = RoundUpTo2SigFigs( Convert.ToDouble(StartBoilTb.Text) );
-                if (targetOG != 0 && startBoil != 0 && mashEfficiency != 0)
-                {
-                    UpdateAndDisplayFinalMaltsVariables();
-                }
+                startBoilVol = RoundUpTo2SigFigs(Convert.ToDouble(StartBoilTb.Text));
+
+                UpdateGrainAndFinalMaltsVariables();
             }
             catch (FormatException)
             {
@@ -316,10 +331,8 @@ namespace MagicRock1.Views
             try
             {
                 mashEfficiency = RoundUpTo2SigFigs( Convert.ToDouble(MashEfficiencyTb.Text) );
-                if (targetOG != 0 && startBoil != 0 && mashEfficiency != 0)
-                {
-                    UpdateAndDisplayFinalMaltsVariables();
-                }
+                
+                UpdateGrainAndFinalMaltsVariables();
             }
             catch (FormatException)
             {
@@ -344,7 +357,7 @@ namespace MagicRock1.Views
             try
             {
                 sugarBill = RoundUpTo2SigFigs( Convert.ToDouble(SugarBillTb.Text) );
-                UpdateGrainAndFinalVariables();
+                UpdateGrainAndFinalMaltsVariables();
             }
             catch (FormatException)
             {
@@ -387,6 +400,7 @@ namespace MagicRock1.Views
                     Grain1LabExtTb.Text = "";
                     Grain1BillTb.Text = "";
                     Grain1GristLbl.Text = "";
+                    grainOneBill = 0;
                 }
                 else
                 {
@@ -394,6 +408,8 @@ namespace MagicRock1.Views
                     Grain1BillTb.Text = "0";
                     Grain1GristLbl.Text = "0";
                 }
+
+                UpdateGrainAndFinalMaltsVariables();
             }
 
             ignoreListPickerSelectionChanged = true;
@@ -410,7 +426,7 @@ namespace MagicRock1.Views
                 {
                     grainOneLabExt = RoundUpTo2SigFigs(Convert.ToDouble(Grain1LabExtTb.Text));
                     grainOneBill = RoundUpTo2SigFigs(Convert.ToDouble(Grain1BillTb.Text));
-                    UpdateGrainAndFinalVariables();
+                    UpdateGrainAndFinalMaltsVariables();
                 }
                 catch (FormatException)
                 {
@@ -438,7 +454,7 @@ namespace MagicRock1.Views
                 {
                     grainOneLabExt = RoundUpTo2SigFigs(Convert.ToDouble(Grain1LabExtTb.Text));
                     grainOneBill = RoundUpTo2SigFigs(Convert.ToDouble(Grain1BillTb.Text));
-                    UpdateGrainAndFinalVariables();
+                    UpdateGrainAndFinalMaltsVariables();
                 }
                 catch (FormatException)
                 {
@@ -457,6 +473,7 @@ namespace MagicRock1.Views
                     Grain2LabExtTb.Text = "";
                     Grain2BillTb.Text = "";
                     Grain2GristLbl.Text = "";
+                    grainTwoBill = 0;
                 }
                 else
                 {
@@ -464,6 +481,8 @@ namespace MagicRock1.Views
                     Grain2BillTb.Text = "0";
                     Grain2GristLbl.Text = "0";
                 }
+
+                UpdateGrainAndFinalMaltsVariables();
             }
 
             ignoreListPickerSelectionChanged = true;
@@ -480,7 +499,7 @@ namespace MagicRock1.Views
                 {
                     grainTwoLabExt = RoundUpTo2SigFigs(Convert.ToDouble(Grain2LabExtTb.Text));
                     grainTwoBill = RoundUpTo2SigFigs(Convert.ToDouble(Grain2BillTb.Text));
-                    UpdateGrainAndFinalVariables();
+                    UpdateGrainAndFinalMaltsVariables();
                 }
                 catch (FormatException)
                 {
@@ -508,7 +527,7 @@ namespace MagicRock1.Views
                 {
                     grainTwoLabExt = RoundUpTo2SigFigs(Convert.ToDouble(Grain2LabExtTb.Text));
                     grainTwoBill = RoundUpTo2SigFigs(Convert.ToDouble(Grain2BillTb.Text));
-                    UpdateGrainAndFinalVariables();
+                    UpdateGrainAndFinalMaltsVariables();
                 }
                 catch (FormatException)
                 {
@@ -527,6 +546,7 @@ namespace MagicRock1.Views
                     Grain3LabExtTb.Text = "";
                     Grain3BillTb.Text = "";
                     Grain3GristLbl.Text = "";
+                    grainThreeBill = 0;
                 }
                 else
                 {
@@ -534,6 +554,8 @@ namespace MagicRock1.Views
                     Grain3BillTb.Text = "0";
                     Grain3GristLbl.Text = "0";
                 }
+
+                UpdateGrainAndFinalMaltsVariables();
             }
 
             ignoreListPickerSelectionChanged = true;
@@ -550,7 +572,7 @@ namespace MagicRock1.Views
                 {
                     grainThreeLabExt = RoundUpTo2SigFigs(Convert.ToDouble(Grain3LabExtTb.Text));
                     grainThreeBill = RoundUpTo2SigFigs(Convert.ToDouble(Grain3BillTb.Text));
-                    UpdateGrainAndFinalVariables();
+                    UpdateGrainAndFinalMaltsVariables();
                 }
                 catch (FormatException)
                 {
@@ -578,7 +600,7 @@ namespace MagicRock1.Views
                 {
                     grainThreeLabExt = RoundUpTo2SigFigs(Convert.ToDouble(Grain3LabExtTb.Text));
                     grainThreeBill = RoundUpTo2SigFigs(Convert.ToDouble(Grain3BillTb.Text));
-                    UpdateGrainAndFinalVariables();
+                    UpdateGrainAndFinalMaltsVariables();
                 }
                 catch (FormatException)
                 {
@@ -597,6 +619,7 @@ namespace MagicRock1.Views
                     Grain4LabExtTb.Text = "";
                     Grain4BillTb.Text = "";
                     Grain4GristLbl.Text = "";
+                    grainFourBill = 0;
                 }
                 else
                 {
@@ -604,6 +627,8 @@ namespace MagicRock1.Views
                     Grain4BillTb.Text = "0";
                     Grain4GristLbl.Text = "0";
                 }
+
+                UpdateGrainAndFinalMaltsVariables();
             }
 
             ignoreListPickerSelectionChanged = true;
@@ -620,7 +645,7 @@ namespace MagicRock1.Views
                 {
                     grainFourLabExt = RoundUpTo2SigFigs(Convert.ToDouble(Grain4LabExtTb.Text));
                     grainFourBill = RoundUpTo2SigFigs(Convert.ToDouble(Grain4BillTb.Text));
-                    UpdateGrainAndFinalVariables();
+                    UpdateGrainAndFinalMaltsVariables();
                 }
                 catch (FormatException)
                 {
@@ -648,7 +673,7 @@ namespace MagicRock1.Views
                 {
                     grainFourLabExt = RoundUpTo2SigFigs(Convert.ToDouble(Grain4LabExtTb.Text));
                     grainFourBill = RoundUpTo2SigFigs(Convert.ToDouble(Grain4BillTb.Text));
-                    UpdateGrainAndFinalVariables();
+                    UpdateGrainAndFinalMaltsVariables();
                 }
                 catch (FormatException)
                 {
@@ -667,6 +692,7 @@ namespace MagicRock1.Views
                     Grain5LabExtTb.Text = "";
                     Grain5BillTb.Text = "";
                     Grain5GristLbl.Text = "";
+                    grainFiveBill = 0;
                 }
                 else
                 {
@@ -674,6 +700,8 @@ namespace MagicRock1.Views
                     Grain5BillTb.Text = "0";
                     Grain5GristLbl.Text = "0";
                 }
+
+                UpdateGrainAndFinalMaltsVariables();
             }
 
             ignoreListPickerSelectionChanged = true;
@@ -690,7 +718,7 @@ namespace MagicRock1.Views
                 {
                     grainFiveLabExt = RoundUpTo2SigFigs(Convert.ToDouble(Grain5LabExtTb.Text));
                     grainFiveBill = RoundUpTo2SigFigs(Convert.ToDouble(Grain5BillTb.Text));
-                    UpdateGrainAndFinalVariables();
+                    UpdateGrainAndFinalMaltsVariables();
                 }
                 catch (FormatException)
                 {
@@ -718,7 +746,7 @@ namespace MagicRock1.Views
                 {
                     grainFiveLabExt = RoundUpTo2SigFigs(Convert.ToDouble(Grain5LabExtTb.Text));
                     grainFiveBill = RoundUpTo2SigFigs(Convert.ToDouble(Grain5BillTb.Text));
-                    UpdateGrainAndFinalVariables();
+                    UpdateGrainAndFinalMaltsVariables();
                 }
                 catch (FormatException)
                 {
@@ -737,6 +765,7 @@ namespace MagicRock1.Views
                     Grain6LabExtTb.Text = "";
                     Grain6BillTb.Text = "";
                     Grain6GristLbl.Text = "";
+                    grainSixBill = 0;
                 }
                 else
                 {
@@ -744,6 +773,8 @@ namespace MagicRock1.Views
                     Grain6BillTb.Text = "0";
                     Grain6GristLbl.Text = "0";
                 }
+
+                UpdateGrainAndFinalMaltsVariables();
             }
 
             ignoreListPickerSelectionChanged = true;
@@ -760,7 +791,7 @@ namespace MagicRock1.Views
                 {
                     grainSixLabExt = RoundUpTo2SigFigs(Convert.ToDouble(Grain6LabExtTb.Text));
                     grainSixBill = RoundUpTo2SigFigs(Convert.ToDouble(Grain6BillTb.Text));
-                    UpdateGrainAndFinalVariables();
+                    UpdateGrainAndFinalMaltsVariables();
                 }
                 catch (FormatException)
                 {
@@ -788,7 +819,7 @@ namespace MagicRock1.Views
                 {
                     grainSixLabExt = RoundUpTo2SigFigs(Convert.ToDouble(Grain6LabExtTb.Text));
                     grainSixBill = RoundUpTo2SigFigs(Convert.ToDouble(Grain6BillTb.Text));
-                    UpdateGrainAndFinalVariables();
+                    UpdateGrainAndFinalMaltsVariables();
                 }
                 catch (FormatException)
                 {
@@ -805,41 +836,44 @@ namespace MagicRock1.Views
             return grainLabExtracts[maltIndex].ToString();
         }
 
-        public void UpdateGrainAndFinalVariables()
+        public void UpdateGrainAndFinalMaltsVariables()
         {
-            if (targetOG != 0 && startBoil != 0 && mashEfficiency != 0)
+            if (targetOG != 0 && startBoilVol != 0 && mashEfficiency != 0)
             {
                 // Updates: TotalMaltBill and all current Grist & LitreDegrees values
                 CalculateTotalMaltBill();
 
                 if (Convert.ToDouble(SugarBillTb.Text) > 0)
                     SugarGristLbl.Text = GetGrist(sugarBill).ToString();
-                    sugarLitreDegrees = GetLitreDegrees(sugarLabExtract, sugarBill);
+                sugarLitreDegrees = GetLitreDegrees(sugarLabExtract, sugarBill);
+
                 if (Grain1LP.SelectedIndex > 0)
                     Grain1GristLbl.Text = GetGrist(grainOneBill).ToString();
-                    grainOneLitreDegrees = GetLitreDegrees(grainOneLabExt, grainOneBill);
+                grainOneLitreDegrees = GetLitreDegrees(grainOneLabExt, grainOneBill);
+
                 if (Grain2LP.SelectedIndex > 0)
                     Grain2GristLbl.Text = GetGrist(grainTwoBill).ToString();
-                    grainTwoLitreDegrees = GetLitreDegrees(grainTwoLabExt, grainTwoBill);
+                grainTwoLitreDegrees = GetLitreDegrees(grainTwoLabExt, grainTwoBill);
+
                 if (Grain3LP.SelectedIndex > 0)
                     Grain3GristLbl.Text = GetGrist(grainThreeBill).ToString();
-                    grainThreeLitreDegrees = GetLitreDegrees(grainThreeLabExt, grainThreeBill);
+                grainThreeLitreDegrees = GetLitreDegrees(grainThreeLabExt, grainThreeBill);
+
                 if (Grain4LP.SelectedIndex > 0)
                     Grain4GristLbl.Text = GetGrist(grainFourBill).ToString();
-                    grainFourLitreDegrees = GetLitreDegrees(grainFourLabExt, grainFourBill);
+                grainFourLitreDegrees = GetLitreDegrees(grainFourLabExt, grainFourBill);
+
                 if (Grain5LP.SelectedIndex > 0)
                     Grain5GristLbl.Text = GetGrist(grainFiveBill).ToString();
-                    grainFiveLitreDegrees = GetLitreDegrees(grainFiveLabExt, grainFiveBill);
+                grainFiveLitreDegrees = GetLitreDegrees(grainFiveLabExt, grainFiveBill);
+
                 if (Grain6LP.SelectedIndex > 0)
                     Grain6GristLbl.Text = GetGrist(grainSixBill).ToString();
-                    grainSixLitreDegrees = GetLitreDegrees(grainSixLabExt, grainSixBill);
+                grainSixLitreDegrees = GetLitreDegrees(grainSixLabExt, grainSixBill);
 
-                if (totalMaltBill != 0)
-                {
-                    // Updates: TotalLitreDegrees, PotentialGravity, GravityWithEfficiency,
-                    //          EndVolumeInCopper, VolumeInFV, EndOfBoilGravity, TotalLiquorBackVol
-                    UpdateAndDisplayFinalMaltsVariables();
-                }
+                // Updates: TotalLitreDegrees, PotentialGravity, GravityWithEfficiency,
+                //          EndVolumeInCopper, VolumeInFV, EndOfBoilGravity, TotalLiquorBackVol
+                UpdateAndDisplayFinalMaltsVariables();
             }
             else
             {
@@ -874,86 +908,78 @@ namespace MagicRock1.Views
                 return RoundUpTo2SigFigs( (inputLabExtract * inputBill) );
             }
 
-        public void UpdateAndDisplayFinalMaltsVariables()
-        {
-            CalculateTotalLiquorBackVol();
-
-            PotentialGravityTb.Text = potentialGravity.ToString();
-            GravityWithEfficiencyTb.Text = gravityWithEfficiency.ToString();
-
-            MessageBox.Show("Target OG:\t\t" + targetOG + "\n" +
-                            "Start Boil:\t\t" + startBoil+ "\n" +
-                            "Efficiency of Mash:\t" + mashEfficiency + "\n\n" + 
-                            
-                            "Total Litre Degrees:\t" + totalLitreDegrees + "\n" + 
-                            "Total Malt Bill:\t\t" + totalMaltBill + "\n" +
-                            "End of Boil Gravity:\t" + endOfBoilGravity + "\n" + 
-                            "Total Liquor Back Vol:\t" + totalLiquorBackVol + "\n" + 
-                            "Volume In FV:\t\t" + volumeInFV + "\n" +
-                            "End Volume In Copper:\t" + endVolumeInCopper);
-
-            requiredMaltToMashVariablesGenerated = true;
-        }
-
-            public void CalculateTotalLiquorBackVol()
+            public void UpdateAndDisplayFinalMaltsVariables()
             {
-                CalculateEndOfBoilGravity();
+                CalculateTotalLiquorBackVol();
 
-                // GETS SLIGHTLY DIFFERENT (LOWER) VALUE TO SPREADSHEET, BUT WAS TESTED TO BE MATHEMATICALLY SOUND (???)
-                totalLiquorBackVol = RoundUpTo2SigFigs( (volumeInFV * (endOfBoilGravity - 1000) / (targetOG - 1000)) - volumeInFV );
+                PotentialGravityTb.Text = potentialGravity.ToString();
+                GravityWithEfficiencyTb.Text = gravityWithEfficiency.ToString();
+
+                //ShowMoreBrewValues();
+
+                if (totalMaltBill != 0)
+                {
+                    requiredMashVariablesGenerated = true;
+                }
+                if (gravityWithEfficiency != 0)
+                {
+                    requiredHopsVariablesGenerated = true;
+                }
+                if ((gravityWithEfficiency != 0) && (potentialGravity != 0) && (endOfBoilGravity != 0) && (totalLiquorBackVol != 0))
+                {
+                    requiredGravityVariablesGenerated = true;
+                }
             }
 
-                public void CalculateEndOfBoilGravity()
+                public void CalculateTotalLiquorBackVol()
                 {
-                    CalculateGravityWithEfficiency();
-                    CalculateVolumeInFV();
+                    CalculateEndOfBoilGravity();
 
-                    endOfBoilGravity = RoundUpTo1SigFig( (((startBoil * (gravityWithEfficiency - 1000)) / (endVolumeInCopper)) + 1000) );
+                    // GETS SLIGHTLY DIFFERENT (LOWER) VALUE TO SPREADSHEET, BUT WAS TESTED TO BE MATHEMATICALLY SOUND (???)
+                    totalLiquorBackVol = RoundUpTo2SigFigs( (volumeInFV * (endOfBoilGravity - 1000) / (targetOG - 1000)) - volumeInFV );
                 }
 
-                    public void CalculateGravityWithEfficiency()
+                    public void CalculateEndOfBoilGravity()
                     {
-                        CalculatePotentialGravity();
+                        CalculateGravityWithEfficiency();
+                        CalculateVolumeInFV();
 
-                        gravityWithEfficiency = RoundUpTo2SigFigs( (potentialGravity - 1000) * (mashEfficiency / 100) +
-                                                                   1000 + (sugarLitreDegrees / startBoil) );
+                        endOfBoilGravity = RoundUpTo1SigFig( (((startBoilVol * (gravityWithEfficiency - 1000)) / (endVolumeInCopper)) + 1000) );
                     }
 
-                        public void CalculatePotentialGravity()
+                        public void CalculateGravityWithEfficiency()
                         {
-                            CalculateTotalLitreDegrees();
-                            potentialGravity = RoundUpTo2SigFigs( (totalLitreDegrees / startBoil) + 1000 );
+                            CalculatePotentialGravity();
+
+                            gravityWithEfficiency = RoundUpTo2SigFigs( (potentialGravity - 1000) * (mashEfficiency / 100) +
+                                                                       1000 + (sugarLitreDegrees / startBoilVol) );
                         }
 
-                            public void CalculateTotalLitreDegrees()
+                            public void CalculatePotentialGravity()
                             {
-                                totalLitreDegrees = RoundUpTo2SigFigs( grainOneLitreDegrees + grainTwoLitreDegrees + 
-                                                    grainThreeLitreDegrees + grainFourLitreDegrees + 
-                                                    grainFiveLitreDegrees + grainSixLitreDegrees );
+                                CalculateTotalLitreDegrees();
+                                potentialGravity = RoundUpTo2SigFigs( (totalLitreDegrees / startBoilVol) + 1000 );
                             }
 
-                    public void CalculateVolumeInFV()
-                    {
-                        CalculateEndVolumeInCopper();
-                        volumeInFV = RoundUpTo2SigFigs( ((endVolumeInCopper - (0.04 * endVolumeInCopper)) - 1.5) );
-                    }
+                                public void CalculateTotalLitreDegrees()
+                                {
+                                    totalLitreDegrees = RoundUpTo2SigFigs( grainOneLitreDegrees + grainTwoLitreDegrees + 
+                                                        grainThreeLitreDegrees + grainFourLitreDegrees + 
+                                                        grainFiveLitreDegrees + grainSixLitreDegrees );
+                                }
 
-                        public void CalculateEndVolumeInCopper()
+                        public void CalculateVolumeInFV()
                         {
-                            endVolumeInCopper = RoundUpTo1SigFig( startBoil - (startBoil * 0.045) );
+                            CalculateEndVolumeInCopper();
+                            volumeInFV = RoundUpTo2SigFigs( ((endVolumeInCopper - (0.04 * endVolumeInCopper)) - 1.5) );
                         }
 
-        public double RoundUpTo2SigFigs(double value)
-        {
-            return Math.Round(value, 2, MidpointRounding.AwayFromZero);
-        }
+                            public void CalculateEndVolumeInCopper()
+                            {
+                                endVolumeInCopper = RoundUpTo1SigFig( startBoilVol - (startBoilVol * 0.045) );
+                            }
 
-        public double RoundUpTo1SigFig(double value)
-        {
-            return Math.Round(value, 1, MidpointRounding.AwayFromZero);
-        }
-
-        ///// --- MASH --- UI Control Events for gathering required input data
+        ///// --- MASH  --- UI Control Events for gathering required input data
         //
         private void MaltTempTb_GotFocus(object sender, RoutedEventArgs e)
         {
@@ -968,21 +994,18 @@ namespace MagicRock1.Views
             {
                 MaltTempTb.Text = "0";
             }
-            else
+            try
             {
-                try
+                maltTemp = RoundUpTo2SigFigs(Convert.ToDouble(MaltTempTb.Text));
+                if (maltTemp != 0 && liquorGrainRatio != 0)
                 {
-                    maltTemp = RoundUpTo2SigFigs(Convert.ToDouble(MaltTempTb.Text));
-                    if (maltTemp != 0 && liquorGrainRatio != 0)
-                    {
-                        UpdateAndDisplayFinalMashVariables();
-                    }
+                    UpdateAndDisplayFinalMashVariables();
                 }
-                catch (FormatException)
-                {
-                    MessageBox.Show("Malt Temp must be a numeric value");
-                    MaltTempTb.Text = "0";
-                }
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Malt Temp must be a numeric value");
+                MaltTempTb.Text = "0";
             }
         }
         private void LiquorGrainRatioTb_GotFocus(object sender, RoutedEventArgs e)
@@ -998,21 +1021,18 @@ namespace MagicRock1.Views
             {
                 LiquorGrainRatioTb.Text = "0";
             }
-            else
+            try
             {
-                try
+                liquorGrainRatio = RoundUpTo2SigFigs(Convert.ToDouble(LiquorGrainRatioTb.Text));
+                if (maltTemp != 0 && liquorGrainRatio != 0)
                 {
-                    liquorGrainRatio = RoundUpTo2SigFigs(Convert.ToDouble(LiquorGrainRatioTb.Text));
-                    if (maltTemp != 0 && liquorGrainRatio != 0)
-                    {
-                        UpdateAndDisplayFinalMashVariables();
-                    }
+                    UpdateAndDisplayFinalMashVariables();
                 }
-                catch (FormatException)
-                {
-                    MessageBox.Show("Liquor-Grain Ratio must be a numeric value");
-                    LiquorGrainRatioTb.Text = "0";
-                }
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Liquor-Grain Ratio must be a numeric value");
+                LiquorGrainRatioTb.Text = "0";
             }
         }
         private void MashTempTb_GotFocus(object sender, RoutedEventArgs e)
@@ -1028,25 +1048,22 @@ namespace MagicRock1.Views
             {
                 MashTempTb.Text = "0";
             }
-            else
+            try
             {
-                try
+                mashTemp = RoundUpTo2SigFigs(Convert.ToDouble(MashTempTb.Text));
+                if (maltTemp != 0 && liquorGrainRatio != 0)
                 {
-                    mashTemp = RoundUpTo2SigFigs(Convert.ToDouble(MashTempTb.Text));
-                    if (maltTemp != 0 && liquorGrainRatio != 0)
-                    {
-                        UpdateAndDisplayFinalMashVariables();
-                    }
+                    UpdateAndDisplayFinalMashVariables();
                 }
-                catch (FormatException)
-                {
-                    MessageBox.Show("Mash Temp must be a numeric value");
-                    MashTempTb.Text = "0";
-                }
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Mash Temp must be a numeric value");
+                MashTempTb.Text = "0";
             }
         }
 
-        ///// --- MASH --- Custom calculation methods
+        ///// --- MASH  --- Custom calculation methods
         //
         public void UpdateAndDisplayFinalMashVariables()
         {
@@ -1090,26 +1107,7 @@ namespace MagicRock1.Views
                 mashSize = RoundUpTo1SigFig( ((totalMaltBill * 0.67) + mashLiquorVol + 1) );
             }
 
-        ///// --- HOPS --- Custom calculation methods
-        //
-        public void UpdateAndDisplayFinalHopsVariables()
-        {
-
-        }
-            public void CalculateIbu()
-            {
-
-            }
-            public void CalculateTotalIbu()
-            {
-
-            }
-                public void CalculateTotalWeight()
-                {
-
-                }
-
-        ///// --- HOPS --- UI Control Events for gathering required input data
+        ///// --- HOPS  --- UI Control Events for gathering required input data
         //
         private void LitresTb_GotFocus(object sender, RoutedEventArgs e)
         {
@@ -1124,223 +1122,668 @@ namespace MagicRock1.Views
             {
                 LitresTb.Text = "0";
             }
-            else
+            try
             {
-                try
-                {
-                    litres = RoundUpTo2SigFigs(Convert.ToDouble(LitresTb.Text));
-                    gravityAtBoil = gravityWithEfficiency;
+                litres = Convert.ToDouble(LitresTb.Text);
 
-                    if (litres != 0 && gravityAtBoil != 0)
-                    {
-                        UpdateAndDisplayFinalHopsVariables();
-                    }
-                }
-                catch (FormatException)
-                {
-                    MessageBox.Show("Litres must be a numeric value");
-                    LitresTb.Text = "0";
-                }
+                UpdateHopAndFinalHopsVariables();
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Litres must be a numeric value");
+                LitresTb.Text = "0";
             }
         }
 
-        private void Hop1LP_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void Hop1Tb_LostFocus(object sender, RoutedEventArgs e)
         {
-            ignoreListPickerSelectionChanged = false;
-        }
-        private void Hop2LP_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            ignoreListPickerSelectionChanged = false;
-        }
-        private void Hop3LP_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            ignoreListPickerSelectionChanged = false;
-        }
-        private void Hop4LP_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            ignoreListPickerSelectionChanged = false;
-        }
-        private void Hop5LP_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            ignoreListPickerSelectionChanged = false;
-        }
-        private void Hop6LP_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            ignoreListPickerSelectionChanged = false;
-        }
+            if (Hop1Tb.Text == "")
+            {
+                Hop1AlphaTb.Text = "0";
+                Hop1UtilTb.Text = "0";
+                Hop1WeightTb.Text = "0";
 
-        private void Hop1LP_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
+                UpdateHopAndFinalHopsVariables();
 
+                Hop1AlphaTb.Text = "";
+                Hop1UtilTb.Text = "";
+                Hop1WeightTb.Text = "";
+                Hop1IbuLbl.Text = "";
+            }
         }
         private void Hop1AlphaTb_GotFocus(object sender, RoutedEventArgs e)
         {
-
+            if (Hop1AlphaTb.Text == "0")
+            {
+                Hop1AlphaTb.Text = "";
+            }
         }
         private void Hop1AlphaTb_LostFocus(object sender, RoutedEventArgs e)
         {
+            if (Hop1AlphaTb.Text == "0")
+            {
+                Hop1AlphaTb.Text = "";
+            }
+            try
+            {
+                hopOneAlpha = RoundUpTo2SigFigs( Convert.ToDouble(Hop1AlphaTb.Text) );
 
+                UpdateHopAndFinalHopsVariables();
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Alpha must be a numeric value");
+                Hop1AlphaTb.Text = "0";
+            }
         }
         private void Hop1UtilTb_GotFocus(object sender, RoutedEventArgs e)
         {
-
+            if (Hop1UtilTb.Text == "0")
+            {
+                Hop1UtilTb.Text = "";
+            }
         }
         private void Hop1UtilTb_LostFocus(object sender, RoutedEventArgs e)
         {
+            if (Hop1UtilTb.Text == "0")
+            {
+                Hop1UtilTb.Text = "";
+            }
+            try
+            {
+                hopOneUtil = RoundUpTo2SigFigs( Convert.ToDouble(Hop1UtilTb.Text) );
 
+                UpdateHopAndFinalHopsVariables();
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Util must be a numeric value");
+                Hop1UtilTb.Text = "0";
+            }
         }
         private void Hop1WeightTb_GotFocus(object sender, RoutedEventArgs e)
         {
-
+            if (Hop1WeightTb.Text == "0")
+            {
+                Hop1WeightTb.Text = "";
+            }
         }
         private void Hop1WeightTb_LostFocus(object sender, RoutedEventArgs e)
         {
+            if (Hop1WeightTb.Text == "0")
+            {
+                Hop1WeightTb.Text = "";
+            }
+            try
+            {
+                hopOneWeight = RoundUpTo2SigFigs( Convert.ToDouble(Hop1WeightTb.Text) );
 
+                UpdateHopAndFinalHopsVariables();
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Weight must be a numeric value");
+                Hop1WeightTb.Text = "0";
+            }
         }
 
-        private void Hop2LP_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void Hop2Tb_LostFocus(object sender, RoutedEventArgs e)
         {
+            if (Hop2Tb.Text == "")
+            {
+                Hop2AlphaTb.Text = "0";
+                Hop2UtilTb.Text = "0";
+                Hop2WeightTb.Text = "0";
 
+                UpdateHopAndFinalHopsVariables();
+
+                Hop2AlphaTb.Text = "";
+                Hop2UtilTb.Text = "";
+                Hop2WeightTb.Text = "";
+                Hop2IbuLbl.Text = "";
+            }
         }
         private void Hop2AlphaTb_GotFocus(object sender, RoutedEventArgs e)
         {
-
+            if (Hop2AlphaTb.Text == "0")
+            {
+                Hop2AlphaTb.Text = "";
+            }
         }
         private void Hop2AlphaTb_LostFocus(object sender, RoutedEventArgs e)
         {
+            if (Hop2AlphaTb.Text == "0")
+            {
+                Hop2AlphaTb.Text = "";
+            }
+            try
+            {
+                hopTwoAlpha = RoundUpTo2SigFigs(Convert.ToDouble(Hop2AlphaTb.Text));
 
+                UpdateHopAndFinalHopsVariables();
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Alpha must be a numeric value");
+                Hop2AlphaTb.Text = "0";
+            }
         }
         private void Hop2UtilTb_GotFocus(object sender, RoutedEventArgs e)
         {
-
+            if (Hop2UtilTb.Text == "0")
+            {
+                Hop2UtilTb.Text = "";
+            }
         }
         private void Hop2UtilTb_LostFocus(object sender, RoutedEventArgs e)
         {
+            if (Hop2UtilTb.Text == "0")
+            {
+                Hop2UtilTb.Text = "";
+            }
+            try
+            {
+                hopTwoUtil = RoundUpTo2SigFigs(Convert.ToDouble(Hop2UtilTb.Text));
 
+                UpdateHopAndFinalHopsVariables();
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Util must be a numeric value");
+                Hop2UtilTb.Text = "0";
+            }
         }
         private void Hop2WeightTb_GotFocus(object sender, RoutedEventArgs e)
         {
-
+            if (Hop2WeightTb.Text == "0")
+            {
+                Hop2WeightTb.Text = "";
+            }
         }
         private void Hop2WeightTb_LostFocus(object sender, RoutedEventArgs e)
         {
+            if (Hop2WeightTb.Text == "0")
+            {
+                Hop2WeightTb.Text = "";
+            }
+            try
+            {
+                hopTwoWeight = RoundUpTo2SigFigs(Convert.ToDouble(Hop2WeightTb.Text));
 
+                UpdateHopAndFinalHopsVariables();
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Weight must be a numeric value");
+                Hop2WeightTb.Text = "0";
+            }
         }
 
-        private void Hop3LP_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void Hop3Tb_LostFocus(object sender, RoutedEventArgs e)
         {
+            if (Hop3Tb.Text == "")
+            {
+                Hop3AlphaTb.Text = "0";
+                Hop3UtilTb.Text = "0";
+                Hop3WeightTb.Text = "0";
 
+                UpdateHopAndFinalHopsVariables();
+
+                Hop3AlphaTb.Text = "";
+                Hop3UtilTb.Text = "";
+                Hop3WeightTb.Text = "";
+                Hop3IbuLbl.Text = "";
+            }
         }
         private void Hop3AlphaTb_GotFocus(object sender, RoutedEventArgs e)
         {
-
+            if (Hop3AlphaTb.Text == "0")
+            {
+                Hop3AlphaTb.Text = "";
+            }
         }
         private void Hop3AlphaTb_LostFocus(object sender, RoutedEventArgs e)
         {
+            if (Hop3AlphaTb.Text == "0")
+            {
+                Hop3AlphaTb.Text = "";
+            }
+            try
+            {
+                hopThreeAlpha = RoundUpTo2SigFigs(Convert.ToDouble(Hop3AlphaTb.Text));
 
+                UpdateHopAndFinalHopsVariables();
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Alpha must be a numeric value");
+                Hop3AlphaTb.Text = "0";
+            }
         }
         private void Hop3UtilTb_GotFocus(object sender, RoutedEventArgs e)
         {
-
+            if (Hop3UtilTb.Text == "0")
+            {
+                Hop3UtilTb.Text = "";
+            }
         }
         private void Hop3UtilTb_LostFocus(object sender, RoutedEventArgs e)
         {
+            if (Hop3UtilTb.Text == "0")
+            {
+                Hop3UtilTb.Text = "";
+            }
+            try
+            {
+                hopThreeUtil = RoundUpTo2SigFigs(Convert.ToDouble(Hop3UtilTb.Text));
 
+                UpdateHopAndFinalHopsVariables();
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Util must be a numeric value");
+                Hop3UtilTb.Text = "0";
+            }
         }
         private void Hop3WeightTb_GotFocus(object sender, RoutedEventArgs e)
         {
-
+            if (Hop3WeightTb.Text == "0")
+            {
+                Hop3WeightTb.Text = "";
+            }
         }
         private void Hop3WeightTb_LostFocus(object sender, RoutedEventArgs e)
         {
+            if (Hop3WeightTb.Text == "0")
+            {
+                Hop3WeightTb.Text = "";
+            }
+            try
+            {
+                hopThreeWeight = RoundUpTo2SigFigs(Convert.ToDouble(Hop3WeightTb.Text));
 
+                UpdateHopAndFinalHopsVariables();
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Weight must be a numeric value");
+                Hop3WeightTb.Text = "0";
+            }
         }
 
-        private void Hop4LP_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void Hop4Tb_LostFocus(object sender, RoutedEventArgs e)
         {
+            if (Hop4Tb.Text == "")
+            {
+                Hop4AlphaTb.Text = "0";
+                Hop4UtilTb.Text = "0";
+                Hop4WeightTb.Text = "0";
 
+                UpdateHopAndFinalHopsVariables();
+
+                Hop4AlphaTb.Text = "";
+                Hop4UtilTb.Text = "";
+                Hop4WeightTb.Text = "";
+                Hop4IbuLbl.Text = "";
+            }
         }
         private void Hop4AlphaTb_GotFocus(object sender, RoutedEventArgs e)
         {
-
+            if (Hop4AlphaTb.Text == "0")
+            {
+                Hop4AlphaTb.Text = "";
+            }
         }
         private void Hop4AlphaTb_LostFocus(object sender, RoutedEventArgs e)
         {
+            if (Hop4AlphaTb.Text == "0")
+            {
+                Hop4AlphaTb.Text = "";
+            }
+            try
+            {
+                hopFourAlpha = RoundUpTo2SigFigs(Convert.ToDouble(Hop4AlphaTb.Text));
 
+                UpdateHopAndFinalHopsVariables();
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Alpha must be a numeric value");
+                Hop4AlphaTb.Text = "0";
+            }
         }
         private void Hop4UtilTb_GotFocus(object sender, RoutedEventArgs e)
         {
-
+            if (Hop4UtilTb.Text == "0")
+            {
+                Hop4UtilTb.Text = "";
+            }
         }
         private void Hop4UtilTb_LostFocus(object sender, RoutedEventArgs e)
         {
+            if (Hop4UtilTb.Text == "0")
+            {
+                Hop4UtilTb.Text = "";
+            }
+            try
+            {
+                hopFourUtil = RoundUpTo2SigFigs(Convert.ToDouble(Hop4UtilTb.Text));
 
+                UpdateHopAndFinalHopsVariables();
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Util must be a numeric value");
+                Hop4UtilTb.Text = "0";
+            }
         }
         private void Hop4WeightTb_GotFocus(object sender, RoutedEventArgs e)
         {
-
+            if (Hop4WeightTb.Text == "0")
+            {
+                Hop4WeightTb.Text = "";
+            }
         }
         private void Hop4WeightTb_LostFocus(object sender, RoutedEventArgs e)
         {
+            if (Hop4WeightTb.Text == "0")
+            {
+                Hop4WeightTb.Text = "";
+            }
+            try
+            {
+                hopFourWeight = RoundUpTo2SigFigs(Convert.ToDouble(Hop4WeightTb.Text));
 
+                UpdateHopAndFinalHopsVariables();
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Weight must be a numeric value");
+                Hop4WeightTb.Text = "0";
+            }
         }
 
-        private void Hop5LP_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void Hop5Tb_LostFocus(object sender, RoutedEventArgs e)
         {
+            if (Hop5Tb.Text == "")
+            {
+                Hop5AlphaTb.Text = "0";
+                Hop5UtilTb.Text = "0";
+                Hop5WeightTb.Text = "0";
 
+                UpdateHopAndFinalHopsVariables();
+
+                Hop5AlphaTb.Text = "";
+                Hop5UtilTb.Text = "";
+                Hop5WeightTb.Text = "";
+                Hop5IbuLbl.Text = "";
+            }
         }
         private void Hop5AlphaTb_GotFocus(object sender, RoutedEventArgs e)
         {
-
+            if (Hop5AlphaTb.Text == "0")
+            {
+                Hop5AlphaTb.Text = "";
+            }
         }
         private void Hop5AlphaTb_LostFocus(object sender, RoutedEventArgs e)
         {
+            if (Hop5AlphaTb.Text == "0")
+            {
+                Hop5AlphaTb.Text = "";
+            }
+            try
+            {
+                hopFiveAlpha = RoundUpTo2SigFigs(Convert.ToDouble(Hop5AlphaTb.Text));
 
+                UpdateHopAndFinalHopsVariables();
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Alpha must be a numeric value");
+                Hop5AlphaTb.Text = "0";
+            }
         }
         private void Hop5UtilTb_GotFocus(object sender, RoutedEventArgs e)
         {
-
+            if (Hop5UtilTb.Text == "0")
+            {
+                Hop5UtilTb.Text = "";
+            }
         }
         private void Hop5UtilTb_LostFocus(object sender, RoutedEventArgs e)
         {
+            if (Hop5UtilTb.Text == "0")
+            {
+                Hop5UtilTb.Text = "";
+            }
+            try
+            {
+                hopFiveUtil = RoundUpTo2SigFigs(Convert.ToDouble(Hop5UtilTb.Text));
 
+                UpdateHopAndFinalHopsVariables();
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Util must be a numeric value");
+                Hop5UtilTb.Text = "0";
+            }
         }
         private void Hop5WeightTb_GotFocus(object sender, RoutedEventArgs e)
         {
-
+            if (Hop5WeightTb.Text == "0")
+            {
+                Hop5WeightTb.Text = "";
+            }
         }
         private void Hop5WeightTb_LostFocus(object sender, RoutedEventArgs e)
         {
+            if (Hop5WeightTb.Text == "0")
+            {
+                Hop5WeightTb.Text = "";
+            }
+            try
+            {
+                hopFiveWeight = RoundUpTo2SigFigs(Convert.ToDouble(Hop5WeightTb.Text));
 
+                UpdateHopAndFinalHopsVariables();
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Weight must be a numeric value");
+                Hop5WeightTb.Text = "0";
+            }
         }
 
-        private void Hop6LP_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void Hop6Tb_LostFocus(object sender, RoutedEventArgs e)
         {
+            if (Hop6Tb.Text == "")
+            {
+                Hop6AlphaTb.Text = "0";
+                Hop6UtilTb.Text = "0";
+                Hop6WeightTb.Text = "0";
 
+                UpdateHopAndFinalHopsVariables();
+
+                Hop6AlphaTb.Text = "";
+                Hop6UtilTb.Text = "";
+                Hop6WeightTb.Text = "";
+                Hop6IbuLbl.Text = "";
+            }
         }
         private void Hop6AlphaTb_GotFocus(object sender, RoutedEventArgs e)
         {
-
+            if (Hop6AlphaTb.Text == "0")
+            {
+                Hop6AlphaTb.Text = "";
+            }
         }
         private void Hop6AlphaTb_LostFocus(object sender, RoutedEventArgs e)
         {
+            if (Hop6AlphaTb.Text == "0")
+            {
+                Hop6AlphaTb.Text = "";
+            }
+            try
+            {
+                hopSixAlpha = RoundUpTo2SigFigs(Convert.ToDouble(Hop6AlphaTb.Text));
 
+                UpdateHopAndFinalHopsVariables();
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Alpha must be a numeric value");
+                Hop6AlphaTb.Text = "0";
+            }
         }
         private void Hop6UtilTb_GotFocus(object sender, RoutedEventArgs e)
         {
-
+            if (Hop6UtilTb.Text == "0")
+            {
+                Hop6UtilTb.Text = "";
+            }
         }
         private void Hop6UtilTb_LostFocus(object sender, RoutedEventArgs e)
         {
+            if (Hop6UtilTb.Text == "0")
+            {
+                Hop6UtilTb.Text = "";
+            }
+            try
+            {
+                hopSixUtil = RoundUpTo2SigFigs(Convert.ToDouble(Hop6UtilTb.Text));
 
+                UpdateHopAndFinalHopsVariables();
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Util must be a numeric value");
+                Hop6UtilTb.Text = "0";
+            }
         }
         private void Hop6WeightTb_GotFocus(object sender, RoutedEventArgs e)
         {
-
+            if (Hop6WeightTb.Text == "0")
+            {
+                Hop6WeightTb.Text = "";
+            }
         }
         private void Hop6WeightTb_LostFocus(object sender, RoutedEventArgs e)
         {
+            if (Hop6WeightTb.Text == "0")
+            {
+                Hop6WeightTb.Text = "";
+            }
+            try
+            {
+                hopSixWeight = RoundUpTo2SigFigs(Convert.ToDouble(Hop6WeightTb.Text));
 
+                UpdateHopAndFinalHopsVariables();
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Weight must be a numeric value");
+                Hop6WeightTb.Text = "0";
+            }
         }
+
+        ///// --- HOPS  --- Custom calculation methods
+        //
+        public void UpdateHopAndFinalHopsVariables()
+        {
+            if ((gravityAtBoil != 0) && (litres != 0))
+            {
+                // Updates: All present Hops' Alpha, Util, Weight, IBU
+                //          Weight & IBU totals
+
+                if ((Hop1AlphaTb.Text != "") && (Hop1UtilTb.Text != "") && (Hop1WeightTb.Text != ""))
+                {
+                    hopOneAlpha = Convert.ToDouble(Hop1AlphaTb.Text);
+                    hopOneUtil = Convert.ToDouble(Hop1UtilTb.Text);
+                    hopOneWeight = Convert.ToDouble(Hop1WeightTb.Text);
+                    hopOneIbu = GetIbu(hopOneAlpha, hopOneUtil, hopOneWeight);
+                    Hop1IbuLbl.Text = hopOneIbu.ToString();
+                }
+
+                if ((Hop2AlphaTb.Text != "") && (Hop2UtilTb.Text != "") && (Hop2WeightTb.Text != ""))
+                {
+                    hopTwoAlpha = Convert.ToDouble(Hop2AlphaTb.Text);
+                    hopTwoUtil = Convert.ToDouble(Hop2UtilTb.Text);
+                    hopTwoWeight = Convert.ToDouble(Hop2WeightTb.Text);
+                    hopTwoIbu = GetIbu(hopTwoAlpha, hopTwoUtil, hopTwoWeight);
+                    Hop2IbuLbl.Text = hopTwoIbu.ToString();
+                }
+
+                if ((Hop3AlphaTb.Text != "") && (Hop3UtilTb.Text != "") && (Hop3WeightTb.Text != ""))
+                {
+                    hopThreeAlpha = Convert.ToDouble(Hop3AlphaTb.Text);
+                    hopThreeUtil = Convert.ToDouble(Hop3UtilTb.Text);
+                    hopThreeWeight = Convert.ToDouble(Hop3WeightTb.Text);
+                    hopThreeIbu = GetIbu(hopThreeAlpha, hopThreeUtil, hopThreeWeight);
+                    Hop3IbuLbl.Text = hopThreeIbu.ToString();
+                }
+
+                if ((Hop4AlphaTb.Text != "") && (Hop4UtilTb.Text != "") && (Hop4WeightTb.Text != ""))
+                {
+                    hopFourAlpha = Convert.ToDouble(Hop4AlphaTb.Text);
+                    hopFourUtil = Convert.ToDouble(Hop4UtilTb.Text);
+                    hopFourWeight = Convert.ToDouble(Hop4WeightTb.Text);
+                    hopFourIbu = GetIbu(hopFourAlpha, hopFourUtil, hopFourWeight);
+                    Hop4IbuLbl.Text = hopFourIbu.ToString();
+                }
+
+                if ((Hop5AlphaTb.Text != "") && (Hop5UtilTb.Text != "") && (Hop5WeightTb.Text != ""))
+                {
+                    hopFiveAlpha = Convert.ToDouble(Hop5AlphaTb.Text);
+                    hopFiveUtil = Convert.ToDouble(Hop5UtilTb.Text);
+                    hopFiveWeight = Convert.ToDouble(Hop5WeightTb.Text);
+                    hopFiveIbu = GetIbu(hopFiveAlpha, hopFiveUtil, hopFiveWeight);
+                    Hop5IbuLbl.Text = hopFiveIbu.ToString();
+                }
+
+                if ((Hop6AlphaTb.Text != "") && (Hop6UtilTb.Text != "") && (Hop6WeightTb.Text != ""))
+                {
+                    hopSixAlpha = Convert.ToDouble(Hop6AlphaTb.Text);
+                    hopSixUtil = Convert.ToDouble(Hop6UtilTb.Text);
+                    hopSixWeight = Convert.ToDouble(Hop6WeightTb.Text);
+                    hopSixIbu = GetIbu(hopSixAlpha, hopSixUtil, hopSixWeight);
+                    Hop6IbuLbl.Text = hopSixIbu.ToString();
+                }
+
+                UpdateAndDisplayFinalHopsVariables();
+            }
+            else
+            {
+                MessageBox.Show("Make sure you have input a 'Litres' value and have completed the previous pages");
+            }
+        }
+        
+            public double GetIbu(double inputAlpha, double inputUtil, double inputWeight)
+            {
+                double outputIbu = ((inputWeight * 1000 * (inputUtil / 100) * (inputAlpha / 100))
+                                                             /
+                                    (litres * (1 + (((gravityAtBoil / 1000) - 1.05) / 0.2))));
+
+                return RoundUpTo1SigFig( outputIbu );
+            }
+
+            public void UpdateAndDisplayFinalHopsVariables()
+            {
+                CalculateTotalWeight();
+                CalculateTotalIbu();
+
+                TotalIbuTb.Text = totalHopIbu.ToString();
+                TotalWeightTb.Text = totalHopWeight.ToString();
+            }
+
+                public void CalculateTotalWeight()
+                {
+                    totalHopWeight = RoundUpTo2SigFigs( hopOneWeight + hopTwoWeight + hopThreeWeight + hopFourWeight + hopFiveWeight + hopSixWeight );
+                }
+        
+                public void CalculateTotalIbu()
+                {
+                    totalHopIbu = RoundUpTo2SigFigs( hopOneIbu + hopTwoIbu + hopThreeIbu + hopFourIbu + hopFiveIbu );
+                }
     }
 }

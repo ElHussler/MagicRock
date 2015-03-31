@@ -167,6 +167,7 @@
     <Content Include="Assets\AppBar\back.png" />
     <Content Include="Assets\AppBar\delete.png" />
     <Content Include="Assets\AppBar\edit.png" />
+    <Content Include="Assets\AppBar\search.png" />
     <Content Include="Assets\AppBar\new.png" />
     <Content Include="Assets\AppBar\next.png" />
     <Content Include="Assets\AppBar\overflowdots.png" />

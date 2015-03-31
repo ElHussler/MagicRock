@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest" xmlns:m3="http://schemas.microsoft.com/appx/2014/manifest" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest">
-  <Identity Name="43763Luhu.MagicRockBeta" Publisher="CN=1EE97E74-3C59-433D-8770-D4E43F8B9354" Version="1.0.0.0" />
+  <Identity Name="43763Luhu.MagicRockBeta" Publisher="CN=1EE97E74-3C59-433D-8770-D4E43F8B9354" Version="1.1.0.0" />
   <mp:PhoneIdentity PhoneProductId="b0f20330-11be-454c-806f-acae1e39e971" PhonePublisherId="113dc348-2b8e-45bc-af79-cf6d84250bfa" />
   <Properties>
     <DisplayName>MagicRockBeta</DisplayName>

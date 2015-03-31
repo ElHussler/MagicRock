@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2014/deployment" AppPlatformVersion="8.1">
   <DefaultLanguage xmlns="" code="en-US" />
-  <App xmlns="" ProductID="{b0f20330-11be-454c-806f-acae1e39e971}" Title="MagicRockBeta" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="MagicRock1 author" Description="Craft brewing calculator" SDOptOut="false" BackUpOptOut="false" Publisher="MagicRock1" PublisherID="{113dc348-2b8e-45bc-af79-cf6d84250bfa}">
+  <App xmlns="" ProductID="{b0f20330-11be-454c-806f-acae1e39e971}" Title="MagicRockBeta" RuntimeType="Silverlight" Version="1.1.0.0" Genre="apps.normal" Author="Luke Hussey" Description="Craft brewing calculator" SDOptOut="false" BackUpOptOut="false" Publisher="Luhu" PublisherID="{113dc348-2b8e-45bc-af79-cf6d84250bfa}">
     <IconPath IsRelative="true" IsResource="false">Assets\ApplicationIcon.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_NETWORKING" />
